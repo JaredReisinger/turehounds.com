@@ -1,0 +1,17 @@
+<template webc:root>
+<div>
+<div class="line1">This is a WebC component!</div>
+<div class="line2"><slot>DEFAULT</slot></div>
+</div>
+</template>
+
+<style webc:scoped>
+:host div { color: red }
+:host div.line1 { color: blue }
+</style>
+
+<script webc:type="render" webc:is="template">
+  function() {
+    return "HAHAHA";
+  }
+</script>

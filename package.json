@@ -1,0 +1,41 @@
+{
+  "name": "turehounds.com",
+  "version": "0.0.1",
+  "description": "",
+  "#main": "index.js",
+  "scripts": {
+    "build": "npm run css && cross-env NODE_ENV=production npm run eleventy",
+    "start": "npm-run-all --print-label --parallel css eleventy",
+    "dev": "npm-run-all --print-label --parallel css:dev eleventy:dev",
+    "css": "postcss src/static/css/tailwind.css --o _site/static/css/style.css",
+    "css:dev": "npm run css -- --watch",
+    "eleventy": "eleventy",
+    "eleventy:dev": "npm run eleventy -- --serve --watch",
+    "eleventy:debug": "cross-env DEBUG=Eleventy* npm run eleventy -- --dryrun",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Jared Reisinger",
+  "license": "ISC",
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.0-canary.16",
+    "@11ty/eleventy-navigation": "^0.3.5",
+    "@11ty/eleventy-plugin-webc": "^0.5.1",
+    "@shopify/prettier-plugin-liquid": "^0.4.0",
+    "@tailwindcss/typography": "^0.5.8",
+    "alpinejs": "^3.10.5",
+    "autoprefixer": "^10.4.13",
+    "cross-env": "^7.0.3",
+    "cssnano": "^5.1.14",
+    "heroicons": "^2.0.13",
+    "html-minifier": "^4.0.0",
+    "js-yaml": "^4.1.0",
+    "luxon": "^3.1.0",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.4.18",
+    "postcss-cli": "^10.0.0",
+    "postcss-nested": "^6.0.0",
+    "prettier": "^2.7.1",
+    "tailwindcss": "^3.2.2"
+  }
+}

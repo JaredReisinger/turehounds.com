@@ -1,0 +1,233 @@
+{% from "utilities.njk" import heroicon %}
+
+<div x-data="{ open: false }" class="relative bg-white font-serif font-bold">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6">
+    <div class="flex items-center justify-between border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
+      <div class="flex justify-start lg:w-0 lg:flex-1">
+        <a href="#">
+          <span class="sr-only">SETTINGS.NAME (LOGO?)</span>
+          <img
+            class="h-8 w-auto sm:h-10"
+            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+            alt=""
+          >
+        </a>
+      </div>
+      <div class="-my-2 -mr-2 md:hidden">
+        <button
+          type="button"
+          @click="open = true"
+          class="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+          aria-expanded="false"
+        >
+          <span class="sr-only">Open menu</span>
+          {{ heroicon("outline", "bars-3", "h-6 w-6") }}
+        </button>
+      </div>
+      <nav class="hidden space-x-10 md:flex">
+        {# all of the top-level pages, with sub-menus if there are children #}
+        {% for nav in (collections.all | eleventyNavigation) %}
+          {% if nav.children | length %}
+            <div x-data="{ open: false }" class="relative">
+              <button
+                type="button"
+                @click="open = !open"
+                class="text-gray-500 group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                aria-expanded="false"
+              >
+                <span>{{ nav.title }}</span>
+                {{ heroicon("mini", "chevron-down", "text-gray-400 ml-2 h-5 w-5 group-hover:text-gray-500") }}
+              </button>
+
+              {# popup/flyout... #}
+              <div
+                x-show="open"
+                class="absolute z-10 -ml-4 mt-3 w-screen max-w-md transform px-2 sm:px-0 lg:left-1/2 lg:ml-0 lg:-translate-x-1/2 font-sans font-normal"
+              >
+                <div class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                  <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
+                    {% for child in nav.children %}
+                      <a
+                        href="{{ child.url }}"
+                        class="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50"
+                      >
+                        {#
+                        {{ heroicon("outline", "chart-bar", "h-6 w-6 flex-shrink-0 text-indigo-600") }}
+                        #}
+                        <div class="ml-4">
+                          <p class="text-base font-medium text-gray-900">
+                            {{- child.title -}}
+                          </p>
+                          {#
+                          <p class="mt-1 text-sm text-gray-500">
+                            Get a better understanding of where your traffic is
+                            coming from.
+                          </p>
+                          #}
+                        </div>
+                      </a>
+                    {% endfor %}
+                  </div>
+                  {# popup footer? #} {#
+                  <div class="space-y-6 bg-gray-50 px-5 py-5 sm:flex sm:space-y-0 sm:space-x-10 sm:px-8">
+                    <div class="flow-root">
+                      <a
+                        href="#"
+                        class="-m-3 flex items-center rounded-md p-3 text-base font-medium text-gray-900 hover:bg-gray-100"
+                      >
+                        {{ heroicon("outline", "play", "h-6 w-6 flex-shrink-0 text-gray-400") }}
+                        <span class="ml-3">Watch Demo</span>
+                      </a>
+                    </div>
+
+                    <div class="flow-root">
+                      <a
+                        href="#"
+                        class="-m-3 flex items-center rounded-md p-3 text-base font-medium text-gray-900 hover:bg-gray-100"
+                      >
+                        {{ heroicon("outline", "phone", "h-6 w-6 flex-shrink-0 text-gray-400") }}
+                        <span class="ml-3">Contact Sales</span>
+                      </a>
+                    </div>
+                  </div>
+                  #}
+                </div>
+              </div>
+            </div>
+          {% else %}
+            <a
+              href="{{ nav.url }}"
+              class="text-base font-medium text-gray-500 hover:text-gray-900"
+            >
+              {{- nav.title -}}
+            </a>
+          {% endif %}
+          {# {{ nav | inspect }} #}
+        {% endfor %}
+        {# {{ collections.all | eleventyNavigation }} #}
+      </nav>
+      {#
+      <div class="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
+        <a
+          href="#"
+          class="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+          >Sign in</a
+        >
+        <a
+          href="#"
+          class="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+          >Sign up</a
+        >
+      </div>
+      #}
+    </div>
+  </div>
+
+  {# Mobile menu, show/hide based on mobile menu state.
+
+  Entering: "duration-200 ease-out" From: "opacity-0 scale-95" To: "opacity-100
+  scale-100" Leaving: "duration-100 ease-in" From: "opacity-100 scale-100" To:
+  "opacity-0 scale-95" #}
+  <div
+    x-show="open"
+    class="absolute inset-x-0 top-0 origin-top-right transform p-2 transition md:hidden"
+  >
+    <div class="divide-y-2 divide-gray-50 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+      <div class="px-5 pt-5 pb-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <img
+              class="h-8 w-auto"
+              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+              alt="Your Company"
+            >
+          </div>
+          <div class="-mr-2">
+            <button
+              type="button"
+              @click="open = false"
+              class="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+            >
+              <span class="sr-only">Close menu</span>
+              {{ heroicon("outline", "x-mark", "h-6 w-6") }}
+            </button>
+          </div>
+        </div>
+        <div class="mt-6">
+          <nav class="grid gap-y-8">
+            {# all of the top-level pages, WITHOUT sub-menus for children #}
+            {% for nav in (collections.all | eleventyNavigation) %}
+              <a
+                href="{{ nav.url }}"
+                class="-m-3 flex items-center rounded-md p-3 hover:bg-gray-50"
+              >
+                {#
+                {{ heroicon("outline", "chart-bar", "h-6 w-6 flex-shrink-0 text-indigo-600") }}
+                #}
+                <span class="ml-3 text-base font-medium text-gray-900">
+                  {{- nav.title -}}
+                </span>
+              </a>
+            {% endfor %}
+          </nav>
+        </div>
+      </div>
+      {#
+      <div class="space-y-6 py-6 px-5">
+        <div class="grid grid-cols-2 gap-y-4 gap-x-8">
+          <a
+            href="#"
+            class="text-base font-medium text-gray-900 hover:text-gray-700"
+            >Pricing</a
+          >
+
+          <a
+            href="#"
+            class="text-base font-medium text-gray-900 hover:text-gray-700"
+            >Docs</a
+          >
+
+          <a
+            href="#"
+            class="text-base font-medium text-gray-900 hover:text-gray-700"
+            >Help Center</a
+          >
+
+          <a
+            href="#"
+            class="text-base font-medium text-gray-900 hover:text-gray-700"
+            >Guides</a
+          >
+
+          <a
+            href="#"
+            class="text-base font-medium text-gray-900 hover:text-gray-700"
+            >Events</a
+          >
+
+          <a
+            href="#"
+            class="text-base font-medium text-gray-900 hover:text-gray-700"
+            >Security</a
+          >
+        </div>
+        <div>
+          <a
+            href="#"
+            class="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+            >Sign up</a
+          >
+          <p class="mt-6 text-center text-base font-medium text-gray-500">
+            Existing customer?
+            <a
+              href="#"
+              class="text-indigo-600 hover:text-indigo-500"
+              >Sign in</a
+            >
+          </p>
+        </div>
+      </div>
+      #}
+    </div>
+  </div>
+</div>

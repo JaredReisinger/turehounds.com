@@ -1,0 +1,15 @@
+# Print trailing commas wherever possible.
+# Valid options:
+#  - "none" - no trailing commas
+#  - "es5" - trailing commas where valid in ES5 (objects, arrays, etc)
+#  - "all" - trailing commas wherever possible (function arguments)
+trailingComma: es5
+singleQuote: true
+
+overrides:
+  - files: "*.html"
+    options:
+      # use liquid parser as an "almost nunjucks" one...
+      parser: liquid-html
+      singleQuote: false
+      printWidth: 80

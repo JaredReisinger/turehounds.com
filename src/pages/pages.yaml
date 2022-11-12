@@ -1,0 +1,14 @@
+layout: page
+tags:
+  - page
+
+# automatically makes pages into top-level URLs (no "/pages/" prefix)
+permalink: "{{ page.filePathStem | trimstart('/pages/') | trimend('/index') }}/index.html"
+
+# automatically generate navigation from file structure...
+eleventyComputed:
+  eleventyNavigation:
+    title: "{{ shortTitle or title or (page.fileSlug | title) }}"
+    key: "{{ page.filePathStem | trimstart('/pages/') | trimend('/index') }}"
+    parent: "{{ page.filePathStem | trimstart('/pages/') | trimend('/index') | split('/') | arrayslice(0, -1) | join('/') }}"
+    order: "{{ order }}"

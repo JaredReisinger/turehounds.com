@@ -1,0 +1,33 @@
+---
+title: Debug
+---
+<h1>Debugging info...</h1>
+
+<h2>Navigation (page)</h2>
+<div style="margin-left: 1em">
+  <pre>{{ collections.page | eleventyNavigation | inspect }}</pre>
+</div>
+
+<h2>Navigation (all)</h2>
+<div style="margin-left: 1em">
+  <pre>{{ collections.all | eleventyNavigation | inspect }}</pre>
+</div>
+
+<h2>Collections</h2>
+<div style="margin-left: 1em">
+  {% for k in collections | keys %}
+    {# pluralize the key name (except for "all"?) #}
+    <h3>{{ k }}</h3>
+    <div style="margin-left: 1em">
+      <ul>
+        {% for item in collections[k] %}
+          <li>
+            <b>{{ item.data.title or (item.fileSlug | title) or 'ROOT' }}</b>
+            (<a href="{{ item.url }}">{{ item.url }}</a>)
+            <pre>{{ item | collectionInfo | inspect }}</pre>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endfor %}
+</div>

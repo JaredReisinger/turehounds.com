@@ -4,12 +4,12 @@
   <div class="mx-auto max-w-7xl px-4 sm:px-6">
     <div class="flex items-center justify-between border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
       <div class="flex justify-start lg:w-0 lg:flex-1">
-        <a href="#">
-          <span class="sr-only">SETTINGS.NAME (LOGO?)</span>
+        <a href="/">
+          <span class="sr-only">{{ settings.name }}</span>
           <img
             class="h-8 w-auto sm:h-10"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-            alt=""
+            src="{{ settings.logo }}"
+            alt="{{ settings.name }}"
           >
         </a>
       </div>
@@ -42,22 +42,22 @@
               {# popup/flyout... #}
               <div
                 x-show="open"
-                class="absolute z-10 -ml-4 mt-3 w-screen max-w-md transform px-2 sm:px-0 lg:left-1/2 lg:ml-0 lg:-translate-x-1/2 font-sans font-normal"
+                class="absolute z-10 xx--ml-4 mt-3 xx-w-screen w-max max-w-md transform px-2 sm:px-0 lg:left-1/2 lg:ml-0 lg:-translate-x-1/2 font-sans font-normal text-sm"
               >
                 <div class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                  <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
+                  <div class="relative grid xx-gap-6 bg-white xx-px-5 xx-py-6 xx-sm:gap-8 xx-sm:p-8">
                     {% for child in nav.children %}
                       <a
                         href="{{ child.url }}"
-                        class="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50"
+                        class="xx--m-3 flex items-start rounded-lg p-3 hover:bg-gray-50"
                       >
                         {#
                         {{ heroicon("outline", "chart-bar", "h-6 w-6 flex-shrink-0 text-indigo-600") }}
                         #}
-                        <div class="ml-4">
-                          <p class="text-base font-medium text-gray-900">
+                        <div class="xx-ml-4">
+                          {# <p class="xx-text-base font-medium text-gray-900"> #}
                             {{- child.title -}}
-                          </p>
+                          {# </p> #}
                           {#
                           <p class="mt-1 text-sm text-gray-500">
                             Get a better understanding of where your traffic is
@@ -138,8 +138,8 @@
           <div>
             <img
               class="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              alt="Your Company"
+              src="{{ settings.logo }}"
+              alt="{{ settings.name }}"
             >
           </div>
           <div class="-mr-2">

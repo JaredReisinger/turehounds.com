@@ -1,9 +1,24 @@
 {# no easy access to split(), so we take set and name separately... #}
-{% macro heroicon(setName, iconName, classes) %}
-  {% set prefix = "20/solid" if setName == "mini" %}
-  {% set prefix = "24/solid" if setName == "solid" else prefix %}
-  {% set prefix = "24/outline" if setName == "outline" else prefix %}
-  <span class="{{ classes }}">
-    {% include "node_modules/heroicons/" + prefix + "/" + iconName + ".svg" %}
-  </span>
-{% endmacro %}
+{%- macro heroicon(setName, iconName, classes) -%}
+  {%- set prefix = "20/solid" if setName == "mini" -%}
+  {%- set prefix = "24/solid" if setName == "solid" else prefix -%}
+  {%- set prefix = "24/outline" if setName == "outline" else prefix -%}
+
+  {%- set iconSvg -%}
+      {%- include "node_modules/heroicons/" + prefix + "/" + iconName + ".svg" -%}
+  {%- endset -%}
+
+  {%- set openTag = "<svg class=\"" + classes + "\" " -%}
+
+  {{- iconSvg | replace("<svg ", openTag) | safe -}}
+{%- endmacro -%}
+
+{%- macro fontawesome(setName, iconName, classes) -%}
+  {%- set iconSvg -%}
+      {%- include "node_modules/fontawesome-free/svgs/" + setName + "/" + iconName + ".svg" -%}
+  {%- endset -%}
+
+  {%- set openTag = '<svg class="' + classes + '" fill="currentColor" ' -%}
+
+  {{- iconSvg | replace("<svg ", openTag) | safe -}}
+{%- endmacro -%}

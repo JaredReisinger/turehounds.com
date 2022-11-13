@@ -1,14 +1,8 @@
 const { DateTime } = require('luxon');
 const htmlmin = require('html-minifier');
 const yaml = require('js-yaml');
-// const nunjucks = require('nunjucks'); // for recursion?
-const util = require('util');
 
 const eleventyNavigationPlugin = require("@11ty/eleventy-navigation");
-
-// remove?
-const eleventyWebcPlugin = require('@11ty/eleventy-plugin-webc');
-const { EleventyRenderPlugin } = require('@11ty/eleventy');
 
 const UserConfig = require('@11ty/eleventy/src/UserConfig');
 
@@ -16,15 +10,6 @@ const filters = require('./_helpers/filters');
 
 /** @param {UserConfig} eleventyConfig */
 module.exports = function (eleventyConfig) {
-  // WebC testing -- BEGIN
-  eleventyConfig.addPlugin(eleventyWebcPlugin, {
-    components: 'src/_includes/components/**/*.webc',
-    // useTransform: true,
-    // transformData: {},
-  });
-
-  eleventyConfig.addPlugin(EleventyRenderPlugin);
-  // WebC testing -- END
 
   eleventyConfig.addPlugin(eleventyNavigationPlugin);
 

@@ -1,6 +1,9 @@
 {% from "utilities.njk" import heroicon %}
 
-<div x-data="{ open: false }" class="relative bg-white font-serif font-bold">
+<div
+  x-data="{ open: false }"
+  class="relative md:fixed w-full bg-white shadow-lg font-serif font-bold"
+>
   <div class="mx-auto max-w-7xl px-4 sm:px-6">
     <div class="flex items-center justify-between border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
       <div class="flex justify-start lg:w-0 lg:flex-1">
@@ -24,7 +27,7 @@
           {{ heroicon("outline", "bars-3", "h-6 w-6") }}
         </button>
       </div>
-      <nav class="hidden space-x-10 md:flex">
+      <nav class="hidden space-x-6 md:flex md:items-center">
         {# all of the top-level pages, with sub-menus if there are children #}
         {% for nav in (collections.all | eleventyNavigation) %}
           {% if nav.children | length %}
@@ -36,7 +39,7 @@
                 aria-expanded="false"
               >
                 <span>{{ nav.title }}</span>
-                {{ heroicon("mini", "chevron-down", "text-gray-400 ml-2 h-5 w-5 group-hover:text-gray-500") }}
+                {{ heroicon("mini", "chevron-down", "text-gray-400 ml-1 h-5 w-5 group-hover:text-gray-500") }}
               </button>
 
               {# popup/flyout... #}
@@ -51,46 +54,12 @@
                         href="{{ child.url }}"
                         class="xx--m-3 flex items-start rounded-lg p-3 hover:bg-gray-50"
                       >
-                        {#
-                        {{ heroicon("outline", "chart-bar", "h-6 w-6 flex-shrink-0 text-indigo-600") }}
-                        #}
                         <div class="xx-ml-4">
-                          {# <p class="xx-text-base font-medium text-gray-900"> #}
-                            {{- child.title -}}
-                          {# </p> #}
-                          {#
-                          <p class="mt-1 text-sm text-gray-500">
-                            Get a better understanding of where your traffic is
-                            coming from.
-                          </p>
-                          #}
+                          {{- child.title -}}
                         </div>
                       </a>
                     {% endfor %}
                   </div>
-                  {# popup footer? #} {#
-                  <div class="space-y-6 bg-gray-50 px-5 py-5 sm:flex sm:space-y-0 sm:space-x-10 sm:px-8">
-                    <div class="flow-root">
-                      <a
-                        href="#"
-                        class="-m-3 flex items-center rounded-md p-3 text-base font-medium text-gray-900 hover:bg-gray-100"
-                      >
-                        {{ heroicon("outline", "play", "h-6 w-6 flex-shrink-0 text-gray-400") }}
-                        <span class="ml-3">Watch Demo</span>
-                      </a>
-                    </div>
-
-                    <div class="flow-root">
-                      <a
-                        href="#"
-                        class="-m-3 flex items-center rounded-md p-3 text-base font-medium text-gray-900 hover:bg-gray-100"
-                      >
-                        {{ heroicon("outline", "phone", "h-6 w-6 flex-shrink-0 text-gray-400") }}
-                        <span class="ml-3">Contact Sales</span>
-                      </a>
-                    </div>
-                  </div>
-                  #}
                 </div>
               </div>
             </div>
@@ -102,24 +71,9 @@
               {{- nav.title -}}
             </a>
           {% endif %}
-          {# {{ nav | inspect }} #}
         {% endfor %}
-        {# {{ collections.all | eleventyNavigation }} #}
+        <div>{{ heroicon("outline", "magnifying-glass", "w-5 h-5 text-gray-500 hover:text-gray-900") }}</div>
       </nav>
-      {#
-      <div class="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
-        <a
-          href="#"
-          class="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
-          >Sign in</a
-        >
-        <a
-          href="#"
-          class="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-          >Sign up</a
-        >
-      </div>
-      #}
     </div>
   </div>
 
@@ -231,3 +185,7 @@
     </div>
   </div>
 </div>
+
+{# spacer for fixed header... #}
+<div class="hidden md:block pb-20"></div>
+<div class="hidden md:block pb-2"></div>

@@ -1,7 +1,18 @@
 ---
-layout: root
+#layout: root
 ---
+{% extends "./root.html" %}
 
-<div class="p-5 prose">
-  {{ content | safe }}
+{% block title %}
+<div class="w-full bg-gradient-to-r from-cyan-500 to-teal-500 p-6 md:p-24 md:pb-36 text-white font-serif font-bold text-3xl md:text-5xl text-center">
+  <h1>{{ title }}</h1>
 </div>
+{% endblock %}
+
+{# {% block content %}
+<div class="mx-5 -mt-12 rounded-lg pt-12 bg-white">
+  <div class="mx-auto prose">
+    {{ content | safe }}
+  </div>
+</div>
+{% endblock %} #}

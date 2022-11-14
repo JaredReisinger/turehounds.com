@@ -5,9 +5,12 @@
 #  - "all" - trailing commas wherever possible (function arguments)
 trailingComma: es5
 singleQuote: true
+editorConfig: true
 
 overrides:
-  - files: "*.html"
+  - files:
+      - '*.html'
+      - '*.njk'
     options:
       # use liquid parser as an "almost nunjucks" one...
       parser: liquid-html

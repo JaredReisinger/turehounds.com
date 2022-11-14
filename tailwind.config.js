@@ -1,9 +1,9 @@
 module.exports = {
-  content: ["./src/**/*.html"],
+  content: ['./src/**/*.{html,njk,js}'],
   theme: {
     fontFamily: {
       sans: ["'Open Sans'", 'sans-serif'],
-      serif: ["Rokkitt", 'serif'],
+      serif: ['Rokkitt', 'serif'],
     },
     container: {
       center: true,
@@ -13,5 +13,5 @@ module.exports = {
     // },
   },
   // variants: {},
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],
 };

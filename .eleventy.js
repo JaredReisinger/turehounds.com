@@ -2,15 +2,15 @@ const { DateTime } = require('luxon');
 const htmlmin = require('html-minifier');
 const yaml = require('js-yaml');
 
-const eleventyNavigationPlugin = require("@11ty/eleventy-navigation");
+const eleventyNavigationPlugin = require('@11ty/eleventy-navigation');
 
 const UserConfig = require('@11ty/eleventy/src/UserConfig');
 
 const filters = require('./_helpers/filters');
+const imageShortcodes = require('./_helpers/images');
 
 /** @param {UserConfig} eleventyConfig */
 module.exports = function (eleventyConfig) {
-
   eleventyConfig.addPlugin(eleventyNavigationPlugin);
 
   // Merge data instead of overriding
@@ -35,7 +35,15 @@ module.exports = function (eleventyConfig) {
     eleventyConfig.addFilter(k, v);
   });
 
-  // TODO: image processing!
+  Object.entries(imageShortcodes.async).forEach(([k,v]) => {
+    // console.log(`adding async shortcode ${k}...`);
+    eleventyConfig.addAsyncShortcode(k, v);
+  });
+
+  Object.entries(imageShortcodes.sync).forEach(([k,v]) => {
+    // console.log(`adding sync shortcode ${k}...`);
+    eleventyConfig.addShortcode(k, v);
+  });
 
   // No Netlify CMS yet... may add this back in later?
 

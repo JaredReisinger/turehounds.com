@@ -9,10 +9,8 @@
 </div>
 {% endblock %}
 
-{# {% block content %}
-<div class="mx-5 -mt-12 rounded-lg pt-12 bg-white">
-  <div class="mx-auto prose">
-    {{ content | safe }}
-  </div>
+{% block content %}
+<div class="mx-auto prose lg:prose-lg">
+  {{ content | safe }}
 </div>
-{% endblock %} #}
+{% endblock %}

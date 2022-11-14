@@ -2,13 +2,93 @@
 title: Our Dogs
 order: 30
 ---
+{% from "utilities.njk" import bioCard %}
 
-<p>Disa</p>
+<p>
+  We think our dogs are pretty terrific, and what they’ve achieved says a lot
+  about what we expect for any of our dogs, whether “show” or “companion”.
+</p>
+<div class="flex flex-col space-y-8">
+  {% call bioCard("Disa", "disa.jpg") %}
+  <p class="lead font-semibold">
+    <small class="font-normal text-zinc-400">DC</small> Taji’s hAfrican Queen
+    Disa
+    <small class="font-normal text-zinc-400"
+      >SC CA BCAT CGCA CGCU TKA FDX RATM</small
+    >
+  </p>
+  <p>
+    A half-African out of a mother who was brought out of the Congo as a puppy
+    (Avongara Naziki) and a domesticated father (Penda Taji’s Tri-Umphant One),
+    Disa is a prime example of the uncommon “open cap” coloration pattern.
+  </p>
+  <p>
+    She is a natural hunter, finding great success in both lure-coursing—she’s
+    earned her Field Championship, which is implied in the “DC” title—and in
+    Barn Hunt—the “RATM”. Disa also enjoys “working” just for the sake of work,
+    and spending time with us, be it working on tricks (“TKA”) or on flyball
+    (“FDX”). Yes, that’s right, Basenjis can play flyball! (If you’re patient,
+    anyway.)
+  </p>
+  {% endcall %}
 
-<p>Spyros</p>
+  {% call bioCard("Spyros", "spyros.jpg") %}
+  <p class="lead font-semibold">
+    <small class="font-normal text-zinc-400">CH</small> Kibushi Gugu Diospyros
+    <small class="font-normal text-zinc-400"
+      >RN JC CAA BCAT SWN SBA RATO CGCA CGCU TKP</small
+    >
+  </p>
+  <p>
+    Technically a half-African, but what we’d prefer to call “two-quarters
+    African” because of an additional generation of breeding, Spyros is out of
+    two half-African parents: mother Possum Creek’s Ngoma and father Kibushi The
+    Oracle (a.k.a. “Wags”). Spyros shows a much-more-typical tri-color pattern
+    but is distinguished by having very little white, with no flashy white
+    “collar” around his neck.
+  </p>
+  <p>
+    Spyros loves to run and chase, happily volunteering to test lure-coursing
+    layouts, run in the singles stakes, and in coursing ability tests, all on
+    the same day. As long as the “bunny” is moving, he’s after it! He also truly
+    loves “working” when there’s a chance for treats at the end.
+  </p>
 
-<p>Gable</p>
+  {% endcall %}
 
-<p>Bogart</p>
+  {% call bioCard("Gable", "gable.jpg") %}
+  <p class="lead font-semibold">
+    <small class="font-normal text-zinc-400">CH</small> Taji & Ture’s G.Wiz R U
+    Sirius?
+    <small class="font-normal text-zinc-400">SC CA TKI</small>
+  </p>
+  <p>
+    Our “keeper” out of Disa’s first litter (sired by the famous Sonbar’s
+    Celestial Wizard, a.k.a. “Bravo”), Gable is a spunky little monkey. Having
+    been raised from birth using the “Puppy Culture” protocol, he believes that
+    the world is a fun place, where new experiences can be incredibly rewarding…
+    which means he’s willing to try doing just about anything! (If we could get
+    a Basenji to swim voluntarily, it would most likely be Gable.)
+  </p>
+  {% endcall %}
 
-<p>Hedy (*)</p>
+  {% call bioCard("Bogart") %}
+  <p class="lead font-semibold">Ture’s Stuff Dreams Are Made Of</p>
+  <p>
+    Our male “keeper” out of Disa’s second litter (sired by Dark Moon’s Bada
+    Bing!, a.k.a. “Yoshi”), Bogart is an absolute sweetheart.
+  </p>
+  {% endcall %}
+
+  {% call bioCard("Hedy") %}
+  <p class="lead font-semibold">
+    <small class="font-normal text-zinc-400">GCH CH</small> Ture’s Sending
+    Sirius Signals
+    <small class="font-normal text-zinc-400">TKN</small>
+  </p>
+  <p>
+    Our female “keeper” out of Disa’s second litter (sired by Dark Moon’s Bada
+    Bing!, a.k.a. “Yoshi”), Hedy is affectionately nicknamed “Hurricane Hedy”.
+  </p>
+  {% endcall %}
+</div>

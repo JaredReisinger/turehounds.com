@@ -5,8 +5,8 @@
   class="relative md:fixed w-full bg-white shadow-lg font-serif font-bold"
 >
   <div class="mx-auto max-w-7xl px-4 sm:px-6">
-    <div class="flex items-center justify-between border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
-      <div class="flex justify-start lg:w-0 lg:flex-1">
+    <div class="flex items-center justify-between justify-items-stretch border-b-2 border-gray-100 py-6 space-x-10">
+      <div class="flex justify-start">
         <a href="/">
           <span class="sr-only">{{ settings.name }}</span>
           <img
@@ -16,7 +16,7 @@
           >
         </a>
       </div>
-      <div class="-my-2 -mr-2 md:hidden">
+      <div class="-my-2 -mr-2 lg:hidden">
         <button
           type="button"
           @click="open = true"
@@ -27,11 +27,14 @@
           {{ heroicon("outline", "bars-3", "h-6 w-6") }}
         </button>
       </div>
-      <nav class="hidden space-x-6 md:flex md:items-center">
+      <nav
+        x-data="{ search: false }"
+        class="flex-1 hidden lg:flex space-x-6 justify-end items-center"
+      >
         {# all of the top-level pages, with sub-menus if there are children #}
         {% for nav in (collections.all | eleventyNavigation) %}
           {% if nav.children | length %}
-            <div x-data="{ open: false }" class="relative">
+            <div x-show="!search" x-data="{ open: false }" class="relative">
               <button
                 type="button"
                 @click="open = !open"
@@ -65,6 +68,7 @@
             </div>
           {% else %}
             <a
+              x-show="!search"
               href="{{ nav.url }}"
               class="text-base font-medium text-gray-500 hover:text-gray-900"
             >
@@ -72,7 +76,13 @@
             </a>
           {% endif %}
         {% endfor %}
-        <div>{{ heroicon("outline", "magnifying-glass", "w-5 h-5 text-gray-500 hover:text-gray-900") }}</div>
+        <form x-show="search" class="search w-full font-sans font-normal flex gap-2">
+          <input type="text" name="q">
+          <input type="submit" value="Search">
+        </form>
+        <button type="button" @click="search = !search" class="">
+          {{ heroicon("outline", "magnifying-glass", "w-5 h-5 text-gray-500 hover:text-gray-900") }}
+        </button>
       </nav>
     </div>
   </div>
@@ -84,7 +94,7 @@
   "opacity-0 scale-95" #}
   <div
     x-show="open"
-    class="absolute inset-x-0 top-0 origin-top-right transform p-2 transition md:hidden"
+    class="absolute inset-x-0 top-0 origin-top-right transform p-2 transition lg:hidden"
   >
     <div class="divide-y-2 divide-gray-50 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
       <div class="px-5 pt-5 pb-6">

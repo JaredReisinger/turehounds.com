@@ -38,39 +38,47 @@ p:last-child {
   margin-bottom: 0 !important;
 }
 
-/* our default form styling... */
-form label, form fieldset legend {
+/* our default form.form-default styling... */
+form.form-default label, form.form-default fieldset legend {
   @apply block text-sm font-bold mb-3;
 }
 
-form fieldset label {
+form.form-default fieldset label {
   @apply block text-base font-normal m-0 ml-2;
 }
 
-form input[type='text'],
-form input[type='password'],
-form input[type='email'],
-form input[type='number'],
-form input[type='url'],
-form input[type='date'],
-form input[type='datetime-local'],
-form input[type='month'],
-form input[type='week'],
-form input[type='time'],
-form input[type='search'],
-form input[type='tel'],
-/*form select,
-form select[multiple],*/
-form textarea {
+form.form-default input[type='text'],
+form.form-default input[type='password'],
+form.form-default input[type='email'],
+form.form-default input[type='number'],
+form.form-default input[type='url'],
+form.form-default input[type='date'],
+form.form-default input[type='datetime-local'],
+form.form-default input[type='month'],
+form.form-default input[type='week'],
+form.form-default input[type='time'],
+form.form-default input[type='search'],
+form.form-default input[type='tel'],
+/*form.form-default select,
+form.form-default select[multiple],*/
+form.form-default textarea {
   @apply block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm;
 }
 
-form input[type='checkbox'],
-form input[type='radio'] {
+form.form-default input[type='checkbox'],
+form.form-default input[type='radio'] {
   @apply h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500;
 }
 
-form input[type='submit'],
-form button {
+form.form-default input[type='submit'],
+form.form-default button {
   @apply rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-lg font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2;
+}
+
+form.search input[type='text'] {
+  @apply block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm text-xs;
+}
+
+form.search input[type='submit'] {
+  @apply rounded-md border border-transparent bg-indigo-600 py-0 px-1 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2;
 }

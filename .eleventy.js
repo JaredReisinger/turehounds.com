@@ -35,25 +35,29 @@ module.exports = function (eleventyConfig) {
     eleventyConfig.addFilter(k, v);
   });
 
-  Object.entries(imageShortcodes.async).forEach(([k,v]) => {
+  Object.entries(imageShortcodes.async).forEach(([k, v]) => {
     // console.log(`adding async shortcode ${k}...`);
     eleventyConfig.addAsyncShortcode(k, v);
   });
 
-  Object.entries(imageShortcodes.sync).forEach(([k,v]) => {
+  Object.entries(imageShortcodes.sync).forEach(([k, v]) => {
     // console.log(`adding sync shortcode ${k}...`);
     eleventyConfig.addShortcode(k, v);
   });
 
   // No Netlify CMS yet... may add this back in later?
 
+  // copy media folder to /_site
+  eleventyConfig.addPassthroughCopy('src/static/media');
+
+  // copy js folder to /_site
+  eleventyConfig.addPassthroughCopy('src/static/js');
+
   // copy dependency files to /_site
   eleventyConfig.addPassthroughCopy({
     'node_modules/alpinejs/dist/cdn.min.js': 'static/js/alpine.js',
+    'node_modules/lunr/lunr.min.js': 'static/js/lunr.min.js',
   });
-
-  // copy media folder to /_site
-  eleventyConfig.addPassthroughCopy('src/static/media');
 
   // // copy favicon folder to /_site (and special copy for '/favicon.ico')
   // eleventyConfig.addPassthroughCopy({

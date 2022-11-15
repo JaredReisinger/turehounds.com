@@ -5,10 +5,13 @@ tags:
 # automatically makes pages into top-level URLs (no "/pages/" prefix)
 permalink: "{{ page.filePathStem | trimstart('/pages/') | trimend('/index') }}/index.html"
 
-# automatically generate navigation from file structure...
+# automatically generate navigation from file structure... we can't *not*
+# generate (maybe with the javascript-style computed?) but we allow a top-level
+# "hidden" flag to catch hidden items at render-time.
 eleventyComputed:
   eleventyNavigation:
     title: "{{ shortTitle or title or (page.fileSlug | title) }}"
     key: "{{ page.filePathStem | trimstart('/pages/') | trimend('/index') }}"
     parent: "{{ page.filePathStem | trimstart('/pages/') | trimend('/index') | split('/') | arrayslice(0, -1) | join('/') }}"
     order: "{{ order }}"
+    hidden: "{{ hidden }}"

@@ -5,7 +5,7 @@ title: Debug
 
 <h2>Navigation</h2>
 <div style="margin-left: 1em">
-  <pre>{{ collections.all | eleventyNavigation | inspect }}</pre>
+  <pre>{{ collections.all | eleventyNavigation | rejectattr("hidden") | inspect }}</pre>
 </div>
 
 <h2>Collections</h2>

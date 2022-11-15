@@ -41,7 +41,7 @@
     {% block title %}DEFAULT TITLE{% endblock %}
     <div id="body-content">
       {% block main %}
-      <div class="md:mx-5 md:-mt-12 md:rounded-t-lg px-6 py-12 min-h-[6rem] md:min-h-[24rem] bg-white shadow-lg">
+      <div class="md:mx-8 md:-mt-12 md:rounded-t-lg px-6 py-12 min-h-[6rem] md:min-h-[24rem] bg-white md:shadow-2xl">
         {% block content %}
         {{ content | safe }}
         {% endblock %}
@@ -49,7 +49,7 @@
       {% endblock %}
     </div>
     {% block footer %}
-    <div class="md:mx-5">
+    <div class="md:mx-8 md:shadow-2xl">
       {% include 'footer.html' %}
     </div>
     {% endblock %}

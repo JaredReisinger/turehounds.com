@@ -39,7 +39,8 @@ p:last-child {
 }
 
 /* our default form.form-default styling... */
-form.form-default label, form.form-default fieldset legend {
+form.form-default label,
+form.form-default fieldset legend {
   @apply block text-sm font-bold mb-3;
 }
 
@@ -93,4 +94,9 @@ form.search input[type='submit'] {
   .preview {
     @apply text-xs;
   }
+}
+
+/* ensure alpine.js `x-cloak` directive works! */
+[x-cloak] {
+  display: none !important;
 }

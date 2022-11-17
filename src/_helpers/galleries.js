@@ -66,7 +66,7 @@ async function autoGallery(galleryClasses = 'columns-sm', imageClasses = '') {
   // column-first layout.
   const html = `<div class="${galleryClasses}">${htmls
     .map((pic) => `<div class="${imageClasses}">${pic}</div>`)
-    .join('\n')}<div>`;
+    .join('\n')}</div>`;
   return html;
 }
 

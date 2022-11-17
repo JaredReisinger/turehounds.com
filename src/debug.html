@@ -1,25 +1,46 @@
 ---
 title: Debug
+eleventyExcludeFromCollections: true
 ---
+<style type="text/css">
+  /* debug-only styles... */
+  .nest {
+    margin-left: 2rem;
+  }
+
+  pre {
+    margin-left: 2rem;
+    font-family: Consolas, Courier, mono;
+    border: 1px solid #d0d0d0;
+    background-color: #f8f8f8;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+  }
+</style>
+
 <h1>Debugging info...</h1>
 
+<h2>Top-level values</h2>
+<pre>{{ collections.all[0].data | pick(['eleventy', 'pkg', 'settings']) | inspect }}</pre>
+<h3>eleventyConfig...</h3>
+<pre>{{ debugConfig | inspect }}</pre>
+
 <h2>Navigation</h2>
-<div style="margin-left: 1em">
-  <pre>{{ collections.all | eleventyNavigation | rejectattr("hidden") | inspect }}</pre>
-</div>
+<pre>{{ collections.all | eleventyNavigation | rejectattr("hidden") | inspect }}</pre>
 
 <h2>Collections</h2>
-<div style="margin-left: 1em">
+
+<div class="nest">
   {% for k in collections | keys %}
     {# pluralize the key name (except for "all"?) #}
     <h3>{{ k }}</h3>
-    <div style="margin-left: 1em">
+    <div class="nest">
       <ul>
         {% for item in collections[k] %}
           <li>
             <b>{{ item.data.title or (item.fileSlug | title) or 'ROOT' }}</b>
             (<a href="{{ item.url }}">{{ item.url }}</a>)
-            <pre>{{ item | collectionInfo | inspect }}</pre>
+            <pre>{{ item | collectionDebugInfo | inspect }}</pre>
           </li>
         {% endfor %}
       </ul>

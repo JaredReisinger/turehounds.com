@@ -1,7 +1,9 @@
 // utility functions... it would be nice to leverage Typescript for these, but
 // I think we can get 90% of what I want with JSDoc comments...
 
-const util = require("util");
+const util = require('util');
+
+const UserConfig = require('@11ty/eleventy/src/UserConfig');
 
 /**
  * Javascript/Node `util.inspect(), but defaults to "all" depth.
@@ -30,16 +32,7 @@ function keys(obj) {
  * @returns Object
  */
 function pick(obj, keys) {
-  // console.log('GOT ARGS', {obj, keys});
-  o = {};
-  keys.forEach((k) => {
-    o[k] = obj[k];
-  });
-  // console.log('keys', {
-  //   before: Object.keys(obj).sort(),
-  //   after: Object.keys(o).sort(),
-  // });
-  return o;
+  return pickOmitImpl(obj, keys, true);
 }
 
 /**
@@ -49,15 +42,25 @@ function pick(obj, keys) {
  * @returns Object
  */
 function omit(obj, keys) {
-  // console.log('GOT ARGS', {obj, keys});
-  o = { ...obj };
-  keys.forEach((k) => {
-    delete o[k];
+  return pickOmitImpl(obj, keys, false);
+}
+
+/**
+ * Underlying implementation for `pick` and `omit`.
+ * @param {Object} obj Object to clone from.
+ * @param {Array<string>} keys Keys to include/exclude.
+ * @param {boolean} doPick `true` to include keys, `false` to exlclude them.
+ * @returns Object with/without given keys.
+ */
+function pickOmitImpl(obj, keys, doPick) {
+  const objKeys = Object.keys(obj || {});
+  const o = {};
+  objKeys.forEach((k) => {
+    if (keys.includes(k) ^ !doPick) {
+      o[k] = obj[k];
+    }
   });
-  // console.log('keys', {
-  //   before: Object.keys(obj).sort(),
-  //   after: Object.keys(o).sort(),
-  // });
+  // console.log('pick/omit', { objKeys, keys, doPick, result: Object.keys(o) });
   return o;
 }
 
@@ -66,32 +69,42 @@ function omit(obj, keys) {
  * @param {Object} obj Collection item object
  * @returns Object
  */
-function collectionInfo(obj) {
+function collectionDebugInfo(obj) {
   // Not sure if "allowlist" or "denylist" is a cleaner mechanism... the former
   // is safer, but prevents "additional" things from appearing. I think,
   // however, that the top-level properties are really convenience accessors for
   // stuff in `data.page`, and therefore `pick` should be okay...
 
-  // return omit(obj, [
-  //   '_templateContent',
-  //   'checkTemplateContent',
-  //   'template',
-  //   'templateContent',
+  const o = omit(obj, [
+    '_templateContent',
+    'checkTemplateContent',
+    'template',
+    'templateContent',
+    'data',
+  ]);
+
+  // const o = pick(obj, [
+  //   // 'data',
+  //   'date',
+  //   'filePathStem',
+  //   'fileSlug',
+  //   'inputPath',
+  //   'outputPath',
+  //   'url',
   // ]);
 
-  const o = pick(obj, [
-    // 'data',
-    'date',
-    'filePathStem',
-    'fileSlug',
-    'inputPath',
-    'outputPath',
-    'url',
-  ]);
+  // o.keys = Object.keys(obj);
 
   // ... and also streamline `.data` to exclude `eleventy` and `pkg`, which is
   // common across all items?
-  o.data = omit(obj.data, ['eleventy', 'pkg', 'collections']);
+  o.data = omit(obj.data, [
+    'debugConfig',
+    'eleventy',
+    'eleventyComputed',
+    'pkg',
+    'collections',
+    'settings',
+  ]);
   return o;
 }
 
@@ -140,21 +153,42 @@ function trimstart(str, prefix = undefined) {
  * @param {string} suffix Suffix to remove
  * @returns String without the suffix.
  */
- function trimend(str, suffix = undefined) {
+function trimend(str, suffix = undefined) {
   if (suffix && str.endsWith(suffix)) {
     return str.substring(0, str.length - suffix.length);
   }
   return str.trimEnd();
 }
 
+/**
+ * @param {UserConfig} eleventyConfig
+ * @param {Object} configOptions
+ */
+ function withConfig(eleventyConfig, configOptions) {
+  eleventyConfig.addGlobalData(
+    'debugConfig',
+    () => pick(eleventyConfig, ['collections', 'dir', 'pathPrefix'])
+  );
+}
+
 module.exports = {
-  inspect,
-  keys,
-  pick,
-  omit,
-  collectionInfo,
-  arrayslice,
-  split,
-  trimstart,
-  trimend,
+  filters: {
+    async: {},
+    sync: {
+      inspect,
+      keys,
+      pick,
+      omit,
+      collectionDebugInfo,
+      arrayslice,
+      split,
+      trimstart,
+      trimend,
+    },
+  },
+  shortcodes: {
+    async: {},
+    sync: {},
+  },
+  withConfig,
 };

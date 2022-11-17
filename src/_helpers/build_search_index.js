@@ -13,7 +13,7 @@ const HTML_FILES = '**/*.{htm,html}';
 // Valid search fields: "title", "description", "keywords", "body"
 const SEARCH_FIELDS = ['title', 'description', 'keywords', 'body'];
 // const EXCLUDE_FILES = [/*"search.html"*/];
-const EXCLUDE_URLS = ['/debug/'];
+const EXCLUDE_URLS = ['/debug/', '/puppy-interest-questionnaire-success/'];
 const MAX_PREVIEW_CHARS = 275;
 const OUTPUT_INDEX = '_site/static/js/search_index.js';
 

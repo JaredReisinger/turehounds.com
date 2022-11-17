@@ -30,16 +30,14 @@ const defaultImageGenOpts = {
 // needed), we use a structured object for the options *other than* `src`.
 
 /**
- * @typedef ElementAttributes
- * @type {object}
+ * @typedef {object} ElementAttributes
  * @property {string} alt Alt text for the image.
  * @property {string} class Class(es) for the element.
  * @property {string} style Style(s) for the element.
  */
 
 /**
- * @typedef ImageOptions
- * @type {object}
+ * @typedef {object} ImageOptions
  * @property {string} src Original source image (how do we ensure this?)
  * @property {string} alt (Should this just go inside img?)
  * @property {string} sizes
@@ -137,8 +135,9 @@ function generateBetterObject(metadata, options = undefined) {
   const lowsrcAttributes = Object.assign(
     {
       src: lowsrc[0].url,
-      width: lowsrc[lowsrc.length - 1].width,
-      height: lowsrc[lowsrc.length - 1].height,
+      // REVIEW: do we really want width/height on the low-level fallback?
+      // width: lowsrc[lowsrc.length - 1].width,
+      // height: lowsrc[lowsrc.length - 1].height,
     },
     opts.image,
     opts.img
@@ -257,41 +256,33 @@ function renderTagAttrHTML(tagName, attrs) {
 }
 
 /**
- * Renders a tag with attributes. (lifted from 11ty/image)
- * @param {string} tagName Tag to render, like `img` or `picture`.
- * @param {Object} attrs Attributes to include on the tag/element.
- * @returns Rendered HTML for the tag.
+ * Returns a series of `background-image` values to be used in the style of an
+ * element in order to give it a background image.
+ * @param {string} src original source image
+ * @param {string} quote what to use to quote the URL
  */
-function mapObjectToHTML(tagName, attrs = {}) {
-  let attrHtml = Object.entries(attrs)
-    .map((entry) => {
-      let [key, value] = entry;
-      // hack: remove width/height on img to allow 100% width...
-      if (key === 'width' || key === 'height') {
-        return '';
-      }
-      return `${key}="${value}"`;
-    })
-    .filter((x) => x)
-    .join(' ');
-
-  return `<${tagName}${attrHtml ? ` ${attrHtml}` : ''}>`;
-}
-
 async function backgroundImage(src, quote = "'") {
-  let metadata = await Image(src, defaultImageGenOpts);
-
-  const formats = Object.keys(metadata);
+  // For background-image image-set, there's a way to specify "resolution", but
+  // not "size".  We aim for a reasonable resolution (1280) with no size
+  // fallbacks.
+  const metadata = await Image(src, {
+    ...defaultImageGenOpts,
+    widths: [1280],
+    sharpWebpOptions: { quality: 50 },
+    sharpJpegOptions: { quality: 50 },
+  });
+  // console.log('background metadata', metadata);
+  const formats = Object.values(metadata).map(list => list[0]);
 
   const imageSet = formats
     .map((format) => {
-      const url = metadata[format][0].url;
-      return `url(${quote}${url}${quote}) type(${quote}image/${format}${quote})`;
+      return `url(${quote}${format.url}${quote}) type(${quote}${format.sourceType}${quote})`;
     })
     .join(', ');
 
   // Many browsers don't support the "by type", so we include non-image-set as
-  // well...
+  // well... (and if they don't handle image-set, they might not handle webp,
+  // either, so we just fall back to jpeg.)
   const bgImageKinds = [
     `url(${metadata.jpeg[0].url})`,
     `-webkit-image-set(${imageSet})`,
@@ -318,4 +309,6 @@ module.exports = {
 
   generateBetterObject,
   generateBetterHTML,
+  renderObjectHTML,
+  renderTagAttrHTML,
 };

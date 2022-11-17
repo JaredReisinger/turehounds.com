@@ -134,20 +134,41 @@
           </div>
         </div>
         <div class="mt-6">
-          <nav class="grid gap-y-8">
-            {# all of the top-level pages, WITHOUT sub-menus for children #}
+          <nav class="text-base font-medium text-gray-900">
+            {# all of the top-level pages, with one-level of expansion for
+            children #}
             {% for nav in (collections.all | eleventyNavigation | rejectattr("hidden")) %}
-              <a
-                href="{{ nav.url }}"
-                class="-m-3 flex items-center rounded-md p-3 hover:bg-gray-50"
-              >
-                {#
-                {{ heroicon("outline", "chart-bar", "h-6 w-6 flex-shrink-0 text-indigo-600") }}
-                #}
-                <span class="ml-3 text-base font-medium text-gray-900">
+              {% if nav.children | length %}
+                <div x-data="{ open: false }">
+                  <button
+                    type="button"
+                    @click="open = !open"
+                    class="rounded-md p-3 hover:bg-gray-50 flex w-full"
+                    aria-expanded="false"
+                  >
+                    <span>{{ nav.title }}</span>
+                    {{ heroicon("mini", "chevron-down", "text-gray-400 ml-1 h-5 w-5 group-hover:text-gray-500") }}
+                  </button>
+
+                  <div x-cloak x-show="open" class="ml-4">
+                    {% for child in nav.children %}
+                      <a
+                        href="{{ child.url }}"
+                        class="block rounded-md p-3 hover:bg-gray-50"
+                      >
+                        {{- child.title -}}
+                      </a>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% else %}
+                <a
+                  href="{{ nav.url }}"
+                  class="block rounded-md p-3 hover:bg-gray-50"
+                >
                   {{- nav.title -}}
-                </span>
-              </a>
+                </a>
+              {% endif %}
             {% endfor %}
           </nav>
         </div>

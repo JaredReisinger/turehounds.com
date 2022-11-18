@@ -1,94 +1,238 @@
 ---
 title: Our Dogs
 order: 30
+layout: page-full
 ---
 {% from "utilities.njk" import bioCard %}
 
-<p>
-  We think our dogs are pretty terrific, and what they’ve achieved says a lot
-  about what we expect for any of our dogs, whether “show” or “companion”.
-</p>
-<div class="flex flex-col space-y-8">
-  {% call bioCard("Disa", "disa.jpg") %}
-  <p class="lead font-semibold">
-    <small class="font-normal text-zinc-400">DC</small> Taji’s hAfrican Queen
-    Disa
-    <small class="font-normal text-zinc-400"
-      >SC CA BCAT CGCA CGCU TKA FDX RATM</small
-    >
-  </p>
-  <p>
-    A half-African out of a mother who was brought out of the Congo as a puppy
-    (Avongara Naziki) and a domesticated father (Penda Taji’s Tri-Umphant One),
-    Disa is a prime example of the uncommon “open cap” coloration pattern.
-  </p>
-  <p>
-    She is a natural hunter, finding great success in both lure-coursing—she’s
-    earned her Field Championship, which is implied in the “DC” title—and in
-    Barn Hunt—the “RATM”. Disa also enjoys “working” just for the sake of work,
-    and spending time with us, be it working on tricks (“TKA”) or on flyball
-    (“FDX”). Yes, that’s right, Basenjis can play flyball! (If you’re patient,
-    anyway.)
-  </p>
-  {% endcall %}
+<div class="lg:flex justify-center lg:gap-8">
+  <div class="prose lg:prose-lg mx-auto lg:mx-0">
+    <p>
+      We think our dogs are pretty terrific, and what they’ve achieved says a
+      lot about what we expect for any of our dogs, whether “show” or
+      “companion”.
+    </p>
+    <div class="flex flex-col space-y-8">
+      {% call bioCard("Disa", "disa.jpg") %}
+      <p class="lead font-semibold">
+        <small class="font-normal text-zinc-400">
+          {{- 'DC' | titlify | safe -}}
+        </small>
+        Taji’s hAfrican Queen Disa
+        <small class="font-normal text-zinc-400">
+          {{- 'SC CA BCAT CGCA CGCU TKA FDX RATM' | titlify | safe -}}</small
+        ><a href="#alphabet-soup" class="lg:hidden">*</a>
+      </p>
+      <p>
+        A half-African out of a mother who was brought out of the Congo as a
+        puppy (Avongara Naziki) and a domesticated father (Penda Taji’s
+        Tri-Umphant One), Disa is a prime example of the uncommon “open cap”
+        coloration pattern.
+      </p>
+      <p>
+        She is a natural hunter, finding great success in both
+        lure-coursing—she’s earned her Field Championship, which is implied in
+        the “DC” title—and in Barn Hunt—the “RATM”. Disa also enjoys “working”
+        just for the sake of work, and spending time with us, be it working on
+        tricks (“TKA”) or on flyball (“FDX”). Yes, that’s right, Basenjis can
+        play flyball! (If you’re patient, anyway.)
+      </p>
+      {% endcall %}
 
-  {% call bioCard("Spyros", "spyros.jpg") %}
-  <p class="lead font-semibold">
-    <small class="font-normal text-zinc-400">CH</small> Kibushi Gugu Diospyros
-    <small class="font-normal text-zinc-400"
-      >RN JC CAA BCAT SWN SBA RATO CGCA CGCU TKP</small
-    >
-  </p>
-  <p>
-    Technically a half-African, but what we’d prefer to call “two-quarters
-    African” because of an additional generation of breeding, Spyros is out of
-    two half-African parents: mother Possum Creek’s Ngoma and father Kibushi The
-    Oracle (a.k.a. “Wags”). Spyros shows a much-more-typical tri-color pattern
-    but is distinguished by having very little white, with no flashy white
-    “collar” around his neck.
-  </p>
-  <p>
-    Spyros loves to run and chase, happily volunteering to test lure-coursing
-    layouts, run in the singles stakes, and in coursing ability tests, all on
-    the same day. As long as the “bunny” is moving, he’s after it! He also truly
-    loves “working” when there’s a chance for treats at the end.
-  </p>
+      {% call bioCard("Spyros", "spyros.jpg") %}
+      <p class="lead font-semibold">
+        <small class="font-normal text-zinc-400">
+          {{- 'CH' | titlify | safe -}}
+        </small>
+        Kibushi Gugu Diospyros
+        <small class="font-normal text-zinc-400">
+          {{- 'RN JC CAA BCAT SWN SBA RATO CGCA CGCU TKP' | titlify | safe -}}
+        </small>
+      </p>
+      <p>
+        Technically a half-African, but what we’d prefer to call “two-quarters
+        African” because of an additional generation of breeding, Spyros is out
+        of two half-African parents: mother Possum Creek’s Ngoma and father
+        Kibushi The Oracle (a.k.a. “Wags”). Spyros shows a much-more-typical
+        tri-color pattern but is distinguished by having very little white, with
+        no flashy white “collar” around his neck.
+      </p>
+      <p>
+        Spyros loves to run and chase, happily volunteering to test
+        lure-coursing layouts, run in the singles stakes, and in coursing
+        ability tests, all on the same day. As long as the “bunny” is moving,
+        he’s after it! He also truly loves “working” when there’s a chance for
+        treats at the end.
+      </p>
 
-  {% endcall %}
+      {% endcall %}
 
-  {% call bioCard("Gable", "gable.jpg") %}
-  <p class="lead font-semibold">
-    <small class="font-normal text-zinc-400">CH</small> Taji & Ture’s G.Wiz R U
-    Sirius?
-    <small class="font-normal text-zinc-400">SC CA TKI</small>
-  </p>
-  <p>
-    Our “keeper” out of Disa’s first litter (sired by the famous Sonbar’s
-    Celestial Wizard, a.k.a. “Bravo”), Gable is a spunky little monkey. Having
-    been raised from birth using the “Puppy Culture” protocol, he believes that
-    the world is a fun place, where new experiences can be incredibly rewarding…
-    which means he’s willing to try doing just about anything! (If we could get
-    a Basenji to swim voluntarily, it would most likely be Gable.)
-  </p>
-  {% endcall %}
+      {% call bioCard("Gable", "gable.jpg") %}
+      <p class="lead font-semibold">
+        <small class="font-normal text-zinc-400">
+          {{- 'CH' | titlify | safe -}}
+        </small>
+        Taji & Ture’s G.Wiz R U Sirius?
+        <small class="font-normal text-zinc-400">
+          {{- 'SC CA TKI' | titlify | safe -}}
+        </small>
+      </p>
+      <p>
+        Our “keeper” out of Disa’s first litter (sired by the famous Sonbar’s
+        Celestial Wizard, a.k.a. “Bravo”), Gable is a spunky little monkey.
+        Having been raised from birth using the “Puppy Culture” protocol, he
+        believes that the world is a fun place, where new experiences can be
+        incredibly rewarding… which means he’s willing to try doing just about
+        anything! (If we could get a Basenji to swim voluntarily, it would most
+        likely be Gable.)
+      </p>
+      {% endcall %}
 
-  {% call bioCard("Bogart") %}
-  <p class="lead font-semibold">Ture’s Stuff Dreams Are Made Of</p>
-  <p>
-    Our male “keeper” out of Disa’s second litter (sired by Dark Moon’s Bada
-    Bing!, a.k.a. “Yoshi”), Bogart is an absolute sweetheart.
-  </p>
-  {% endcall %}
+      {% call bioCard("Bogart") %}
+      <p class="lead font-semibold">Ture’s Stuff Dreams Are Made Of</p>
+      <p>
+        Our male “keeper” out of Disa’s second litter (sired by Dark Moon’s Bada
+        Bing!, a.k.a. “Yoshi”), Bogart is an absolute sweetheart.
+      </p>
+      {% endcall %}
 
-  {% call bioCard("Hedy") %}
-  <p class="lead font-semibold">
-    <small class="font-normal text-zinc-400">GCH CH</small> Ture’s Sending
-    Sirius Signals
-    <small class="font-normal text-zinc-400">TKN</small>
-  </p>
-  <p>
-    Our female “keeper” out of Disa’s second litter (sired by Dark Moon’s Bada
-    Bing!, a.k.a. “Yoshi”), Hedy is affectionately nicknamed “Hurricane Hedy”.
-  </p>
-  {% endcall %}
+      {% call bioCard("Hedy") %}
+      <p class="lead font-semibold">
+        <small class="font-normal text-zinc-400">
+          {{- 'GCH CH' | titlify | safe -}}
+        </small>
+        Ture’s Sending Sirius Signals
+        <small class="font-normal text-zinc-400">
+          {{- 'TKN' | titlify | safe -}}
+        </small>
+      </p>
+      <p>
+        Our female “keeper” out of Disa’s second litter (sired by Dark Moon’s
+        Bada Bing!, a.k.a. “Yoshi”), Hedy is affectionately nicknamed “Hurricane
+        Hedy”.
+      </p>
+      {% endcall %}
+    </div>
+  </div>
+  <div class="mt-12 lg:mt-64 xx-bg-cyan-100 rounded-lg p-4 self-start mx-auto lg:mx-0 lg:max-w-[40ch]">
+    <div class="prose prose-sm">
+      <h4 id="alphabet-soup" class="text-lg mb-4">
+        What is with all those letters around the dogs’ names?
+      </h4>
+
+      <p>So glad you asked!</p>
+
+      <p class="italic bg-amber-50 border border-amber-100 rounded-md p-2">
+        <b>TLDR;</b> hover over the letters to see what title they represent. On
+        mobile, well, you’ll have to keep reading.
+      </p>
+
+      <p>
+        In the conformation and performance dog world, we sometimes call this
+        the “alphabet soup”, because it looks like a bunch of random gibberish.
+        In truth, it’s simply the way that AKC and other organizations indicate
+        any titles earned by the dog.
+      </p>
+      <p>
+        In general, each term in the list is composed of the initial letters
+        that indicate the event, and a final letter which indicates the level of
+        achievement. And note that when a more-advanced title is earned in a
+        given event, it replaces the previous one in the alphabet soup; instead
+        of “CGC CGCA”, you’d just see “CGCA”.
+      </p>
+
+      <p>Here’s a quick guide to the ones you might see:</p>
+
+      <table class="table-default">
+        {#
+        <thead>
+          <tr>
+            <th class="text-left pl-4">???</th>
+            <th class="text-left">Description</th>
+          </tr>
+        </thead>
+        #}
+        <tbody>
+          {% set levels = collections.all[0].data.titles.levels %}
+          {% set events = collections.all[0].data.titles.events %}
+          {% for event in events %}
+            {% set eventName = event[1] %}
+
+            <tr>
+              <td
+                colspan="2"
+                class="font-semibold italic border-t border-zinc-300 bg-zinc-100 pl-2"
+              >
+                {{ eventName }}
+              </td>
+            </tr>
+
+            {% for titleInfo in event[3] %}
+              {% set title = titleInfo[0] %}
+              {% set titleName = titleInfo[1] %}
+              {% set titleDesc = titleInfo[2] %}
+              {% if titleName === '^^' %}
+                {% set levelKey = title | arrayslice(-1) %}
+                {% set titleName = eventName + ' ' + levels[levelKey] %}
+              {% endif %}
+              {% set titleName = titleName | replace('^', eventName) %}
+              <tr>
+                <td class="pl-4">{{ title }}</td>
+                <td>
+                  {{ titleName -}}
+                  {%- if titleDesc %} ({{ titleDesc }}){% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <p class="text-zinc-400">
+        <i
+          >(There are even more listed on
+          <a
+            href="https://www.akc.org/sports/titles-and-abbreviations/"
+            target="_blank"
+            >the AKC’s “Titles and Abbreviations” page</a
+          >.)</i
+        >
+      </p>
+
+      <p>
+        So, you would interpret Disa’s titles (<b
+          >DC / SC CA BCAT CGCA CGCU TKA FDX RATM</b
+        >) as:
+      </p>
+      <ul class="list-disc">
+        <li>Dual Champion (both conformation and performance)</li>
+        <li>Senior Courser</li>
+        <li>B? Fast CAT</li>
+        <li>Canine Good Citizen Advanced</li>
+        <li>Canine Good Citizen Urban</li>
+        <li>Trick Dog Advanced</li>
+        <li>Flyball Dog Excellent</li>
+        <li>Barn Hunt Master</li>
+      </ul>
+
+      <p>
+        ... and Spyros’s titles (<b
+          >CH / RN JC CAA BCAT SWN SBA RATO CGCA CGCU TKP</b
+        >) as:
+      </p>
+      <ul class="list-disc">
+        <li>Champion (conformation only)</li>
+        <li>Rally Novice</li>
+        <li>Junior Courser</li>
+        <li>B? Fast CAT</li>
+        <li>Barn Hunt Master</li>
+        <li>Scent Work Novice</li>
+        <li>Scent Work Buried Advanced</li>
+        <li>Barn Hunt Open</li>
+        <li>Canine Good Citizen Advanced</li>
+        <li>Canine Good Citizen Urban</li>
+        <li>Trick Dog Performer</li>
+      </ul>
+    </div>
+  </div>
 </div>

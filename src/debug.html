@@ -21,9 +21,71 @@ eleventyExcludeFromCollections: true
 <h1>Debugging info...</h1>
 
 <h2>Top-level values</h2>
-<pre>{{ collections.all[0].data | pick(['eleventy', 'pkg', 'settings']) | inspect }}</pre>
+<pre>{{ collections.all[0].data | pick(['eleventy', 'pkg', 'settings', 'titles']) | inspect }}</pre>
 <h3>eleventyConfig...</h3>
 <pre>{{ debugConfig | inspect }}</pre>
+
+<h2>Titles</h2>
+{% set levels = collections.all[0].data.titles.levels %}
+{% set events = collections.all[0].data.titles.events %}
+<ul>
+  {% for event in events %}
+    <li>
+      {% set eventName = event[1] %}
+      {{ eventName }}
+      <ul>
+        {% for titleInfo in event[3] %}
+          {% set title = titleInfo[0] %}
+          {% set titleName = titleInfo[1] %}
+          {% set titleDesc = titleInfo[2] %}
+          {% if titleName === '^^' %}
+            {% set levelKey = title | arrayslice(-1) %}
+            {% set titleName = eventName + ' ' + levels[levelKey] %}
+          {% endif %}
+          {% set titleName = titleName | replace('^', eventName) %}
+          <li>{{ title }}: {{ titleName }}</li>
+        {% endfor %}
+      </ul>
+    </li>
+  {% endfor %}
+</ul>
+
+<h3>...as a table...</h3>
+
+<table class="table-default">
+  <thead>
+    <tr>
+      <th>???</th>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% set levels = collections.all[0].data.titles.levels %}
+    {% set events = collections.all[0].data.titles.events %}
+    {% for event in events %}
+      {% set eventName = event[1] %}
+      <tr>
+        <td colspan="3">{{ eventName }}</td>
+      </tr>
+      {% for titleInfo in event[3] %}
+        {% set title = titleInfo[0] %}
+        {% set titleName = titleInfo[1] %}
+        {% set titleDesc = titleInfo[2] %}
+        {% if titleName === '^^' %}
+          {% set levelKey = title | arrayslice(-1) %}
+          {% set titleName = eventName + ' ' + levels[levelKey] %}
+        {% endif %}
+        {% set titleName = titleName | replace('^', eventName) %}
+        <tr>
+          <td>{{ title }}</td>
+          <td>{{ titleName }}</td>
+          <td>{{ titleDesc }}</td>
+        </tr>
+      {% endfor %}
+    {% endfor %}
+  </tbody>
+</table>
 
 <h2>Navigation</h2>
 <pre>{{ collections.all | eleventyNavigation | rejectattr("hidden") | inspect }}</pre>

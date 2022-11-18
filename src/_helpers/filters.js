@@ -104,6 +104,7 @@ function collectionDebugInfo(obj) {
     'pkg',
     'collections',
     'settings',
+    'titles',
   ]);
   return o;
 }
@@ -160,14 +161,62 @@ function trimend(str, suffix = undefined) {
   return str.trimEnd();
 }
 
+let titleMap = undefined;
+
+function ensureTitleMap(titles) {
+  if (titleMap) {
+    return titleMap;
+  }
+
+  const { levels, events } = titles;
+
+  titleMap = {};
+  events.forEach((evt) => {
+    // console.log('*** event', evt);
+    const [_, eventName, eventDesc, titleInfos] = evt;
+    titleInfos.forEach((titleInfo) => {
+      const [title, titleNameRaw, titleDesc, isPrefix, supercedes] = titleInfo;
+      let titleName = titleNameRaw;
+      const levelKey = title.slice(-1);
+      // console.log('*** title', {
+      //   title,
+      //   titleName,
+      //   supercedes,
+      //   eventName,
+      //   levelKey,
+      // });
+      titleName = titleName.replace('^^', `${eventName} ${levels[levelKey]}`);
+      titleName = titleName.replace('^', eventName);
+
+      titleMap[title] = [titleName, titleInfo, evt];
+    });
+  });
+
+  console.log('TITLE MAP', titleMap);
+
+  return titleMap;
+}
+
+function titlify(str) {
+  const titleMap = ensureTitleMap(this.ctx.titles);
+  const parts = str.split(' ').filter((x) => x);
+  return parts
+    .map(
+      (part) =>
+        `<span title="${
+          titleMap[part]?.[0] || '(unknown title)'
+        }">${part}</span>`
+    )
+    .join(' ');
+}
+
 /**
  * @param {UserConfig} eleventyConfig
  * @param {Object} configOptions
  */
- function withConfig(eleventyConfig, configOptions) {
-  eleventyConfig.addGlobalData(
-    'debugConfig',
-    () => pick(eleventyConfig, ['collections', 'dir', 'pathPrefix'])
+function withConfig(eleventyConfig, configOptions) {
+  eleventyConfig.addGlobalData('debugConfig', () =>
+    pick(eleventyConfig, ['collections', 'dir', 'pathPrefix'])
   );
 }
 
@@ -184,6 +233,7 @@ module.exports = {
       split,
       trimstart,
       trimend,
+      titlify,
     },
   },
   shortcodes: {

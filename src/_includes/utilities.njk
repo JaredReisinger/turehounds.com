@@ -3,13 +3,10 @@
 {%- set prefix = "20/solid" if setName == "mini" -%}
 {%- set prefix = "24/solid" if setName == "solid" else prefix -%}
 {%- set prefix = "24/outline" if setName == "outline" else prefix -%}
-
 {%- set iconSvg -%}
 {%- include "node_modules/heroicons/" + prefix + "/" + iconName + ".svg" -%}
 {%- endset -%}
-
 {%- set openTag = "<svg class=\"" + classes + "\" " -%}
-
 {{- iconSvg | replace("<svg ", openTag) | safe -}}
 {%- endmacro -%}
 
@@ -17,28 +14,32 @@
 {%- set iconSvg -%}
 {%- include "node_modules/fontawesome-free/svgs/" + setName + "/" + iconName + ".svg" -%}
 {%- endset -%}
-
 {%- set openTag = '<svg class="' + classes + '" fill="currentColor" ' -%}
-
 {{- iconSvg | replace("<svg ", openTag) | safe -}}
 {%- endmacro -%}
 
 {%- macro bioCard(name, imgName = undefined) -%}
-<div class="w-full bg-zinc-100 rounded-lg p-8 sm:flex sm:self-stretch sm:items-stretch sm:space-x-8 shadow-lg">
+<div class="w-full bg-zinc-100 border border-zinc-200 rounded-lg p-8 sm:flex sm:self-stretch sm:items-stretch sm:space-x-8 shadow-lg">
   <div class=" max-w-[15rem] mx-auto sm:max-w-none sm:w-1/3 not-prose">
-  {% if imgName %}
-    {% imageSync "src/static/media/" + imgName, imgName %}
-  {% else %}
-    <div class="max-w-[7rem] mx-auto sm:max-w-none text-sm italic text-center not-prose opacity-25">
-      {% imageSync "src/static/media/ture-logo.png" %}
-      (picture to come!)
-    </div>
-  {% endif %}
+    {% if imgName %}
+      {% imageSync "src/static/media/" + imgName, imgName %}
+    {% else %}
+      <div class="max-w-[7rem] mx-auto sm:max-w-none text-sm italic text-center not-prose opacity-25">
+        {% imageSync "src/static/media/ture-logo.png" %}
+        (picture to come!)
+      </div>
+    {% endif %}
   </div>
   <div class="mt-3 sm:mt-0 sm:w-2/3">
     <h2 class="text-center sm:text-left">{{ name }}</h2>
     {{ caller() }}
   </div>
 </div>
+{%- endmacro -%}
 
+{%- macro titlesXX(str) -%}
+{%- set titles = str | split(' ') -%}
+{%- for title in titles -%}
+  <span title="{{settings}}">{{ title }}</span>{{' '}}
+{%- endfor -%}
 {%- endmacro -%}

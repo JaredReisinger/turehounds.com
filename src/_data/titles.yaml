@@ -1,0 +1,218 @@
+# I'm trying to come up with a compact format for describing titles and
+# definitions. I think an array or arrays (to avoid key boilerplate) will work:
+# an array of "Events", where each event is a title prefix (if any?), name,
+# description, and then a sub-array for individual titles:
+#
+#   [[KEY, Name, Description, [[TN, Title], [TA, Title], ...]], [KEY2, Name2,
+#   ...]]
+#
+# where the [TN, Title] goes on to include:
+#
+#   [TN, Title, Description, PREFIX?, [SUPERCEDES, ...]]
+#
+# There are also some shortcuts... `^` in a title description means "use the
+# event name" (so [CGCA, ^ Advanced] mean "Canine Good Citizen Advanced").
+# Further, a second `^` means "use the default level suffix", where "N" means
+# "Novice", and so on.
+#
+# By default, if the SUPERCEDES list is not present, a title supercedes anything
+# before it in the event title list.
+levels:
+  N: Novice
+  I: Intermediate
+  O: Open
+  S: Senior
+  A: Advanced
+  X: Excellent
+  M: Master
+  E: Elite
+
+events:
+  - - DC
+    - Dual-champion
+    - Special indicator when a dog earns both conformation Champion and Field Champion
+    - - - DC
+        - Dual-champion
+        - Dog earns both conformation Champion and Field Champion
+        - PREFIX
+        - [CH, FC]
+
+  - - CH
+    - Champion
+    - Conformation champion
+    - - - CH
+        - ^
+        - 15 points with at least 2 majors
+        - PREFIX
+      - - GCH
+        - Grand ^
+        - ""
+        - [CH]
+      - - GCHB
+        - Grand ^ Bronze
+        - ""
+        - [GCH]
+      - - GCHS
+        - Grand ^ Silver
+        - ""
+        - [GCHB]
+      - - GCHG
+        - Grand ^ Gold
+        - ""
+        - [GCHS]
+      - - GCHP
+        - Grand ^ Platinum
+        - ""
+        - [GCHG]
+
+  - - R
+    - Rally
+    - ""
+    - - - RN
+        - ^^
+      - - RI
+        - ^^
+
+  - - C
+    - Lure Coursing
+    - ""
+    - - - SC
+        - Senior Courser
+        - Four successful events
+      - - FC
+        - Field Champion
+        - 15 points with at least 2 majors
+        - PREFIX
+      - - LCX
+        - ^^
+        - "???"
+
+  - - CA
+    - Coursing Ability
+    - Like lure-coursing, but open to all breeds
+    - - - CA
+        - ^
+      - - CAA
+        - ^^
+      - - CAX
+        - ^^
+      - - CAX2
+        - ^ Excellent 2
+
+  - - CAT
+    - Fast CAT
+    - Straight-line lure event, open to all breeds
+    - - - BCAT
+        - ^ Beginner?
+
+  - - CGC
+    - Canine Good Citizen
+    - ""
+    - - - CGC
+        - ^
+      - - CGCA
+        - ^^
+        - ""
+        - - CGC
+      - - CGCU
+        - ^ Urban
+        - ""
+        - - CGC
+
+  - - TK
+    - Trick Dog
+    - ""
+    - - - TKN
+        - ^^
+      - - TKI
+        - ^^
+      - - TKA
+        - ^^
+      - - TKP
+        - ^ Performer
+      - - TKE
+        - ^ Elite Performer
+
+  - - FD
+    - Flyball Dog
+    - From the North American Flyball Association, not AKC
+    - - - FD
+        - ^
+      - - FDX
+        - ^^
+        - ""
+      - - FDM (FM?)
+        - ^^
+        - ""
+        - FDX
+
+
+  - - RAT
+    - Barn Hunt
+    - Granted by Barn Hunt Association, not AKC
+    - - - RATN
+        - ^^
+      - - RATO
+        - ^^
+      - - RATS
+        - ^^
+      - - RATM
+        - ^^
+      - - RATCH
+        - ^ Champion
+
+  - - S
+    - Scent Work
+    - There are four elements to scentwork events, interior, exterior, containers, and buried. Each element has its own title, and there’s a “roll-up” title once you’ve earned that level across all four elements.
+    - - - SBN
+        - ^ Buried Novice
+      - - SCN
+        - ^ Container Novice
+      - - SEN
+        - ^ Exterior Novice
+      - - SIN
+        - ^ Interior Novice
+      - - SWN
+        - ^^
+        - "complete all four elements in novice"
+        - [SBN, SCN, SEN, SIN]
+      - - SBA
+        - ^ Buried Advanced
+        - ""
+        - [SBN]
+      - - SCA
+        - ^ Container Advanced
+        - ""
+        - [SCN]
+      - - SEA
+        - ^ Exterior Advanced
+        - ""
+        - [SEN]
+      - - SIA
+        - ^ Interior Advanced
+        - ""
+        - [SIN]
+      - - SWA
+        - ^^
+        - "complete all four elements in advanced"
+        - [SBA, SCA, SEA, SIA]
+      - - SBM
+        - ^ Buried Master
+        - ""
+        - [SBA]
+      - - SCM
+        - ^ Container Master
+        - ""
+        - [SCA]
+      - - SEM
+        - ^ Exterior Master
+        - ""
+        - [SEA]
+      - - SIM
+        - ^ Interior Master
+        - ""
+        - [SIA]
+      - - SWM
+        - ^^
+        - "complete all four elements in master"
+        - [SBM, SCM, SEM, SIM]

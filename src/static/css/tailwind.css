@@ -100,3 +100,9 @@ form.search input[type='submit'] {
 [x-cloak] {
   display: none !important;
 }
+
+table.table-default {
+  tbody {
+    vertical-align: top;
+  }
+}

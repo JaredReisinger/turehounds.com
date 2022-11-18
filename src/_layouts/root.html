@@ -1,25 +1,21 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {#
-    <title @html="title"></title>
-    #} {#
-    <!-- <meta name="url" :content="page.url"> -->
-    #} {#
-    <style>
-      {{ page.url | webcGetCss | safe }}
-    </style>
-    #} {#
+    {# Google tag (gtag.js) #}
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-B9PQSPTHMH"
+    ></script>
     <script>
-      {
-        {
-          page.url | webcGetJs | safe;
-        }
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
       }
+      gtag('js', new Date());
+      gtag('config', 'G-B9PQSPTHMH');
     </script>
-    #}
     <title>{{ title }}</title>
     {% if description %}
       <meta name="description" content="{{description}}">

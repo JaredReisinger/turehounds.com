@@ -63,25 +63,25 @@ form.form-default input[type='tel'],
 /*form.form-default select,
 form.form-default select[multiple],*/
 form.form-default textarea {
-  @apply block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm;
+  @apply block w-full rounded-md border-zinc-300 focus:border-cyan-500 focus:ring-cyan-500 shadow-sm;
 }
 
 form.form-default input[type='checkbox'],
 form.form-default input[type='radio'] {
-  @apply h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500;
+  @apply h-4 w-4 border-zinc-300 text-cyan-600 focus:ring-cyan-500;
 }
 
 form.form-default input[type='submit'],
 form.form-default button {
-  @apply rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-lg font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2;
+  @apply rounded-md border border-transparent bg-cyan-600 py-2 px-4 text-lg font-medium text-white shadow-sm hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2;
 }
 
 form.search input[type='text'] {
-  @apply block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm text-xs;
+  @apply block w-full rounded-md border-zinc-300 focus:border-cyan-500 focus:ring-cyan-500 shadow-sm text-xs;
 }
 
 form.search input[type='submit'] {
-  @apply rounded-md border border-transparent bg-indigo-600 py-0 px-1 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2;
+  @apply rounded-md border border-transparent bg-cyan-600 py-0 px-1 text-xs font-medium text-white shadow-sm hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2;
 }
 
 .search-results {

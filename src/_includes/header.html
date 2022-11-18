@@ -5,7 +5,7 @@
   class="relative md:fixed w-full bg-white shadow-lg font-serif font-bold"
 >
   <div class="mx-auto max-w-7xl px-4 sm:px-6">
-    <div class="flex items-center justify-between justify-items-stretch border-b-2 border-gray-100 py-6 space-x-10">
+    <div class="flex items-center justify-between justify-items-stretch border-b-2 border-zinc-100 py-6 space-x-10">
       <div class="flex justify-start">
         <a href="/">
           <span class="sr-only">{{ settings.name }}</span>
@@ -20,7 +20,7 @@
         <button
           type="button"
           @click="open = true"
-          class="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+          class="inline-flex items-center justify-center rounded-md bg-white p-2 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500"
           aria-expanded="false"
         >
           <span class="sr-only">Open menu</span>
@@ -38,11 +38,11 @@
               <button
                 type="button"
                 @click="open = !open"
-                class="text-gray-500 group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                class="text-zinc-500 group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-zinc-900 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2"
                 aria-expanded="false"
               >
                 <span>{{ nav.title }}</span>
-                {{ heroicon("mini", "chevron-down", "text-gray-400 ml-1 h-5 w-5 group-hover:text-gray-500") }}
+                {{ heroicon("mini", "chevron-down", "text-zinc-400 ml-1 h-5 w-5 group-hover:text-zinc-500") }}
               </button>
 
               {# popup/flyout... #}
@@ -56,7 +56,7 @@
                     {% for child in nav.children %}
                       <a
                         href="{{ child.url }}"
-                        class="xx--m-3 flex items-start rounded-lg p-3 hover:bg-gray-50"
+                        class="xx--m-3 flex items-start rounded-lg p-3 hover:bg-zinc-50"
                       >
                         <div class="xx-ml-4">
                           {{- child.title -}}
@@ -71,7 +71,7 @@
             <a
               x-show="!search"
               href="{{ nav.url }}"
-              class="text-base font-medium text-gray-500 hover:text-gray-900"
+              class="text-base font-medium text-zinc-500 hover:text-zinc-900"
             >
               {{- nav.title -}}
             </a>
@@ -97,7 +97,7 @@
           ></div>
         </form>
         <button type="button" @click="search = !search" class="">
-          {{ heroicon("outline", "magnifying-glass", "w-5 h-5 text-gray-500 hover:text-gray-900") }}
+          {{ heroicon("outline", "magnifying-glass", "w-5 h-5 text-zinc-500 hover:text-zinc-900") }}
         </button>
       </nav>
     </div>
@@ -112,7 +112,7 @@
     x-show="open"
     class="absolute inset-x-0 top-0 origin-top-right transform p-2 transition lg:hidden"
   >
-    <div class="divide-y-2 divide-gray-50 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+    <div class="divide-y-2 divide-zinc-50 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
       <div class="px-5 pt-5 pb-6">
         <div class="flex items-center justify-between">
           <div>
@@ -126,7 +126,7 @@
             <button
               type="button"
               @click="open = false"
-              class="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+              class="inline-flex items-center justify-center rounded-md bg-white p-2 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500"
             >
               <span class="sr-only">Close menu</span>
               {{ heroicon("outline", "x-mark", "h-6 w-6") }}
@@ -134,7 +134,7 @@
           </div>
         </div>
         <div class="mt-6">
-          <nav class="text-base font-medium text-gray-900">
+          <nav class="text-base font-medium text-zinc-900">
             {# all of the top-level pages, with one-level of expansion for
             children #}
             {% for nav in (collections.all | eleventyNavigation | rejectattr("hidden")) %}
@@ -143,18 +143,18 @@
                   <button
                     type="button"
                     @click="open = !open"
-                    class="rounded-md p-3 hover:bg-gray-50 flex w-full"
+                    class="rounded-md p-3 hover:bg-zinc-50 flex w-full"
                     aria-expanded="false"
                   >
                     <span>{{ nav.title }}</span>
-                    {{ heroicon("mini", "chevron-down", "text-gray-400 ml-1 h-5 w-5 group-hover:text-gray-500") }}
+                    {{ heroicon("mini", "chevron-down", "text-zinc-400 ml-1 h-5 w-5 group-hover:text-zinc-500") }}
                   </button>
 
                   <div x-cloak x-show="open" class="ml-4">
                     {% for child in nav.children %}
                       <a
                         href="{{ child.url }}"
-                        class="block rounded-md p-3 hover:bg-gray-50"
+                        class="block rounded-md p-3 hover:bg-zinc-50"
                       >
                         {{- child.title -}}
                       </a>
@@ -164,7 +164,7 @@
               {% else %}
                 <a
                   href="{{ nav.url }}"
-                  class="block rounded-md p-3 hover:bg-gray-50"
+                  class="block rounded-md p-3 hover:bg-zinc-50"
                 >
                   {{- nav.title -}}
                 </a>
@@ -178,51 +178,51 @@
         <div class="grid grid-cols-2 gap-y-4 gap-x-8">
           <a
             href="#"
-            class="text-base font-medium text-gray-900 hover:text-gray-700"
+            class="text-base font-medium text-zinc-900 hover:text-zinc-700"
             >Pricing</a
           >
 
           <a
             href="#"
-            class="text-base font-medium text-gray-900 hover:text-gray-700"
+            class="text-base font-medium text-zinc-900 hover:text-zinc-700"
             >Docs</a
           >
 
           <a
             href="#"
-            class="text-base font-medium text-gray-900 hover:text-gray-700"
+            class="text-base font-medium text-zinc-900 hover:text-zinc-700"
             >Help Center</a
           >
 
           <a
             href="#"
-            class="text-base font-medium text-gray-900 hover:text-gray-700"
+            class="text-base font-medium text-zinc-900 hover:text-zinc-700"
             >Guides</a
           >
 
           <a
             href="#"
-            class="text-base font-medium text-gray-900 hover:text-gray-700"
+            class="text-base font-medium text-zinc-900 hover:text-zinc-700"
             >Events</a
           >
 
           <a
             href="#"
-            class="text-base font-medium text-gray-900 hover:text-gray-700"
+            class="text-base font-medium text-zinc-900 hover:text-zinc-700"
             >Security</a
           >
         </div>
         <div>
           <a
             href="#"
-            class="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+            class="flex w-full items-center justify-center rounded-md border border-transparent bg-cyan-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-cyan-700"
             >Sign up</a
           >
-          <p class="mt-6 text-center text-base font-medium text-gray-500">
+          <p class="mt-6 text-center text-base font-medium text-zinc-500">
             Existing customer?
             <a
               href="#"
-              class="text-indigo-600 hover:text-indigo-500"
+              class="text-cyan-600 hover:text-cyan-500"
               >Sign in</a
             >
           </p>

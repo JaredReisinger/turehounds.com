@@ -256,12 +256,22 @@ function renderTagAttrHTML(tagName, attrs) {
 }
 
 /**
+ * @typedef {object} BackgroundImageOptions
+ * @property {string} quote Character to use for quote (' by default).
+ * @property {string} before List of layers to put before the image.
+ * @property {string} after List of layers to put before the image.
+ */
+
+/**
  * Returns a series of `background-image` values to be used in the style of an
  * element in order to give it a background image.
  * @param {string} src original source image
- * @param {string} quote what to use to quote the URL
+ * @param {BackgroundImageOptions} options options for background-image
  */
-async function backgroundImage(src, quote = "'") {
+async function backgroundImage(src, options) {
+  const opts = Object.assign({}, { quote: "'" }, options);
+  const { quote, before, after } = opts;
+
   // For background-image image-set, there's a way to specify "resolution", but
   // not "size".  We aim for a reasonable resolution (1280) with no size
   // fallbacks.
@@ -272,7 +282,7 @@ async function backgroundImage(src, quote = "'") {
     sharpJpegOptions: { quality: 50 },
   });
   // console.log('background metadata', metadata);
-  const formats = Object.values(metadata).map(list => list[0]);
+  const formats = Object.values(metadata).map((list) => list[0]);
 
   const imageSet = formats
     .map((format) => {
@@ -289,7 +299,9 @@ async function backgroundImage(src, quote = "'") {
     `image-set(${imageSet})`,
   ];
 
-  return bgImageKinds.map((kind) => `background-image: ${kind};`).join(' ');
+  return bgImageKinds
+    .map((kind) => `background-image: ${before ? `${before}, ` : ''}${kind}${after ? `, ${after}` : ''};`)
+    .join(' ');
 }
 
 module.exports = {

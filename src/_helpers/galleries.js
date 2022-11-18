@@ -16,7 +16,7 @@ const { generateBetterObject, renderObjectHTML } = require('./images');
  */
 
 const DEFAULT_OPTIONS = {
-  galleryGlob: 'gallery/*.{jpg,jpeg,png,heic}',
+  galleryGlob: 'gallery/*.{jpg,JPG,jpeg,JPEG,png,PNG,heic,HEIC}',
   containerAttrs: {
     class: 'columns-xs gap-4 my-8',
   },

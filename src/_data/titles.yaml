@@ -98,6 +98,10 @@ events:
       - - LCX
         - Lure Courser Excellent
         - Earned 45 points after earning FC
+      - - BIF
+        - Best In Field
+        - Won final Best In Field run-off against all other breeds at a lure coursing trial
+        - PREFIX
 
   - - CA
     - Coursing Ability

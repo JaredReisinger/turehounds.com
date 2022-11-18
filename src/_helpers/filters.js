@@ -192,7 +192,7 @@ function ensureTitleMap(titles) {
     });
   });
 
-  console.log('TITLE MAP', titleMap);
+  // console.log('TITLE MAP', titleMap);
 
   return titleMap;
 }

@@ -72,20 +72,32 @@ events:
         - ^^
       - - RI
         - ^^
+      - - RA
+        - ^^
+      - - RE
+        - ^^
+      - - RM
+        - ^^
 
   - - C
     - Lure Coursing
     - ""
-    - - - SC
+    - - - JC
+        - Junior Courser
+        - Two successful solo lure-coursing scores
+      - - SC
         - Senior Courser
-        - Four successful events
+        - Four successful scores
+      - - MC
+        - Master Courser
+        - 25 successful scores after earning SC
       - - FC
         - Field Champion
         - 15 points with at least 2 majors
         - PREFIX
       - - LCX
-        - ^^
-        - "???"
+        - Lure Courser Excellent
+        - Earned 45 points after earning FC
 
   - - CA
     - Coursing Ability
@@ -103,7 +115,11 @@ events:
     - Fast CAT
     - Straight-line lure event, open to all breeds
     - - - BCAT
-        - ^ Beginner?
+        - Earned 150 points at Fast CAT events
+      - - DCAT
+        - Earned 500 points at Fast CAT events
+      - - FCAT
+        - Earned 1000 points at Fast CAT events
 
   - - CGC
     - Canine Good Citizen
@@ -141,10 +157,23 @@ events:
       - - FDX
         - ^^
         - ""
-      - - FDM (FM?)
-        - ^^
+        - [FD]
+      - - FDCh
+        - ^ Champion
         - ""
-        - FDX
+        - [FDX]
+      - - FDCh-S
+        - ^ Champion Silver
+        - ""
+        - [FDCh]
+      - - FDCh-G
+        - ^ Champion Gold
+        - ""
+        - [FDCh-S]
+      - - FM
+        - Flyball Master
+        - ""
+        - [FDCh-G]
 
 
   - - RAT

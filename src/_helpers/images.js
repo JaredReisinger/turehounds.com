@@ -30,15 +30,23 @@ const defaultImageGenOpts = {
 // needed), we use a structured object for the options *other than* `src`.
 
 /**
+ * This is basically the same at @11ty/eleventy-img's `ImageOptions`.
+ * @typedef {object} ImageGenOptions
+ * @property {number[]} widths
+ * @property {string[]} formats
+ * @property {string} outputDir
+ * @property {string} urlPath
+ */
+
+/**
  * @typedef {object} ElementAttributes
- * @property {string} alt Alt text for the image.
  * @property {string} class Class(es) for the element.
  * @property {string} style Style(s) for the element.
  */
 
 /**
  * @typedef {object} ImageOptions
- * @property {string} src Original source image (how do we ensure this?)
+ * @property {ImageGenOptions} generate
  * @property {string} alt (Should this just go inside img?)
  * @property {string} sizes
  * @property {string} loading
@@ -56,8 +64,9 @@ const defaultImageGenOpts = {
  */
 async function image(src, options = undefined) {
   // kick off--and wait for!--the image to generate
-  const metadata = await Image(src, defaultImageGenOpts);
-  const html = generateBetterHTML(metadata, options);
+  const genOpts = mergeImageGenOptions(options?.generate);
+  const metadata = await Image(src, genOpts);
+  const html = generateBetterHTML(src, metadata, options);
   return html;
 }
 
@@ -69,21 +78,32 @@ async function image(src, options = undefined) {
  */
 function imageSync(src, options = undefined) {
   // kick off image generation, but don't await it!
-  Image(src, defaultImageGenOpts);
-  const metadata = Image.statsSync(src, defaultImageGenOpts);
-  const html = generateBetterHTML(metadata, options);
+  const genOpts = mergeImageGenOptions(options?.generate);
+  Image(src, genOpts);
+  const metadata = Image.statsSync(src, genOpts);
+  const html = generateBetterHTML(src, metadata, options);
   return html;
+}
+
+/**
+ * Merges provided image generation options with the defauls.
+ * @param {ImageGenOptions} options generation options
+ * @returns Merged object.
+ */
+function mergeImageGenOptions(options = undefined) {
+  return Object.assign({}, defaultImageGenOpts, options);
 }
 
 /**
  * Improved version of Image.generateObject().  Instead of each element having
  * attributes (if an object) *or* children (if an array), always uses an object
  * but with a `children` property for any child elements.
+ * @param {string} src : Path to the original image.
  * @param {Image.Metadata} metadata Image metadata to use.
  * @param {ImageOptions} options Rendering options.
  * @returns Object representing elements.
  */
-function generateBetterObject(metadata, options = undefined) {
+function generateBetterObject(src, metadata, options = undefined) {
   const DEFAULT_OPTIONS = {
     src: '(MISSING)',
     alt: '',
@@ -127,7 +147,7 @@ function generateBetterObject(metadata, options = undefined) {
 
   if (!lowsrc || !lowsrc.length) {
     throw new Error(
-      `Could not find the lowest <img> source for responsive markup for ${opts.src}`
+      `Could not find the lowest <img> source for responsive markup for ${src}`
     );
   }
 
@@ -150,7 +170,7 @@ function generateBetterObject(metadata, options = undefined) {
   }
 
   // For multi-entry images, we *must* have a sizes value!
-  const missingSizesError = `Missing "sizes" attribute on shortcode from: ${opts.src}`;
+  const missingSizesError = `Missing "sizes" attribute on shortcode from: ${src}`;
 
   if (formatCount === 1) {
     if (!opts.sizes) {
@@ -203,12 +223,13 @@ function generateBetterObject(metadata, options = undefined) {
 /**
  * Renders the `<picture>` element for the given image. Based on
  * `Image.generateHTML`, but adds some tweaking of the output.
+ * @param {string} src : Path to the original image.
  * @param {Image.Metadata} metadata Image metadata to use.
  * @param {ImageOptions} options Rendering options.
  * @returns Rendered HTML string.
  */
-function generateBetterHTML(metadata, options = undefined) {
-  const obj = generateBetterObject(metadata, options);
+function generateBetterHTML(src, metadata, options = undefined) {
+  const obj = generateBetterObject(src, metadata, options);
   const html = renderObjectHTML(obj);
   // console.log('GENERATED', obj, html);
   return html;
@@ -300,7 +321,12 @@ async function backgroundImage(src, options) {
   ];
 
   return bgImageKinds
-    .map((kind) => `background-image: ${before ? `${before}, ` : ''}${kind}${after ? `, ${after}` : ''};`)
+    .map(
+      (kind) =>
+        `background-image: ${before ? `${before}, ` : ''}${kind}${
+          after ? `, ${after}` : ''
+        };`
+    )
     .join(' ');
 }
 

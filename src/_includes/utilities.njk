@@ -22,7 +22,7 @@
 <div class="w-full bg-zinc-100 border border-zinc-200 rounded-lg p-8 sm:flex sm:self-stretch sm:items-stretch sm:space-x-8 shadow-lg">
   <div class=" max-w-[15rem] mx-auto sm:max-w-none sm:w-1/3 not-prose">
     {% if imgName %}
-      {% imageSync "src/static/media/" + imgName, { image: { class: 'rounded-lg' } }  %}
+      {% imageSync "src/static/media/" + imgName, { generate: { widths: [400, 240, 190] }, sizes: '15rem', image: { class: 'rounded-lg' } }  %}
     {% else %}
       <div class="max-w-[7rem] mx-auto sm:max-w-none text-sm italic text-center not-prose opacity-25">
         {% imageSync "src/static/media/ture-logo.png" %}

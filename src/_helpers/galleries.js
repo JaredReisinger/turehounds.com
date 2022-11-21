@@ -70,7 +70,7 @@ async function autoGallery(options = undefined) {
         urlPath: page.url,
       });
       // console.log('image metadata', { image, metadata }, metadata);
-      return metadata;
+      return { src: image, metadata };
     })
   );
 
@@ -78,10 +78,11 @@ async function autoGallery(options = undefined) {
   const galleryObj = {
     div: {
       ...opts.containerAttrs,
-      children: items.map((item) => ({
+      children: items.map(({ src, metadata }) => ({
         div: {
           ...opts.imageOptions?.image,
-          children: [generateBetterObject(item, opts.imageOptions)] },
+          children: [generateBetterObject(src, metadata, opts.imageOptions)],
+        },
       })),
     },
   };

@@ -2,6 +2,29 @@
 title: Our Dogs
 order: 30
 layout: page-full
+
+titleList:
+  - BCAT
+  - BIF
+  - CA
+  - CAA
+  - CGCA
+  - CGCU
+  - CH
+  - DC
+  - FDX
+  - GCH
+  - JC
+  - RATM
+  - RATO
+  - RN
+  - SBA
+  - SC
+  - SWN
+  - TKA
+  - TKI
+  - TKN
+  - TKP
 ---
 {% from "utilities.njk" import bioCard %}
 
@@ -138,69 +161,29 @@ layout: page-full
         In truth, it’s simply the way that AKC and other organizations indicate
         any titles earned by the dog.
       </p>
-      <p>
-        In general, each term in the list is composed of the initial letters
-        that indicate the event, and a final letter which indicates the level of
-        achievement. And note that when a more-advanced title is earned in a
-        given event, it replaces the previous one in the alphabet soup; instead
-        of “CGC CGCA”, you’d just see “CGCA”.
-      </p>
 
-      <p>Here’s a quick guide to the ones you might see:</p>
+      <p>Here’s a quick guide to the ones you might see on this page:</p>
 
       <table class="table-default">
-        {#
-        <thead>
-          <tr>
-            <th class="text-left pl-4">???</th>
-            <th class="text-left">Description</th>
-          </tr>
-        </thead>
-        #}
         <tbody>
-          {% set levels = collections.all[0].data.titles.levels %}
-          {% set events = collections.all[0].data.titles.events %}
-          {% for event in events %}
-            {% set eventName = event[1] %}
-
+          {% for title in titleList %}
+            {% set titleInfo = titleMap[title] %}
             <tr>
-              <td
-                colspan="2"
-                class="font-semibold italic border-t border-zinc-300 bg-zinc-100 pl-2"
-              >
-                {{ eventName }}
+              <td class="whitespace-nowrap">{{ title }}</td>
+              <td>
+                {{ titleInfo.name -}}
+                {%- if titleInfo.desc %} ({{ titleInfo.desc }}){% endif %}
               </td>
+              <td>{{ titleInfo.event[1] }}</td>
             </tr>
-
-            {% for titleInfo in event[3] %}
-              {% set title = titleInfo[0] %}
-              {% set titleName = titleInfo[1] %}
-              {% set titleDesc = titleInfo[2] %}
-              {% if titleName === '^^' %}
-                {% set levelKey = title | arrayslice(-1) %}
-                {% set titleName = eventName + ' ' + levels[levelKey] %}
-              {% endif %}
-              {% set titleName = titleName | replace('^', eventName) %}
-              <tr>
-                <td class="pl-4 whitespace-nowrap">{{ title }}</td>
-                <td>
-                  {{ titleName -}}
-                  {%- if titleDesc %} ({{ titleDesc }}){% endif %}
-                </td>
-              </tr>
-            {% endfor %}
           {% endfor %}
         </tbody>
       </table>
 
       <p class="text-zinc-400">
         <i
-          >(There are even more listed on
-          <a
-            href="https://www.akc.org/sports/titles-and-abbreviations/"
-            target="_blank"
-            >the AKC’s “Titles and Abbreviations” page</a
-          >.)</i
+          >(There are more listed on the
+          <a href="/more/titles/">titles</a> page.)</i
         >
       </p>
 

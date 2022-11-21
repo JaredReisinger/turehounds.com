@@ -38,30 +38,30 @@ events:
         - [CH, FC]
 
   - - CH
-    - Champion
-    - Conformation champion
+    - Conformation
+    - Conformation championships
     - - - CH
-        - ^
+        - Champion
         - 15 points with at least 2 majors
         - PREFIX
       - - GCH
-        - Grand ^
+        - Grand Champion
         - ""
         - [CH]
       - - GCHB
-        - Grand ^ Bronze
+        - Grand Champion Bronze
         - ""
         - [GCH]
       - - GCHS
-        - Grand ^ Silver
+        - Grand Champion Silver
         - ""
         - [GCHB]
       - - GCHG
-        - Grand ^ Gold
+        - Grand Champion Gold
         - ""
         - [GCHS]
       - - GCHP
-        - Grand ^ Platinum
+        - Grand Champion Platinum
         - ""
         - [GCHG]
 
@@ -119,10 +119,13 @@ events:
     - Fast CAT
     - Straight-line lure event, open to all breeds
     - - - BCAT
+        - ^—150 points
         - Earned 150 points at Fast CAT events
       - - DCAT
+        - ^—500 points
         - Earned 500 points at Fast CAT events
       - - FCAT
+        - ^—1000 points
         - Earned 1000 points at Fast CAT events
 
   - - CGC

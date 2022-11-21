@@ -1,0 +1,172 @@
+---
+title: Titles
+order: 10
+layout: page-full
+---
+<div class="lg:flex justify-center lg:gap-8">
+  <div class="prose lg:prose-lg prose-zinc mx-auto lg:mx-0">
+    <p>
+      Interpreting the “alphabet soup” that is AKC and other titles around a
+      dog’s registered name takes a bit of practice. It’s relatively easy if you
+      are already familiar with what each titles means, but there are over 200
+      distinct suffix titles offered by the AKC alone, plus those offered by
+      other organiztions or by parent breed clubs.
+    </p>
+
+    <p>
+      What follows is a list of some of the titles. If you’ve run across one and
+      don’t see it here, please feel free to drop us a line and ask us to update
+      our list. These titles are also used in the “title decoder” tool.
+    </p>
+
+    <p class="text-zinc-400">
+      <i
+        >(There are even more listed on
+        <a
+          href="https://www.akc.org/sports/titles-and-abbreviations/"
+          target="_blank"
+          >the AKC’s “Titles and Abbreviations” page</a
+        >.)</i
+      >
+    </p>
+
+    <p>
+      As a rule of thumb, each term in the list is composed of some initial
+      letters that indicate the event, and a final letter which indicates the
+      level of achievement. (And like any good rule of thumb, there are, of
+      course, exceptions.) Note that when a more-advanced title is earned in a
+      given event, it typically replaces the previous one in the alphabet soup.
+      For example, when a dog with a “CGC” (Canine Good Citizen) title earns its
+      “CGCA” (Canine Good Citizen Advanced) title, instead of “CGC CGCA”, you’d
+      just see “CGCA”.
+    </p>
+
+    <ul class="lg:hidden">
+      <li><a href="#by-event">Titles by event</a></li>
+      <li><a href="#alphabetically">Titles alphabetically</a></li>
+    </ul>
+  </div>
+  <div class="mt-8 lg:mt-12 xx-bg-cyan-100 rounded-lg p-4 self-start mx-auto lg:mx-0 lg:max-w-[40ch]">
+    <div class="prose prose-sm prose-zinc bg-zinc-100 rounded-lg p-4">
+      <h2 id="decoder">Title decoder</h2>
+      <p>
+        Type (or paste) in a bunch of titles, or even an entire registered name,
+        and we’ll try to decode it for you:
+      </p>
+      <script defer src="/static/js/titleMap.js"></script>
+      <script defer>
+        function decodeTitle(text) {
+          if (!text) {
+            return '';
+          }
+
+          // first, evaluate each part and tag with likely kind...
+          const words = text.split(/\s+/).map((word) => {
+            const title = window.titleMap[word.toUpperCase()];
+            return title
+              ? { kind: 'title', value: title }
+              : { kind: 'name', value: word };
+          });
+
+          // consolidate name terms
+          const terms = words.reduce((memo, term) => {
+            if (
+              term.kind === 'name' &&
+              memo.length > 0 &&
+              memo[memo.length - 1].kind === 'name'
+            ) {
+              memo[memo.length - 1].value += ' ' + term.value;
+            } else {
+              memo.push(term);
+            }
+
+            return memo;
+          }, []);
+
+          const items = terms
+            .map(({ kind, value }) => {
+              return kind === 'title'
+                ? value
+                : `<b>${value}</b> <i>(probable name)</i>`;
+            })
+            .map((l) => `<li>${l}</li>`)
+            .join('\n');
+
+          return `<ul>${items}</ul>`;
+        }
+      </script>
+      <div x-data="{ text: '' }">
+        <form class="form-default">
+          <input
+            type="text"
+            placeholder="CH Some Dog Name SC CAA"
+            x-model="text"
+          >
+        </form>
+        <div x-html="decodeTitle(text)"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mt-8 lg:flex lg:gap-8 lg:justify-center">
+  <div class="prose lg:prose-lg prose-zinc">
+    <h2 id="by-event">Titles by event</h2>
+    <table class="table-default">
+      <tbody>
+        {% for event in titleEvents %}
+          {% set eventName = event[1] %}
+
+          <tr>
+            <td
+              colspan="2"
+              class="font-semibold italic border-t border-zinc-300 bg-zinc-100 !pl-2"
+            >
+              {{ eventName }}
+            </td>
+          </tr>
+
+          {% for titleInfo in event[3] %}
+            {% set title = titleInfo[0] %}
+            {% set titleName = titleInfo[1] %}
+            {% set titleDesc = titleInfo[2] %}
+            {% if titleName === '^^' %}
+              {% set levelKey = title | arrayslice(-1) %}
+              {% set titleName = eventName + ' ' + titleLevels[levelKey] %}
+            {% endif %}
+            {% set titleName = titleName | replace('^', eventName) %}
+            <tr>
+              <td class="!pl-4 whitespace-nowrap">{{ title }}</td>
+              <td>
+                {{ titleName -}}
+                {%- if titleDesc %} ({{ titleDesc }}){% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose lg:prose-lg prose-zinc">
+    <h2 id="alphabetically">Titles alphabetically</h2>
+    {#
+    <p>{{ titleMap | keys | sort | inspect }}</p>
+    #}
+    <table class="table-default">
+      <tbody>
+        {% for title in titleMap | keys | sort %}
+          {% set titleInfo = titleMap[title] %}
+          <tr>
+            <td class="!pl-4 whitespace-nowrap">{{ title }}</td>
+            <td>
+              {{ titleInfo.name -}}
+              {%- if titleInfo.desc %} ({{ titleInfo.desc }}){% endif %}
+            </td>
+            <td>{{ titleInfo.event[1] }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>

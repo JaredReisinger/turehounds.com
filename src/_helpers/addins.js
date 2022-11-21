@@ -5,6 +5,7 @@ const addins = [
   require('./filters'),
   require('./galleries'),
   require('./images'),
+  require('./titles'),
 ];
 
 filtersAndShortcodes = addins.reduce(

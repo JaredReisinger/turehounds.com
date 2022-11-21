@@ -5,7 +5,7 @@
   "#main": "index.js",
   "scripts": {
     "clean": "rimraf _site",
-    "build": "npm run css && cross-env NODE_ENV=production npm run eleventy && npm run search:build",
+    "build": "npm run css && cross-env NODE_ENV=production npm run eleventy && npm run search:build && npm run titles:build",
     "start": "npm-run-all --print-label --parallel css eleventy",
     "dev": "npm-run-all --print-label --parallel css:dev eleventy:dev",
     "css": "postcss src/static/css/tailwind.css --o _site/static/css/style.css",
@@ -15,6 +15,7 @@
     "eleventy:debug": "cross-env DEBUG=Eleventy* npm run eleventy -- --dryrun",
     "search:build": "node src/_helpers/build_search_index.js",
     "search:test": "node src/_helpers/test_search_index.js",
+    "titles:build": "node src/_helpers/build_title_map.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

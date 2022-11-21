@@ -20,6 +20,7 @@ function ensureTitleMap() {
   events.forEach((evt) => {
     // console.log('*** event', evt);
     const [_, eventName, eventDesc, titleInfos] = evt;
+    // console.log('***', {eventName, titleInfos});
     titleInfos.forEach((titleInfo) => {
       const [title, titleNameRaw, titleDesc, isPrefix, supercedes] = titleInfo;
       let titleName = titleNameRaw;

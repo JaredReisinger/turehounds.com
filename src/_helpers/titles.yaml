@@ -28,6 +28,10 @@ levels:
   E: Elite
 
 events:
+# - - KEY
+#   - DESC
+#   - - - TITLE
+#       - DESC
   - - DC
     - Dual-champion
     - Special indicator when a dog earns both conformation Champion and Field Champion
@@ -65,19 +69,15 @@ events:
         - ""
         - [GCHG]
 
-  - - R
-    - Rally
-    - ""
-    - - - RN
-        - ^^
-      - - RI
-        - ^^
-      - - RA
-        - ^^
-      - - RE
-        - ^^
-      - - RM
-        - ^^
+  - - FC
+    - Field Champion
+    - Performance championship; sport depends on the breed—for Basenjis, it’s lure coursing
+    - - - FC
+        - ^
+      - - GFC
+        - Grand ^
+      - - NFC
+        - National ^
 
   - - C
     - Lure Coursing
@@ -91,10 +91,10 @@ events:
       - - MC
         - Master Courser
         - 25 successful scores after earning SC
-      - - FC
-        - Field Champion
-        - 15 points with at least 2 majors
-        - PREFIX
+      # - - FC
+      #   - Field Champion
+      #   - 15 points with at least 2 majors
+      #   - PREFIX
       - - LCX
         - Lure Courser Excellent
         - Earned 45 points after earning FC
@@ -128,6 +128,104 @@ events:
         - ^—1000 points
         - Earned 1000 points at Fast CAT events
 
+  - - A
+    - Agility
+    - ""
+    - - - ACT1
+        - ^ Course Test 1
+      - - ACT2
+        - ^ Course Test 2
+      - - ACT1J
+        - ^ Course Test 1 Jumpers
+      - - ACT2J
+        - ^ Course Test 2 Jumpers
+      - - NA
+        - Novice ^
+      - - NAP
+        - Novice ^ Preferred
+      - - OA
+        - Open ^
+      - - OAP
+        - Open ^ Preferred
+      - - AX
+        - ^^
+      - - AXP
+        - ^ Excellent Preferred
+      - - MX
+        - Master ^ Excellent
+      - - MXP
+        - Master ^ Excellent Preferred
+      - - NAJ
+        - Novice ^ Jumper
+      - - NJP
+        - Novice ^ Jumper Preferred
+      - - OAJ
+        - Open ^ Jumper
+      - - OJP
+        - Open ^ Jumper Preferred
+      - - AXJ
+        - Excellent ^ Jumper
+      - - AJP
+        - ^ Excellent Preferred
+      - - MXJ
+        - Master Excellent Jumper
+      - - MJP
+        - Master Excellent Jumper Preferred
+      - - MACH
+        - Master ^ Champion
+
+  - - O
+    - Obedience
+    - ""
+    - - - BN
+        - Beginner Novice
+      - - BN-V
+        - Beginner Novice Virtual
+      - - GN
+        - Graduate Novice
+      - - GO
+        - Graduate Open
+      - - CD
+        - Companion Dog
+      - - CD-V
+        - Companion Dog Virtual
+      - - CDX
+        - Companion Dog Excellent
+      - - UD
+        - Utility Dog
+      - - UDX
+        - Utility Dog Excellent
+      - - VER
+        - Versatility
+      - - OM
+        - ^^
+      - - OGM
+        - ^ Grand Master
+      - - OTCH
+        - ^ Trial Champion
+      - - NOC
+        - National ^ Champion
+
+  - - R
+    - Rally
+    - ""
+    - - - RN
+        - ^^
+      - - RI
+        - ^^
+      - - RA
+        - ^^
+      - - RE
+        - ^^
+      - - RM
+        - ^^
+      - - RAE
+        - ^ Advanced Excellent
+      - - RNC
+        - ^ National Champion
+      - - RACH
+        - ^ Champion
+
   - - CGC
     - Canine Good Citizen
     - ""
@@ -141,6 +239,154 @@ events:
         - ^ Urban
         - ""
         - - CGC
+
+  - - S
+    - Scent Work
+    - There are four elements to scentwork events, interior, exterior, containers, and buried. Each element has its own title, and there’s a “roll-up” title once you’ve earned that level across all four elements.
+    - - - SBN
+        - ^ Buried Novice
+      - - SBN
+        - ^ Buried Novice Elite
+      - - SCN
+        - ^ Container Novice
+      - - SCNE
+        - ^ Container Novice Elite
+      - - SEN
+        - ^ Exterior Novice
+      - - SENE
+        - ^ Exterior Novice Elite
+      - - SIN
+        - ^ Interior Novice
+      - - SINE
+        - ^ Interior Novice Elite
+      - - SWN
+        - ^^
+        - "complete all four elements in novice"
+        - [SBN, SCN, SEN, SIN]
+      - - SWNE
+        - ^ Novice Elite
+        - "complete all four elements in novice elite"
+        - [SBNE, SCNE, SENE, SINE]
+      - - SBA
+        - ^ Buried Advanced
+        - ""
+        - [SBN]
+      - - SBAE
+        - ^ Buried Advanced Elite
+      - - SCA
+        - ^ Container Advanced
+        - ""
+        - [SCN]
+      - - SCAE
+        - ^ Container Advanced Elite
+      - - SEA
+        - ^ Exterior Advanced
+        - ""
+        - [SEN]
+      - - SEAE
+        - ^ Exterior Advanced Elite
+      - - SIA
+        - ^ Interior Advanced
+        - ""
+        - [SIN]
+      - - SIAE
+        - ^ Interior Advanced Elite
+      - - SWA
+        - ^^
+        - "complete all four elements in advanced"
+        - [SBA, SCA, SEA, SIA]
+      - - SWAE
+        - ^ Advanced Elite
+      - - SBE
+        - ^ Buried Excellent
+      - - SBEE
+        - ^ Buried Excellent Elite
+      - - SCE
+        - ^ Container Excellent
+      - - SCEE
+        - ^ Container Excellent Elite
+      - - SEE
+        - ^ Exterior Excellent
+      - - SEEE
+        - ^ Exterior Excellent Elite
+      - - SIE
+        - ^ Interior Excellent
+      - - SIEE
+        - ^ Interior Excellent Elite
+      - - SWE
+        - ^^
+      - - SWEE
+        - ^ Excellent Elite
+      - - SBM
+        - ^ Buried Master
+        - ""
+        - [SBA]
+      - - SBME
+        - ^ Buried Master Elite
+      - - SCM
+        - ^ Container Master
+        - ""
+        - [SCA]
+      - - SCME
+        - ^ Container Master Elite
+      - - SEM
+        - ^ Exterior Master
+        - ""
+        - [SEA]
+      - - SEME
+        - ^ Exterior Master Elite
+      - - SIM
+        - ^ Interior Master
+        - ""
+        - [SIA]
+      - - SIME
+        - ^ Interior Master Elite
+      - - SWM
+        - ^^
+        - "complete all four elements in master"
+        - [SBM, SCM, SEM, SIM]
+      - - SWME
+        - ^ Master Elite
+      - - SHDN
+        - ^ Handler Discrimination Novice
+      - - SHDNE
+        - ^ Handler Discrimination Novice Elite
+      - - SHDA
+        - ^ Handler Discrimination Advanced
+      - - SHDAE
+        - ^ Handler Discrimination Advanced Elite
+      - - SHDE
+        - ^ Handler Discrimination Excellent
+      - - SHDEE
+        - ^ Handler Discrimination Excellent Elite
+      - - SHDM
+        - ^ Handler Discrimination Master
+      - - SHDME
+        - ^ Handler Discrimination Master Elite
+      - - SWD
+        - ^ Detective
+
+# - - KEY
+#   - NAME
+#   - DESC
+#   - - - TITLE
+#       - DESC
+
+  - - THD
+    - Therapy Dog
+    - ""
+    - - - THD
+        - ^
+      - - THDN
+        - ^^
+      - - THDA
+        - ^^
+      - - THDE
+        - ^^
+      - - THDD
+        - ^ Distinguished
+      - - THDS
+        - ^ Supreme
 
   - - TK
     - Trick Dog
@@ -197,58 +443,3 @@ events:
       - - RATCH
         - ^ Champion
 
-  - - S
-    - Scent Work
-    - There are four elements to scentwork events, interior, exterior, containers, and buried. Each element has its own title, and there’s a “roll-up” title once you’ve earned that level across all four elements.
-    - - - SBN
-        - ^ Buried Novice
-      - - SCN
-        - ^ Container Novice
-      - - SEN
-        - ^ Exterior Novice
-      - - SIN
-        - ^ Interior Novice
-      - - SWN
-        - ^^
-        - "complete all four elements in novice"
-        - [SBN, SCN, SEN, SIN]
-      - - SBA
-        - ^ Buried Advanced
-        - ""
-        - [SBN]
-      - - SCA
-        - ^ Container Advanced
-        - ""
-        - [SCN]
-      - - SEA
-        - ^ Exterior Advanced
-        - ""
-        - [SEN]
-      - - SIA
-        - ^ Interior Advanced
-        - ""
-        - [SIN]
-      - - SWA
-        - ^^
-        - "complete all four elements in advanced"
-        - [SBA, SCA, SEA, SIA]
-      - - SBM
-        - ^ Buried Master
-        - ""
-        - [SBA]
-      - - SCM
-        - ^ Container Master
-        - ""
-        - [SCA]
-      - - SEM
-        - ^ Exterior Master
-        - ""
-        - [SEA]
-      - - SIM
-        - ^ Interior Master
-        - ""
-        - [SIA]
-      - - SWM
-        - ^^
-        - "complete all four elements in master"
-        - [SBM, SCM, SEM, SIM]

@@ -1,7 +1,7 @@
-{% extends "./default.html" %}
+{% extends "./page-full.html" %}
 
 {% block title %}
-<div class="relative">
+<div class="relative max-h-[60vh] h-80 lg:h-96 xl:h-[36rem]">
   <div class="absolute w-full h-full -z-10">
     <div
       class="sm:hidden absolute w-full h-full bg-no-repeat bg-cover bg-center"
@@ -22,8 +22,9 @@
       style="background-image: linear-gradient(to right, #06b6d480, #14b8a680);"
     ></div>
   </div>
-  <div class="relative text-white font-serif font-bold py-24 px-8 md:py-64 md:px-16 text-center md:text-left md:ml-[10%]">
-    <h1 class="text-5xl md:text-7xl mb-8">{{ settings.name }}</h1>
+  {# <div class="relative text-white font-serif font-bold py-24 px-8 md:py-64 md:px-16 text-center md:text-left md:ml-[10%]"> #}
+  <div class="relative w-full h-full flex flex-col justify-evenly items-center md:items-start md:px-24 md:pb-12 lg:px-[15%] text-white font-serif font-bold">
+    <h1 class="text-5xl md:text-7xl xx-mb-8">{{ settings.name }}</h1>
     <div class="text-lg md:text-xl">A new entry into the world of Basenjis</div>
   </div>
 </div>

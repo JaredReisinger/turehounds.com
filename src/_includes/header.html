@@ -2,7 +2,7 @@
 
 <div
   x-data="{ open: false }"
-  class="relative md:fixed w-full bg-white shadow-lg font-serif font-bold"
+  class="relative z-10 lg:fixed w-full bg-white shadow-lg font-serif font-bold"
 >
   <div class="mx-auto max-w-7xl px-4 sm:px-6">
     <div class="flex items-center justify-between justify-items-stretch border-b-2 border-zinc-100 py-6 space-x-10">
@@ -110,7 +110,7 @@
   "opacity-0 scale-95" #}
   <div
     x-show="open"
-    class="absolute inset-x-0 top-0 origin-top-right transform p-2 transition lg:hidden"
+    class="absolute z-10 inset-x-0 top-0 origin-top-right transform p-2 transition lg:hidden"
   >
     <div class="divide-y-2 divide-zinc-50 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
       <div class="px-5 pt-5 pb-6">
@@ -173,66 +173,10 @@
           </nav>
         </div>
       </div>
-      {#
-      <div class="space-y-6 py-6 px-5">
-        <div class="grid grid-cols-2 gap-y-4 gap-x-8">
-          <a
-            href="#"
-            class="text-base font-medium text-zinc-900 hover:text-zinc-700"
-            >Pricing</a
-          >
-
-          <a
-            href="#"
-            class="text-base font-medium text-zinc-900 hover:text-zinc-700"
-            >Docs</a
-          >
-
-          <a
-            href="#"
-            class="text-base font-medium text-zinc-900 hover:text-zinc-700"
-            >Help Center</a
-          >
-
-          <a
-            href="#"
-            class="text-base font-medium text-zinc-900 hover:text-zinc-700"
-            >Guides</a
-          >
-
-          <a
-            href="#"
-            class="text-base font-medium text-zinc-900 hover:text-zinc-700"
-            >Events</a
-          >
-
-          <a
-            href="#"
-            class="text-base font-medium text-zinc-900 hover:text-zinc-700"
-            >Security</a
-          >
-        </div>
-        <div>
-          <a
-            href="#"
-            class="flex w-full items-center justify-center rounded-md border border-transparent bg-cyan-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-cyan-700"
-            >Sign up</a
-          >
-          <p class="mt-6 text-center text-base font-medium text-zinc-500">
-            Existing customer?
-            <a
-              href="#"
-              class="text-cyan-600 hover:text-cyan-500"
-              >Sign in</a
-            >
-          </p>
-        </div>
-      </div>
-      #}
     </div>
   </div>
 </div>
 
 {# spacer for fixed header... #}
-<div class="hidden md:block pb-20"></div>
-<div class="hidden md:block pb-2"></div>
+<div class="hidden lg:block pb-20"></div>
+<div class="hidden lg:block pb-2"></div>

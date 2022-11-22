@@ -5,7 +5,10 @@
   {% block header %}
   {% include 'header.html' %}
   {% endblock %}
-  {% block title %}DEFAULT TITLE{% endblock %}
+
+  {% block title %}
+  {% endblock %}
+
   <div id="body-content">
     {% block main %}
     <div class="md:mx-8 md:-mt-12 md:rounded-t-lg px-6 py-12 min-h-[6rem] md:min-h-[24rem] bg-white md:shadow-2xl">
@@ -15,6 +18,7 @@
     </div>
     {% endblock %}
   </div>
+
   {% block footer %}
   <div class="md:mx-8 md:shadow-2xl">
     {% include 'footer.html' %}

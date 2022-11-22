@@ -1,14 +1,28 @@
----
-#layout: root
----
-{% extends "./root.html" %}
+{% extends "./default.html" %}
 
 {% block title %}
-<div
-  class="bg-no-repeat bg-cover bg-center"
-  style="{% backgroundImage "./src/static/media/BR031221-99.jpg", { before: 'linear-gradient(to right, #06b6d480, #14b8a680)' } %}"
->
-  <div class="text-white font-serif font-bold py-24 px-8 md:py-64 md:px-16 text-center md:text-left md:ml-[10%]">
+<div class="relative">
+  <div class="absolute w-full h-full -z-10">
+    <div
+      class="sm:hidden absolute w-full h-full bg-no-repeat bg-cover bg-center"
+      style="{% backgroundImage "./src/static/media/BR031221-99.jpg" %}"
+    ></div>
+    <video
+      autoplay
+      playsinline
+      muted
+      loop
+      class="hidden sm:block absolute w-full h-full object-cover"
+      poster="/static/media/cover-poster.jpg"
+    >
+      <source src="/static/media/cover.mp4" type="video/mp4">
+    </video>
+    <div
+      class="absolute w-full h-full"
+      style="background-image: linear-gradient(to right, #06b6d480, #14b8a680);"
+    ></div>
+  </div>
+  <div class="relative text-white font-serif font-bold py-24 px-8 md:py-64 md:px-16 text-center md:text-left md:ml-[10%]">
     <h1 class="text-5xl md:text-7xl mb-8">{{ settings.name }}</h1>
     <div class="text-lg md:text-xl">A new entry into the world of Basenjis</div>
   </div>

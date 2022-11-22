@@ -1,8 +1,13 @@
 ---
 title: Debug
+layout: base
 eleventyExcludeFromCollections: true
 ---
 <style type="text/css">
+  body {
+    padding: 2rem;
+  }
+
   /* debug-only styles... */
   .nest {
     margin-left: 2rem;
@@ -16,6 +21,21 @@ eleventyExcludeFromCollections: true
     border-radius: 0.5rem;
     padding: 0.5rem;
   }
+
+  h1 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  h3 {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
 </style>
 
 <h1>Debugging info...</h1>
@@ -26,66 +46,8 @@ eleventyExcludeFromCollections: true
 <pre>{{ debugConfig | inspect }}</pre>
 
 <h2>Titles</h2>
-{% set levels = collections.all[0].data.titles.levels %}
-{% set events = collections.all[0].data.titles.events %}
-<ul>
-  {% for event in events %}
-    <li>
-      {% set eventName = event[1] %}
-      {{ eventName }}
-      <ul>
-        {% for titleInfo in event[3] %}
-          {% set title = titleInfo[0] %}
-          {% set titleName = titleInfo[1] %}
-          {% set titleDesc = titleInfo[2] %}
-          {% if titleName === '^^' %}
-            {% set levelKey = title | arrayslice(-1) %}
-            {% set titleName = eventName + ' ' + levels[levelKey] %}
-          {% endif %}
-          {% set titleName = titleName | replace('^', eventName) %}
-          <li>{{ title }}: {{ titleName }}</li>
-        {% endfor %}
-      </ul>
-    </li>
-  {% endfor %}
-</ul>
 
-<h3>...as a table...</h3>
-
-<table class="table-default">
-  <thead>
-    <tr>
-      <th>???</th>
-      <th>Name</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% set levels = collections.all[0].data.titles.levels %}
-    {% set events = collections.all[0].data.titles.events %}
-    {% for event in events %}
-      {% set eventName = event[1] %}
-      <tr>
-        <td colspan="3">{{ eventName }}</td>
-      </tr>
-      {% for titleInfo in event[3] %}
-        {% set title = titleInfo[0] %}
-        {% set titleName = titleInfo[1] %}
-        {% set titleDesc = titleInfo[2] %}
-        {% if titleName === '^^' %}
-          {% set levelKey = title | arrayslice(-1) %}
-          {% set titleName = eventName + ' ' + levels[levelKey] %}
-        {% endif %}
-        {% set titleName = titleName | replace('^', eventName) %}
-        <tr>
-          <td>{{ title }}</td>
-          <td>{{ titleName }}</td>
-          <td>{{ titleDesc }}</td>
-        </tr>
-      {% endfor %}
-    {% endfor %}
-  </tbody>
-</table>
+<pre>{{ titleMap | keys | sort | inspect }}</pre>
 
 <h2>Navigation</h2>
 <pre>{{ collections.all | eleventyNavigation | rejectattr("hidden") | inspect }}</pre>
@@ -108,4 +70,25 @@ eleventyExcludeFromCollections: true
       </ul>
     </div>
   {% endfor %}
+</div>
+
+<h2>Background video</h2>
+
+<div class="mx-4 h-96 relative bg-amber-100 rounded-lg">
+  <video
+    autoplay
+    muted
+    loop
+    class="absolute rounded-lg w-full h-full object-cover overflow-clip"
+  >
+    <source src="/static/media/cover.mp4" type="video/mp4">
+  </video>
+  <div
+    class="absolute rounded-lg w-full h-full"
+    style="background-image: linear-gradient(to right, #06b6d480, #14b8a680);"
+  ></div>
+
+  <div class="p-8 text-5xl mx-auto font-serif font-bold relative z-10 text-white">
+    [TEXT, ETC.]
+  </div>
 </div>

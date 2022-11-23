@@ -67,52 +67,70 @@ order: 40
     <fieldset>
       <legend>Age preference</legend>
       <div class="space-y-2">
-        <div class="flex items-center">
-          <input id="puppy" value="puppy" name="age-preference" type="radio" required>
-          <label for="puppy">Puppy</label>
-        </div>
-
-        <div class="flex items-center">
-          <input id="adult" value="adult" name="age-preference" type="radio" required>
-          <label for="adult">Adult</label>
-        </div>
-
-        <div class="flex items-center">
-          <input
-            id="no-age-preference"
-            value="no age preference"
-            name="age-preference"
+        <label
+          ><input
             type="radio"
+            name="age-preference"
+            value="puppy"
             required
-          >
-          <label for="no-age-preference">No preference</label>
-        </div>
+
+          >Puppy</label
+        >
+
+        <label
+          ><input
+            type="radio"
+            name="age-preference"
+            value="adult"
+            required
+
+          >Adult</label
+        >
+
+        <label
+          ><input
+            type="radio"
+            name="age-preference"
+            value="no age preference"
+            required
+
+          >No preference</label
+        >
       </div>
     </fieldset>
 
     <fieldset>
       <legend>Sex preference</legend>
       <div class="space-y-2">
-        <div class="flex items-center">
-          <input id="male" value="male" name="sex-preference" type="radio" required>
-          <label for="male">Male</label>
-        </div>
-
-        <div class="flex items-center">
-          <input id="female" value="female" name="sex-preference" type="radio" required>
-          <label for="female">Female</label>
-        </div>
-
-        <div class="flex items-center">
-          <input
-            id="no-sex-preference"
-            value="no sex preference"
-            name="sex-preference"
+        <label
+          ><input
             type="radio"
+            name="sex-preference"
+            value="male"
             required
-          >
-          <label for="no-sex-preference">No preference</label>
-        </div>
+
+          >Male</label
+        >
+
+        <label
+          ><input
+            type="radio"
+            name="sex-preference"
+            value="female"
+            required
+
+          >Female</label
+        >
+
+        <label
+          ><input
+            type="radio"
+            name="sex-preference"
+            value="no sex preference"
+            required
+
+          >No preference</label
+        >
       </div>
     </fieldset>
 
@@ -122,15 +140,25 @@ order: 40
         currently accepting any reservations at all?
       </legend>
       <div class="space-y-2">
-        <div class="flex items-center">
-          <input id="sanity-yes" value="sanity-yes" name="no-reservations" type="radio" required>
-          <label for="sanity-yes">Yes</label>
-        </div>
+        <label
+          ><input
+            type="radio"
+            name="no-reservations"
+            value="yes"
+            required
 
-        <div class="flex items-center">
-          <input id="sanity-no" value="sanity-no" name="no-reservations" type="radio" required>
-          <label for="sanity-no">No</label>
-        </div>
+          >Yes</label
+        >
+
+        <label
+          ><input
+            type="radio"
+            name="no-reservations"
+            value="no"
+            required
+
+          >No</label
+        >
       </div>
     </fieldset>
 
@@ -160,15 +188,25 @@ order: 40
         around the yard?
       </legend>
       <div class="space-y-2">
-        <div class="flex items-center">
-          <input id="secure-yes" value="secure-yes" name="secure-yard" type="radio" required>
-          <label for="secure-yes">Yes</label>
-        </div>
+        <label
+          ><input
+            type="radio"
+            name="secure-yard"
+            value="yes"
+            required
 
-        <div class="flex items-center">
-          <input id="secure-no" value="secure-no" name="secure-yard" type="radio" required>
-          <label for="secure-no">No</label>
-        </div>
+          >Yes</label
+        >
+
+        <label
+          ><input
+            type="radio"
+            name="secure-yard"
+            value="no"
+            required
+
+          >No</label
+        >
       </div>
     </fieldset>
 
@@ -186,27 +224,25 @@ order: 40
         >
       </legend>
       <div class="space-y-2">
-        <div class="flex items-center">
-          <input
-            id="secure-sanity-yes"
-            value="secure-sanity-yes"
-            name="secure-sanity"
+        <label
+          ><input
             type="radio"
+            name="always-secure"
+            value="yes"
             required
-          >
-          <label for="secure-sanity-yes">Yes</label>
-        </div>
 
-        <div class="flex items-center">
-          <input
-            id="secure-sanity-no"
-            value="secure-sanity-no"
-            name="secure-sanity"
+          >Yes</label
+        >
+
+        <label
+          ><input
             type="radio"
+            name="always-secure"
+            value="no"
             required
-          >
-          <label for="secure-sanity-no">No</label>
-        </div>
+
+          >No</label
+        >
       </div>
     </fieldset>
 
@@ -226,15 +262,25 @@ order: 40
         >
       </legend>
       <div class="space-y-2">
-        <div class="flex items-center">
-          <input id="secure-car-yes" value="secure-car-yes" name="secure-car" type="radio" required>
-          <label for="secure-car-yes">Yes</label>
-        </div>
+        <label
+          ><input
+            type="radio"
+            name="secure-car"
+            value="yes"
+            required
 
-        <div class="flex items-center">
-          <input id="secure-car-no" value="secure-car-no" name="secure-car" type="radio" required>
-          <label for="secure-car-no">No</label>
-        </div>
+          >Yes</label
+        >
+
+        <label
+          ><input
+            type="radio"
+            name="secure-car"
+            value="no"
+            required
+
+          >No</label
+        >
       </div>
     </fieldset>
 
@@ -265,27 +311,25 @@ order: 40
         as outlined by Karen Pryor or Fenzi Dog Sports Academy?
       </legend>
       <div class="space-y-2">
-        <div class="flex items-center">
-          <input
-            id="positive-training-yes"
-            value="positive-training-yes"
-            name="positive-training"
+        <label
+          ><input
             type="radio"
+            name="positive-training"
+            value="yes"
             required
-          >
-          <label for="positive-training-yes">Yes</label>
-        </div>
 
-        <div class="flex items-center">
-          <input
-            id="positive-training-no"
-            value="positive-training-no"
-            name="positive-training"
+          >Yes</label
+        >
+
+        <label
+          ><input
             type="radio"
+            name="positive-training"
+            value="no"
             required
-          >
-          <label for="positive-training-no">No</label>
-        </div>
+
+          >No</label
+        >
       </div>
     </fieldset>
 

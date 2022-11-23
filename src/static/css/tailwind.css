@@ -45,7 +45,11 @@ form.form-default fieldset legend {
 }
 
 form.form-default fieldset label {
-  @apply block text-base font-normal m-0 ml-2;
+  @apply block text-base font-normal m-0;
+
+  input[type='radio'] {
+    @apply mr-2 align-middle;
+  }
 }
 
 form.form-default input[type='text'],

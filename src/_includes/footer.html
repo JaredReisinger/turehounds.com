@@ -2,19 +2,35 @@
 
 <footer class="bg-zinc-700 p-8 shadow-lg flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 md:space-x-8 text-sm text-center text-zinc-300">
   <div class="flex space-x-4">
-    <a href="https://www.instagram.com/turehounds">
-      {{ fontawesome("brands", "instagram", "w-5 h-5 text-zinc-300 hover:text-[#e95950]") }}
-    </a>
-
-    <a href="https://www.facebook.com/TureHounds">
+    <a
+      href="https://www.facebook.com/TureHounds"
+      title="{{ settings.name }} on Facebook"
+      aria-label="{{ settings.name }} on Facebook"
+    >
       {{ fontawesome("brands", "facebook-f",  "w-5 h-5 text-zinc-300 hover:text-[#3b5998]") }}
     </a>
 
-    <a href="https://www.youtube.com/channel/UCMul01WRsW2CkNfTOquFq0A">
+    <a
+      href="https://www.youtube.com/channel/UCMul01WRsW2CkNfTOquFq0A"
+      title="{{ settings.name }} on YouTube"
+      aria-label="{{ settings.name }} on YouTube"
+    >
       {{ fontawesome("brands", "youtube",   "w-5 h-5 text-zinc-300 hover:text-[#ff0000]") }}
     </a>
 
-    <a href="https://twitter.com/TureHounds">
+    <a
+      href="https://www.instagram.com/turehounds"
+      title="{{ settings.name }} on Instagram"
+      aria-label="{{ settings.name }} on Instagram"
+    >
+      {{ fontawesome("brands", "instagram", "w-5 h-5 text-zinc-300 hover:text-[#e95950]") }}
+    </a>
+
+    <a
+      href="https://twitter.com/TureHounds"
+      title="{{ settings.name }} on Twitter"
+      aria-label="{{ settings.name }} on Twitter"
+    >
       {{ fontawesome("brands", "twitter",   "w-5 h-5 text-zinc-300 hover:text-[#55acee]") }}
     </a>
   </div>

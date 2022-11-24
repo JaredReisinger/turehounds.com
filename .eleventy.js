@@ -74,14 +74,11 @@ module.exports = function (eleventyConfig) {
     'node_modules/lunr/lunr.min.js': 'static/js/lunr.min.js',
   });
 
-  // // copy favicon folder to /_site (and special copy for '/favicon.ico')
-  // eleventyConfig.addPassthroughCopy({
-  //   'src/static/favicon/favicon.ico': 'favicon.ico',
-  // });
-  // eleventyConfig.addPassthroughCopy('src/static/favicon');
-
-  // // Copy favicon to route of /_site
-  // eleventyConfig.addPassthroughCopy('src/favicon.ico');
+  // copy favicon folder to /_site (and special copy for '/favicon.ico')
+  eleventyConfig.addPassthroughCopy({
+    'src/static/favicon/favicon.ico': 'favicon.ico',
+  });
+  eleventyConfig.addPassthroughCopy('src/static/favicon');
 
   // Minify HTML
   eleventyConfig.addTransform('htmlmin', function (content, outputPath) {

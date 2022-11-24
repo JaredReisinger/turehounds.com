@@ -72,7 +72,7 @@ async function image(src, options = undefined) {
 
 /**
  * Renders a `<picture>` element for a given image.
- * @param {string} src : Path to the original image.
+ * @param {string} src Path to the original image.
  * @param {ImageOptions} options Rendering options.
  * @returns Rendered HTML string for the image.
  */
@@ -83,6 +83,23 @@ function imageSync(src, options = undefined) {
   const metadata = Image.statsSync(src, genOpts);
   const html = generateBetterHTML(src, metadata, options);
   return html;
+}
+
+/**
+ * A helper for thumbnail images, generating just a single, specific-width
+ * image.  Intended for things like open-graph tags and the like.
+ * @param {string} src Path to the original image.
+ * @param {number} width Target width for the image.
+ * @returns A URL for the generated image.
+ */
+function imageUrl(src, width) {
+  const genOpts = mergeImageGenOptions({ widths: [width], formats: ['jpg'] });
+  // const metadata = await Image(src, genOpts);
+  Image(src, genOpts);
+  const metadata = Image.statsSync(src, genOpts);
+  const obj = generateBetterObject(src, metadata);
+  // console.log('****', obj.img.src);
+  return obj.img.src;
 }
 
 /**
@@ -338,10 +355,12 @@ module.exports = {
   shortcodes: {
     async: {
       image,
+      // imageUrl,
       backgroundImage,
     },
     sync: {
       imageSync,
+      imageUrl,
     },
   },
 

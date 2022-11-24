@@ -1,9 +1,57 @@
 {% extends "./default.html" %}
 
-{% block title %}
+{# {% block title %}
 <div class="w-full bg-gradient-to-r from-cyan-500 to-teal-500 p-6 md:p-24 md:pb-36 text-white font-serif font-bold text-3xl md:text-5xl text-center">
   <h1>{{ title }}</h1>
 </div>
+{% endblock %} #}
+
+{% block title %}
+{% set hasVideo = coverVideo and coverVideoType and coverVideoPoster %}
+{% if coverImage or hasVideo %}
+  {% set imageClassWithVideo = 'sm:hidden' if hasVideo %}
+  <div class="relative max-h-[60vh] h-80 lg:h-96 xl:h-[36rem]">
+    <div class="absolute w-full h-full -z-10">
+      {% if coverImage %}
+        <div
+          class="{{ imageClassWithVideo + ' absolute w-full h-full bg-no-repeat bg-cover bg-center' }}"
+          style="{% backgroundImage coverImage %}"
+        ></div>
+      {% endif %}
+      {% if hasVideo %}
+        <video
+          autoplay
+          muted
+          loop
+          class="hidden sm:block absolute w-full h-full object-cover"
+          poster="{{ coverVideoPoster }}"
+        >
+          <source src="{{ coverVideo }}" type="{{ coverVideoType }}">
+        </video>
+      {% endif %}
+      <div
+        class="absolute w-full h-full"
+        style="background-image: linear-gradient(to right, #06b6d480, #14b8a680);"
+      ></div>
+    </div>
+    {% if coverLayout == 'homepage' %}
+      <div class="relative w-full h-full flex flex-col justify-evenly items-center md:items-start md:px-24 md:pb-12 lg:px-[15%] text-white text-shadow font-serif font-bold">
+        <h1 class="text-5xl md:text-7xl">{{ title }}</h1>
+        {% if subtitle %}
+          <div class="text-xl md:text-2xl">{{ subtitle }}</div>
+        {% endif %}
+      </div>
+    {% else %}
+      <div class="w-full h-full flex flex-col justify-evenly items-center p-6 md:p-24 md:pb-36 text-white text-shadow font-serif font-bold text-3xl md:text-5xl">
+        <h1>{{ title }}</h1>
+      </div>
+    {% endif %}
+  </div>
+{% else %}
+  <div class="w-full p-6 md:p-24 md:pb-36 text-white text-shadow font-serif font-bold text-3xl md:text-5xl text-center bg-gradient-to-r from-cyan-500 to-teal-500">
+    <h1>{{ title }}</h1>
+  </div>
+{% endif %}
 {% endblock %}
 
 {% block content %}

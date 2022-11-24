@@ -47,70 +47,68 @@ layout: page-full
       <li><a href="#alphabetically">Titles alphabetically</a></li>
     </ul>
   </div>
-  <div class="mt-8 lg:mt-12 xx-bg-cyan-100 rounded-lg p-4 self-start mx-auto lg:mx-0 lg:max-w-[40ch]">
-    <div class="prose prose-sm prose-zinc bg-zinc-100 rounded-lg p-4">
-      <h2 id="decoder">Title decoder</h2>
-      <p>
-        Type (or paste) in a bunch of titles, or even an entire registered name,
-        and we’ll try to decode it for you:
-      </p>
-      <script defer src="/static/js/titleMap.js"></script>
-      <script defer>
-        function decodeTitle(text) {
-          if (!text) {
-            return '';
+  <div class="mt-8 lg:mt-12 bg-zinc-100 p-4 rounded-lg self-start prose prose-sm prose-zinc mx-auto lg:mx-0 lg:max-w-[40ch]">
+    <h2 id="decoder">Title decoder</h2>
+    <p>
+      Type (or paste) in a bunch of titles, or even an entire registered name,
+      and we’ll try to decode it for you:
+    </p>
+    <script defer src="/static/js/titleMap.js"></script>
+    <script defer>
+      function decodeTitle(text) {
+        if (!text) {
+          return '';
+        }
+
+        // first, evaluate each part and tag with likely kind...
+        const words = text.split(/\s+/).map((word) => {
+          const title = window.titleMap[word.toUpperCase()];
+          return title
+            ? { kind: 'title', value: title }
+            : { kind: 'name', value: word };
+        });
+
+        // consolidate name terms
+        const terms = words.reduce((memo, term) => {
+          if (
+            term.kind === 'name' &&
+            memo.length > 0 &&
+            memo[memo.length - 1].kind === 'name'
+          ) {
+            memo[memo.length - 1].value += ' ' + term.value;
+          } else {
+            memo.push(term);
           }
 
-          // first, evaluate each part and tag with likely kind...
-          const words = text.split(/\s+/).map((word) => {
-            const title = window.titleMap[word.toUpperCase()];
-            return title
-              ? { kind: 'title', value: title }
-              : { kind: 'name', value: word };
-          });
+          return memo;
+        }, []);
 
-          // consolidate name terms
-          const terms = words.reduce((memo, term) => {
-            if (
-              term.kind === 'name' &&
-              memo.length > 0 &&
-              memo[memo.length - 1].kind === 'name'
-            ) {
-              memo[memo.length - 1].value += ' ' + term.value;
-            } else {
-              memo.push(term);
-            }
+        const items = terms
+          .map(({ kind, value }) => {
+            return kind === 'title'
+              ? value
+              : `<b>${value}</b> <i>(probable name)</i>`;
+          })
+          .map((l) => `<li>${l}</li>`)
+          .join('\n');
 
-            return memo;
-          }, []);
-
-          const items = terms
-            .map(({ kind, value }) => {
-              return kind === 'title'
-                ? value
-                : `<b>${value}</b> <i>(probable name)</i>`;
-            })
-            .map((l) => `<li>${l}</li>`)
-            .join('\n');
-
-          return `<ul>${items}</ul>`;
-        }
-      </script>
-      <div x-data="{ text: '' }">
-        <form class="form-default">
-          <input
-            type="text"
-            placeholder="CH Some Dog Name SC CAA"
-            x-model="text"
-          >
-        </form>
-        <div x-html="decodeTitle(text)"></div>
-      </div>
+        return `<ul>${items}</ul>`;
+      }
+    </script>
+    <div x-data="{ text: '' }">
+      <form class="form-default">
+        <input
+          type="text"
+          placeholder="CH Some Dog Name SC CAA"
+          x-model="text"
+        >
+      </form>
+      <div x-html="decodeTitle(text)"></div>
     </div>
   </div>
 </div>
 
-<div class="mt-8 lg:flex lg:gap-8 lg:justify-center">
+<div class="mt-8 flex flex-col lg:flex-row gap-8 items-center lg:items-start lg:justify-center">
   <div class="prose lg:prose-lg prose-zinc">
     <h2 id="by-event">Titles by event</h2>
     <table class="table-default">
@@ -151,9 +149,6 @@ layout: page-full
 
   <div class="prose lg:prose-lg prose-zinc">
     <h2 id="alphabetically">Titles alphabetically</h2>
-    {#
-    <p>{{ titleMap | keys | sort | inspect }}</p>
-    #}
     <table class="table-default">
       <tbody>
         {% for title in titleMap | keys | sort %}

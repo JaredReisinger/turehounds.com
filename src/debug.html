@@ -50,6 +50,14 @@ robots: noindex,nofollow
 
 <pre>{{ titleMap | keys | sort | inspect }}</pre>
 
+<div class="nest">
+  <ul>
+    {% for evt in titleEvents %}
+      <li>{{ evt.name }}</li>
+    {% endfor %}
+  </ul>
+</div>
+
 <h2>Navigation</h2>
 <pre>{{ collections.all | eleventyNavigation | rejectattr("hidden") | inspect }}</pre>
 

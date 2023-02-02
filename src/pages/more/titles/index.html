@@ -113,32 +113,25 @@ layout: page-full
     <h2 id="by-event">Titles by event</h2>
     <table class="table-default">
       <tbody>
-        {% for event in titleEvents %}
-          {% set eventName = event[1] %}
-
+        {% for evt in titleEvents %}
           <tr>
             <td
               colspan="2"
-              class="font-semibold italic border-t border-zinc-300 bg-zinc-100 !pl-2"
+              class="border-t border-zinc-300 bg-zinc-100 !pl-2"
             >
-              {{ eventName }}
+              <div class="font-semibold italic">{{ evt.name }}</div>
+              {%- if evt.desc %}
+                <div class="italic">{{ evt.desc }}</div>
+              {% endif -%}
             </td>
           </tr>
 
-          {% for titleInfo in event[3] %}
-            {% set title = titleInfo[0] %}
-            {% set titleName = titleInfo[1] %}
-            {% set titleDesc = titleInfo[2] %}
-            {% if titleName === '^^' %}
-              {% set levelKey = title | arrayslice(-1) %}
-              {% set titleName = eventName + ' ' + titleLevels[levelKey] %}
-            {% endif %}
-            {% set titleName = titleName | replace('^', eventName) %}
+          {% for titleInfo in evt.titles %}
             <tr>
-              <td class="!pl-4 whitespace-nowrap">{{ title }}</td>
+              <td class="!pl-4 whitespace-nowrap">{{ titleInfo.title }}</td>
               <td>
-                {{ titleName -}}
-                {%- if titleDesc %} ({{ titleDesc }}){% endif %}
+                {{ titleInfo.name -}}
+                {%- if titleInfo.desc %} ({{ titleInfo.desc }}){% endif %}
               </td>
             </tr>
           {% endfor %}
@@ -159,7 +152,7 @@ layout: page-full
               {{ titleInfo.name -}}
               {%- if titleInfo.desc %} ({{ titleInfo.desc }}){% endif %}
             </td>
-            <td>{{ titleInfo.event[1] }}</td>
+            <td>{{ titleInfo.event.name }}</td>
           </tr>
         {% endfor %}
       </tbody>

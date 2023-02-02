@@ -163,6 +163,10 @@ function trimend(str, suffix = undefined) {
   return str.trimEnd();
 }
 
+function typeOf(obj) {
+  return typeof obj;
+}
+
 /**
  * @param {UserConfig} eleventyConfig
  * @param {Object} configOptions
@@ -186,6 +190,7 @@ module.exports = {
       split,
       trimstart,
       trimend,
+      typeOf,
     },
   },
   shortcodes: {

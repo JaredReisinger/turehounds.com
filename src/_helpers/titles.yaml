@@ -3,20 +3,27 @@
 # an array of "Events", where each event is a title prefix (if any?), name,
 # description, and then a sub-array for individual titles:
 #
-#   [[KEY, Name, Description, [[TN, Title], [TA, Title], ...]], [KEY2, Name2,
+#   [[KEY, Name, Description, DefaultTitle, [[TN, Title], [TA, Title], ...]], [KEY2, Name2,
 #   ...]]
 #
 # where the [TN, Title] goes on to include:
 #
-#   [TN, Title, Description, PREFIX?, [SUPERCEDES, ...]]
+#   [TN, Title, Description, [SUPERCEDES, ...], PREFIX?]
 #
-# There are also some shortcuts... `^` in a title description means "use the
-# event name" (so [CGCA, ^ Advanced] mean "Canine Good Citizen Advanced").
-# Further, a second `^` means "use the default level suffix", where "N" means
-# "Novice", and so on.
+# There are also some shortcuts:
+#    ^1 - use the default event title
+#    ^2 - use the level that's the trailing letter of the title
+#    ^A - (any letter) use the specified level
+#    ^^ - shortcut for "^1 ^2"
+#    ^  - shotcut for just "^1"
 #
 # By default, if the SUPERCEDES list is not present, a title supercedes anything
 # before it in the event title list.
+#
+# UPDATE (2023-02-01): Maybe the lesser-used values (description, supercedes,
+# prefix) should be in a keyed object? Like [TN, Title, {desc:, supercedes:...}]
+# We're not actually using those fields yet, though, so :shrug:
+
 levels:
   N: Novice
   I: Intermediate
@@ -29,43 +36,50 @@ levels:
 
 events:
 # - - KEY
+#   - NAME
 #   - DESC
-#   - - - TITLE
+#   - DEFAULT TITLE (opt)
+#   - - - TITLE-LETTERS
+#       - TITLE NAME
 #       - DESC
+#       - [SUPERCEDES]
+#       - PREFIX?
   - - DC
     - Dual-champion
     - Special indicator when a dog earns both conformation Champion and Field Champion
     - - - DC
         - Dual-champion
         - Dog earns both conformation Champion and Field Champion
-        - PREFIX
         - [CH, FC]
+        - PREFIX
 
   - - CH
     - Conformation
     - Conformation championships
+    - Grand Champion
     - - - CH
         - Champion
         - 15 points with at least 2 majors
+        - []
         - PREFIX
       - - GCH
-        - Grand Champion
+        - ^1
         - ""
         - [CH]
       - - GCHB
-        - Grand Champion Bronze
+        - ^1 Bronze
         - ""
         - [GCH]
       - - GCHS
-        - Grand Champion Silver
+        - ^1 Silver
         - ""
         - [GCHB]
       - - GCHG
-        - Grand Champion Gold
+        - ^1 Gold
         - ""
         - [GCHS]
       - - GCHP
-        - Grand Champion Platinum
+        - ^1 Platinum
         - ""
         - [GCHG]
 
@@ -73,106 +87,109 @@ events:
     - Field Champion
     - Performance championship; sport depends on the breed—for Basenjis, it’s lure coursing
     - - - FC
-        - ^
+        - ^1
       - - GFC
-        - Grand ^
+        - Grand ^1
       - - NFC
-        - National ^
+        - National ^1
+        - ""
+        - []
+        - PREFIX
 
   - - C
     - Lure Coursing
     - ""
+    - Courser
     - - - JC
-        - Junior Courser
+        - Junior ^1
         - Two successful solo lure-coursing scores
       - - SC
-        - Senior Courser
+        - Senior ^1
         - Four successful scores
       - - MC
-        - Master Courser
+        - Master ^1
         - 25 successful scores after earning SC
       # - - FC
       #   - Field Champion
       #   - 15 points with at least 2 majors
+      #   - []
       #   - PREFIX
       - - LCX
-        - Lure Courser Excellent
+        - Lure ^^
         - Earned 45 points after earning FC
       - - BIF
         - Best In Field
         - Won final Best In Field run-off against all other breeds at a lure coursing trial
+        - []
         - PREFIX
 
   - - CA
     - Coursing Ability
     - Like lure-coursing, but open to all breeds
     - - - CA
-        - ^
+        - ^1
       - - CAA
-        - ^^
       - - CAX
-        - ^^
       - - CAX2
-        - ^ Excellent 2
+        - ^1 Excellent 2
 
   - - CAT
     - Fast CAT
     - Straight-line lure event, open to all breeds
     - - - BCAT
-        - ^—150 points
+        - ^1—150 points
         - Earned 150 points at Fast CAT events
       - - DCAT
-        - ^—500 points
+        - ^1—500 points
         - Earned 500 points at Fast CAT events
       - - FCAT
-        - ^—1000 points
+        - ^1—1000 points
         - Earned 1000 points at Fast CAT events
 
   - - A
     - Agility
     - ""
     - - - ACT1
-        - ^ Course Test 1
+        - ^1 Course Test 1
       - - ACT2
-        - ^ Course Test 2
+        - ^1 Course Test 2
       - - ACT1J
-        - ^ Course Test 1 Jumpers
+        - ^1 Course Test 1 Jumpers
       - - ACT2J
-        - ^ Course Test 2 Jumpers
+        - ^1 Course Test 2 Jumpers
       - - NA
-        - Novice ^
+        - Novice ^1
       - - NAP
-        - Novice ^ Preferred
+        - Novice ^1 Preferred
       - - OA
-        - Open ^
+        - Open ^1
       - - OAP
-        - Open ^ Preferred
+        - Open ^1 Preferred
       - - AX
-        - ^^
       - - AXP
-        - ^ Excellent Preferred
+        - ^1 Excellent Preferred
       - - MX
-        - Master ^ Excellent
+        - Master ^1 Excellent
       - - MXP
-        - Master ^ Excellent Preferred
+        - Master ^1 Excellent Preferred
       - - NAJ
-        - Novice ^ Jumper
+        - Novice ^1 Jumper
       - - NJP
-        - Novice ^ Jumper Preferred
+        - Novice ^1 Jumper Preferred
       - - OAJ
-        - Open ^ Jumper
+        - Open ^1 Jumper
       - - OJP
-        - Open ^ Jumper Preferred
+        - Open ^1 Jumper Preferred
       - - AXJ
-        - Excellent ^ Jumper
+        - Excellent ^1 Jumper
       - - AJP
-        - ^ Excellent Preferred
+        - ^1 Excellent Preferred
       - - MXJ
         - Master Excellent Jumper
       - - MJP
         - Master Excellent Jumper Preferred
       - - MACH
-        - Master ^ Champion
+        - Master ^1 Champion
 
   - - O
     - Obedience
@@ -200,43 +217,38 @@ events:
       - - OM
         - ^^
       - - OGM
-        - ^ Grand Master
+        - ^1 Grand Master
       - - OTCH
-        - ^ Trial Champion
+        - ^1 Trial Champion
       - - NOC
-        - National ^ Champion
+        - National ^1 Champion
 
   - - R
     - Rally
     - ""
     - - - RN
-        - ^^
       - - RI
-        - ^^
       - - RA
-        - ^^
       - - RE
-        - ^^
       - - RM
-        - ^^
       - - RAE
-        - ^ Advanced Excellent
+        - ^1 Advanced Excellent
       - - RNC
-        - ^ National Champion
+        - ^1 National Champion
       - - RACH
-        - ^ Champion
+        - ^1 Champion
 
   - - CGC
     - Canine Good Citizen
     - ""
     - - - CGC
-        - ^
+        - ^1
       - - CGCA
         - ^^
         - ""
         - - CGC
       - - CGCU
-        - ^ Urban
+        - ^1 Urban
         - ""
         - - CGC
 
@@ -244,127 +256,127 @@ events:
     - Scent Work
     - There are four elements to scentwork events, interior, exterior, containers, and buried. Each element has its own title, and there’s a “roll-up” title once you’ve earned that level across all four elements.
     - - - SBN
-        - ^ Buried Novice
-      - - SBN
-        - ^ Buried Novice Elite
+        - ^1 Buried Novice
+      - - SBNE
+        - ^1 Buried Novice Elite
       - - SCN
-        - ^ Container Novice
+        - ^1 Container Novice
       - - SCNE
-        - ^ Container Novice Elite
+        - ^1 Container Novice Elite
       - - SEN
-        - ^ Exterior Novice
+        - ^1 Exterior Novice
       - - SENE
-        - ^ Exterior Novice Elite
+        - ^1 Exterior Novice Elite
       - - SIN
-        - ^ Interior Novice
+        - ^1 Interior Novice
       - - SINE
-        - ^ Interior Novice Elite
+        - ^1 Interior Novice Elite
       - - SWN
         - ^^
         - "complete all four elements in novice"
         - [SBN, SCN, SEN, SIN]
       - - SWNE
-        - ^ Novice Elite
+        - ^1 Novice Elite
         - "complete all four elements in novice elite"
         - [SBNE, SCNE, SENE, SINE]
       - - SBA
-        - ^ Buried Advanced
+        - ^1 Buried Advanced
         - ""
         - [SBN]
       - - SBAE
-        - ^ Buried Advanced Elite
+        - ^1 Buried Advanced Elite
       - - SCA
-        - ^ Container Advanced
+        - ^1 Container Advanced
         - ""
         - [SCN]
       - - SCAE
-        - ^ Container Advanced Elite
+        - ^1 Container Advanced Elite
       - - SEA
-        - ^ Exterior Advanced
+        - ^1 Exterior Advanced
         - ""
         - [SEN]
       - - SEAE
-        - ^ Exterior Advanced Elite
+        - ^1 Exterior Advanced Elite
       - - SIA
-        - ^ Interior Advanced
+        - ^1 Interior Advanced
         - ""
         - [SIN]
       - - SIAE
-        - ^ Interior Advanced Elite
+        - ^1 Interior Advanced Elite
       - - SWA
         - ^^
         - "complete all four elements in advanced"
         - [SBA, SCA, SEA, SIA]
       - - SWAE
-        - ^ Advanced Elite
+        - ^1 Advanced Elite
       - - SBE
-        - ^ Buried Excellent
+        - ^1 Buried Excellent
       - - SBEE
-        - ^ Buried Excellent Elite
+        - ^1 Buried Excellent Elite
       - - SCE
-        - ^ Container Excellent
+        - ^1 Container Excellent
       - - SCEE
-        - ^ Container Excellent Elite
+        - ^1 Container Excellent Elite
       - - SEE
-        - ^ Exterior Excellent
+        - ^1 Exterior Excellent
       - - SEEE
-        - ^ Exterior Excellent Elite
+        - ^1 Exterior Excellent Elite
       - - SIE
-        - ^ Interior Excellent
+        - ^1 Interior Excellent
       - - SIEE
-        - ^ Interior Excellent Elite
+        - ^1 Interior Excellent Elite
       - - SWE
         - ^^
       - - SWEE
-        - ^ Excellent Elite
+        - ^1 Excellent Elite
       - - SBM
-        - ^ Buried Master
+        - ^1 Buried Master
         - ""
         - [SBA]
       - - SBME
-        - ^ Buried Master Elite
+        - ^1 Buried Master Elite
       - - SCM
-        - ^ Container Master
+        - ^1 Container Master
         - ""
         - [SCA]
       - - SCME
-        - ^ Container Master Elite
+        - ^1 Container Master Elite
       - - SEM
-        - ^ Exterior Master
+        - ^1 Exterior Master
         - ""
         - [SEA]
       - - SEME
-        - ^ Exterior Master Elite
+        - ^1 Exterior Master Elite
       - - SIM
-        - ^ Interior Master
+        - ^1 Interior Master
         - ""
         - [SIA]
       - - SIME
-        - ^ Interior Master Elite
+        - ^1 Interior Master Elite
       - - SWM
         - ^^
         - "complete all four elements in master"
         - [SBM, SCM, SEM, SIM]
       - - SWME
-        - ^ Master Elite
+        - ^1 Master Elite
       - - SHDN
-        - ^ Handler Discrimination Novice
+        - ^1 Handler Discrimination Novice
       - - SHDNE
-        - ^ Handler Discrimination Novice Elite
+        - ^1 Handler Discrimination Novice Elite
       - - SHDA
-        - ^ Handler Discrimination Advanced
+        - ^1 Handler Discrimination Advanced
       - - SHDAE
-        - ^ Handler Discrimination Advanced Elite
+        - ^1 Handler Discrimination Advanced Elite
       - - SHDE
-        - ^ Handler Discrimination Excellent
+        - ^1 Handler Discrimination Excellent
       - - SHDEE
-        - ^ Handler Discrimination Excellent Elite
+        - ^1 Handler Discrimination Excellent Elite
       - - SHDM
-        - ^ Handler Discrimination Master
+        - ^1 Handler Discrimination Master
       - - SHDME
-        - ^ Handler Discrimination Master Elite
+        - ^1 Handler Discrimination Master Elite
       - - SWD
-        - ^ Detective
+        - ^1 Detective
 
 # - - KEY
 #   - NAME
@@ -376,51 +388,46 @@ events:
     - Therapy Dog
     - ""
     - - - THD
-        - ^
+        - ^1
       - - THDN
-        - ^^
       - - THDA
-        - ^^
       - - THDE
-        - ^^
       - - THDD
-        - ^ Distinguished
+        - ^1 Distinguished
       - - THDS
-        - ^ Supreme
+        - ^1 Supreme
 
   - - TK
     - Trick Dog
     - ""
     - - - TKN
-        - ^^
       - - TKI
-        - ^^
       - - TKA
-        - ^^
       - - TKP
-        - ^ Performer
+        - ^1 Performer
       - - TKE
-        - ^ Elite Performer
+        - ^1 Elite Performer
 
   - - FD
-    - Flyball Dog
+    - Flyball Dog (NAFA)
     - From the North American Flyball Association, not AKC
+    - Flyball Dog
     - - - FD
-        - ^
+        - ^1
       - - FDX
         - ^^
         - ""
         - [FD]
       - - FDCh
-        - ^ Champion
+        - ^1 Champion
         - ""
         - [FDX]
       - - FDCh-S
-        - ^ Champion Silver
+        - ^1 Champion Silver
         - ""
         - [FDCh]
       - - FDCh-G
-        - ^ Champion Gold
+        - ^1 Champion Gold
         - ""
         - [FDCh-S]
       - - FM
@@ -430,16 +437,99 @@ events:
 
 
   - - RAT
-    - Barn Hunt
+    - Barn Hunt (BHA)
     - Granted by Barn Hunt Association, not AKC
+    - Barn Hunt
     - - - RATN
-        - ^^
       - - RATO
-        - ^^
       - - RATS
-        - ^^
       - - RATM
-        - ^^
       - - RATCH
-        - ^ Champion
+        - ^1 Champion
+
+  - - NW
+    - Scent Work (NACSW)
+    - NACSW—National Association of Canine Scent Work
+    - Nose Work
+    - - - ORT
+        - Odor Recognition Title
+        - Must pass all three odors (birch, anise, clove)
+      - - L1C
+        - Level 1 Containers
+      - - L1E
+        - Level 1 Exteriors
+      - - L1I
+        - Level 1 Interiors
+      - - L1V
+        - Level 1 Vehicles
+      - - L2C
+        - Level 2 Containers
+        - ""
+        - [L1C]
+      - - L2E
+        - Level 2 Exteriors
+        - ""
+        - [L1E]
+      - - L2I
+        - Level 2 Interiors
+        - ""
+        - [L1I]
+      - - L2V
+        - Level 2 Vehicles
+        - ""
+        - [L1V]
+      - - L3C
+        - Level 3 Containers
+        - ""
+        - [L2C]
+      - - L3E
+        - Level 3 Exteriors
+        - ""
+        - [L2E]
+      - - L3I
+        - Level 3 Interiors
+        - ""
+        - [L2I]
+      - - L3V
+        - Level 3 Vehicles
+        - ""
+        - [L2V]
+      - - NW1
+        - ^1 1
+      - - NW2
+        - ^1 2
+      - - NW3
+        - ^1 3
+      - - NW3-C
+        - ^1 3 Container
+      - - NW3-E
+        - ^1 3 Exterior
+      - - NW3-I
+        - ^1 3 Interior
+      - - NW3-V
+        - ^1 3 Vehicle
+      - - NW3-ELITE
+        - ^1 3 Elite
+      - - ELT1
+        - Elite Division Trial 1
+        - 150 points at Elite Division Trials
+      - - ELT2
+        - Elite Division Trial 2
+        - 400 points at Elite Division Trials
+      - - ELT3
+        - Elite Division Trial 3
+        - 650 points at Elite Division Trials
+      - - ELT-CH
+        - Elite Division Trial Champion
+        - 1000 points at Elite Division Trials
+      - - SMT
+        - Summit League Title
+      - - NSA1
+        - ^1 Skill Achievment 1
+      - - NSA2
+        - ^1 Skill Achievment 2
+      - - NSA3
+        - ^1 Skill Achievment 3
+      - - NSAM
+        - ^1 Skill Achievment ^2
 

@@ -14,35 +14,21 @@ function ensureTitleMap() {
     return titleMap;
   }
 
-  const { levels, events } = ensureTitleData();
+  const { _levels, events } = ensureTitleData();
 
-  titleMap = {};
-  events.forEach((evt) => {
+  // console.log('EVENTS', events);
+  titleMap = events.reduce((memo, evt) => {
     // console.log('*** event', evt);
-    const [_, eventName, eventDesc, titleInfos] = evt;
-    // console.log('***', {eventName, titleInfos});
-    titleInfos.forEach((titleInfo) => {
-      const [title, titleNameRaw, titleDesc, isPrefix, supercedes] = titleInfo;
-      let titleName = titleNameRaw;
-      const levelKey = title.slice(-1);
-      // console.log('*** title', {
-      //   title,
-      //   titleName,
-      //   supercedes,
-      //   eventName,
-      //   levelKey,
-      // });
-      titleName = titleName.replace('^^', `${eventName} ${levels[levelKey]}`);
-      titleName = titleName.replace('^', eventName);
-
-      titleMap[title] = {
-        name: titleName,
-        desc: titleDesc,
-        info: titleInfo,
-        event: evt,
-      };
-    });
-  });
+    return evt.titles.reduce((memo2, titleInfo) => {
+      // *not* getting supercedes or isPrefix!
+      const { title, name, desc } = titleInfo;
+      if (title in memo2) {
+        throw new Error(`title ${title} is already used!`);
+      }
+      memo2[title] = { name, desc, info: titleInfo, event: evt };
+      return memo2;
+    }, memo);
+  }, {});
 
   // console.log('TITLE MAP', titleMap);
 
@@ -58,8 +44,78 @@ function ensureTitleData() {
 
   const titleDataFile = path.resolve(__dirname, 'titles.yaml');
   const titleDataYaml = fs.readFileSync(titleDataFile).toString();
-  titleData = yaml.load(titleDataYaml, { filename: titleDataFile });
+  const rawTitleData = yaml.load(titleDataYaml, { filename: titleDataFile });
 
+  // We should normalize the title data here!
+  const events = rawTitleData.events.map(
+    ([
+      eventKey,
+      eventName,
+      eventDesc,
+      defaultTitleOrTitleInfos,
+      titleInfosOrUndefined,
+    ]) => {
+      const haveDefaultTitle = typeof defaultTitleOrTitleInfos === 'string';
+      const defaultTitle = haveDefaultTitle
+        ? defaultTitleOrTitleInfos
+        : eventName;
+      const titleInfos = haveDefaultTitle
+        ? titleInfosOrUndefined
+        : defaultTitleOrTitleInfos;
+
+      const titles = titleInfos.map(
+        ([title, titleNameRaw, titleDesc, supercedes, isPrefix]) => {
+          let titleName = titleNameRaw ?? '^^';
+          const levelKey = title.slice(-1);
+          // TODO: treat a numerical final character as a modifier, and go back
+          // one further? "CAX2" --> "Coursing Ability Excellent 2" ?
+
+          // console.log('*** title', {
+          //   title,
+          //   titleName,
+          //   supercedes,
+          //   eventName,
+          //   levelKey,
+          // });
+          titleName = titleName.replace('^^', `^1 ^2`);
+          titleName = titleName.replace('^1', defaultTitle);
+          titleName = titleName.replace(
+            '^2',
+            `${rawTitleData.levels[levelKey]}`
+          );
+          titleName = titleName.replace('^', defaultTitle);
+
+          const titleInfo = {
+            title,
+            name: titleName,
+          };
+
+          if (titleDesc) {
+            titleInfo.desc = titleDesc;
+          }
+
+          if (supercedes) {
+            titleInfo.supercedes = supercedes;
+          }
+
+          if (isPrefix) {
+            titleInfo.isPrefix = isPrefix;
+          }
+
+          return titleInfo;
+        }
+      );
+
+      return {
+        key: eventKey,
+        name: eventName,
+        desc: eventDesc,
+        titles,
+      };
+    }
+  );
+
+  titleData = { ...rawTitleData, events };
   return titleData;
 }
 
@@ -99,7 +155,7 @@ function withConfig(eleventyConfig, configOptions) {
 // write a titleMap file for client-side title decoding...
 function writeTitleMap(filename) {
   const leanMap = Object.fromEntries(
-    Object.entries(ensureTitleMap()).map(([title, obj]) => [title, obj.name])
+    Object.entries(ensureTitleMap()).map(([title, obj]) => [title, `${obj.name} (${obj.event.name})`])
   );
   fs.writeFileSync(filename, `window.titleMap = ${JSON.stringify(leanMap)};`);
 }

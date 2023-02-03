@@ -24,7 +24,7 @@
   "author": "Jared Reisinger",
   "license": "ISC",
   "devDependencies": {
-    "@11ty/eleventy": "^2.0.0-canary.16",
+    "@11ty/eleventy": "^2.0.0-beta.3",
     "@11ty/eleventy-img": "^3.0.0",
     "@11ty/eleventy-navigation": "^0.3.5",
     "@shopify/prettier-plugin-liquid": "^1.0.6",

@@ -35,15 +35,15 @@ levels:
   E: Elite
 
 events:
-# - - KEY
-#   - NAME
-#   - DESC
-#   - DEFAULT TITLE (opt)
-#   - - - TITLE-LETTERS
-#       - TITLE NAME
-#       - DESC
-#       - [SUPERCEDES]
-#       - PREFIX?
+  # - - KEY
+  #   - NAME
+  #   - DESC
+  #   - DEFAULT TITLE (opt)
+  #   - - - TITLE-LETTERS
+  #       - TITLE NAME
+  #       - DESC
+  #       - [SUPERCEDES]
+  #       - PREFIX?
   - - DC
     - Dual-champion
     - Special indicator when a dog earns both conformation Champion and Field Champion
@@ -64,23 +64,23 @@ events:
         - PREFIX
       - - GCH
         - ^1
-        - ""
+        - ''
         - [CH]
       - - GCHB
         - ^1 Bronze
-        - ""
+        - ''
         - [GCH]
       - - GCHS
         - ^1 Silver
-        - ""
+        - ''
         - [GCHB]
       - - GCHG
         - ^1 Gold
-        - ""
+        - ''
         - [GCHS]
       - - GCHP
         - ^1 Platinum
-        - ""
+        - ''
         - [GCHG]
 
   - - FC
@@ -92,13 +92,13 @@ events:
         - Grand ^1
       - - NFC
         - National ^1
-        - ""
+        - ''
         - []
         - PREFIX
 
   - - C
     - Lure Coursing
-    - ""
+    - ''
     - Courser
     - - - JC
         - Junior ^1
@@ -148,7 +148,7 @@ events:
 
   - - A
     - Agility
-    - ""
+    - ''
     - - - ACT1
         - ^1 Course Test 1
       - - ACT2
@@ -193,7 +193,7 @@ events:
 
   - - O
     - Obedience
-    - ""
+    - ''
     - - - BN
         - Beginner Novice
       - - BN-V
@@ -225,7 +225,7 @@ events:
 
   - - R
     - Rally
-    - ""
+    - ''
     - - - RN
       - - RI
       - - RA
@@ -240,16 +240,16 @@ events:
 
   - - CGC
     - Canine Good Citizen
-    - ""
+    - ''
     - - - CGC
         - ^1
       - - CGCA
         - ^^
-        - ""
+        - ''
         - - CGC
       - - CGCU
         - ^1 Urban
-        - ""
+        - ''
         - - CGC
 
   - - S
@@ -273,39 +273,39 @@ events:
         - ^1 Interior Novice Elite
       - - SWN
         - ^^
-        - "complete all four elements in novice"
+        - 'complete all four elements in novice'
         - [SBN, SCN, SEN, SIN]
       - - SWNE
         - ^1 Novice Elite
-        - "complete all four elements in novice elite"
+        - 'complete all four elements in novice elite'
         - [SBNE, SCNE, SENE, SINE]
       - - SBA
         - ^1 Buried Advanced
-        - ""
+        - ''
         - [SBN]
       - - SBAE
         - ^1 Buried Advanced Elite
       - - SCA
         - ^1 Container Advanced
-        - ""
+        - ''
         - [SCN]
       - - SCAE
         - ^1 Container Advanced Elite
       - - SEA
         - ^1 Exterior Advanced
-        - ""
+        - ''
         - [SEN]
       - - SEAE
         - ^1 Exterior Advanced Elite
       - - SIA
         - ^1 Interior Advanced
-        - ""
+        - ''
         - [SIN]
       - - SIAE
         - ^1 Interior Advanced Elite
       - - SWA
         - ^^
-        - "complete all four elements in advanced"
+        - 'complete all four elements in advanced'
         - [SBA, SCA, SEA, SIA]
       - - SWAE
         - ^1 Advanced Elite
@@ -331,31 +331,31 @@ events:
         - ^1 Excellent Elite
       - - SBM
         - ^1 Buried Master
-        - ""
+        - ''
         - [SBA]
       - - SBME
         - ^1 Buried Master Elite
       - - SCM
         - ^1 Container Master
-        - ""
+        - ''
         - [SCA]
       - - SCME
         - ^1 Container Master Elite
       - - SEM
         - ^1 Exterior Master
-        - ""
+        - ''
         - [SEA]
       - - SEME
         - ^1 Exterior Master Elite
       - - SIM
         - ^1 Interior Master
-        - ""
+        - ''
         - [SIA]
       - - SIME
         - ^1 Interior Master Elite
       - - SWM
         - ^^
-        - "complete all four elements in master"
+        - 'complete all four elements in master'
         - [SBM, SCM, SEM, SIM]
       - - SWME
         - ^1 Master Elite
@@ -378,15 +378,15 @@ events:
       - - SWD
         - ^1 Detective
 
-# - - KEY
-#   - NAME
-#   - DESC
-#   - - - TITLE
-#       - DESC
+  # - - KEY
+  #   - NAME
+  #   - DESC
+  #   - - - TITLE
+  #       - DESC
 
   - - THD
     - Therapy Dog
-    - ""
+    - ''
     - - - THD
         - ^1
       - - THDN
@@ -399,7 +399,7 @@ events:
 
   - - TK
     - Trick Dog
-    - ""
+    - ''
     - - - TKN
       - - TKI
       - - TKA
@@ -407,6 +407,24 @@ events:
         - ^1 Performer
       - - TKE
         - ^1 Elite Performer
+
+  - - BCOA
+    - Miscellaneous (BCOA)
+    - Basenji Club of America
+    - - - SDHR
+        - Stud Dog Honor Roll
+      - - BBHR
+        - Brood Bitch Honor Roll
+
+  - - MISC
+    - Miscellaneous
+    - Other recognized-but-not-regulated titles
+    - - - BISS
+        - Best in Specialty Show
+      - - MBISS
+        - Multiple Best in Specialty Show
+      - - MBIF
+        - Multiple Best in Field
 
   - - FD
     - Flyball Dog (NAFA)
@@ -416,25 +434,24 @@ events:
         - ^1
       - - FDX
         - ^^
-        - ""
+        - ''
         - [FD]
       - - FDCh
         - ^1 Champion
-        - ""
+        - ''
         - [FDX]
       - - FDCh-S
         - ^1 Champion Silver
-        - ""
+        - ''
         - [FDCh]
       - - FDCh-G
         - ^1 Champion Gold
-        - ""
+        - ''
         - [FDCh-S]
       - - FM
         - Flyball Master
-        - ""
+        - ''
         - [FDCh-G]
-
 
   - - RAT
     - Barn Hunt (BHA)
@@ -464,35 +481,35 @@ events:
         - Level 1 Vehicles
       - - L2C
         - Level 2 Containers
-        - ""
+        - ''
         - [L1C]
       - - L2E
         - Level 2 Exteriors
-        - ""
+        - ''
         - [L1E]
       - - L2I
         - Level 2 Interiors
-        - ""
+        - ''
         - [L1I]
       - - L2V
         - Level 2 Vehicles
-        - ""
+        - ''
         - [L1V]
       - - L3C
         - Level 3 Containers
-        - ""
+        - ''
         - [L2C]
       - - L3E
         - Level 3 Exteriors
-        - ""
+        - ''
         - [L2E]
       - - L3I
         - Level 3 Interiors
-        - ""
+        - ''
         - [L2I]
       - - L3V
         - Level 3 Vehicles
-        - ""
+        - ''
         - [L2V]
       - - NW1
         - ^1 1
@@ -533,3 +550,123 @@ events:
       - - NSAM
         - ^1 Skill Achievment ^2
 
+  - - LGRA
+    - Racing (LGRA)
+    - Large Gazehound Racing Association
+    - Straight Racer
+    - - - JSR
+        - Junior ^1
+      - - SSR
+        - Senior ^1
+        - ''
+        - [JSR]
+      - - GRC
+        - Gazehound Racing Championship
+        - ''
+        - [JSR, SSR]
+      - - SGRC
+        - Superior Gazehound Racing Champion
+
+  - - NOTRA
+    - Racing (NOTRA)
+    - National Oval Track Racing Association
+    - Oval Track Racer
+    - - - OTR
+        - ^1
+        - Earns 25 points
+      - - OTRM
+        - ^1 of Merit
+        - Earns 100 points
+        - [OTR]
+      - - OTRM2
+        - ^1 of Merit 2
+        - Earns 200 points
+        - [OTRM]
+      - - OTRM3
+        - ^1 of Merit 3
+        - Earns 300 points
+        - [OTRM2]
+      - - JOR
+        - Junior Oval Racer
+      - - SOR
+        - Senior Oval Racer
+      - - ORC
+        - Oval Racing Championship
+      - - SORC
+        - Supreme Oval Racing Championship
+
+  - - DMWYD
+    - Tricks (DMWYD)
+    - Do More With Your Dog
+    - Trick Dog
+    - - - NTD
+        - Novice ^1
+      - - ITD
+        - Intermediate ^1
+      - - ATD
+        - Advanced ^1
+      - - ETD
+        - Expert ^1
+      - - TDCH
+        - ^1 Champion
+      - - TDGCH
+        - ^1 Grand Champion
+      - - NTD-M
+        - Novice ^1 Masters
+      - - ITD-M
+        - Intermediate ^1 Masters
+      - - ATD-M
+        - Advanced ^1 Masters
+      - - ETD-M
+        - Expert ^1 Masters
+      - - A+
+        - Teacher's Pet
+      - - '20:1'
+        - '20 Dog Tricks: One Prop'
+      - - BTC
+        - Beat the Clock
+      - - AtoZ
+        - Alphabet Challenge
+      - - AKA
+        - That's My Name
+      # CONFLICTS WITH SENIOR OVAL RACER!
+      # - - SOR
+      #   - Summer of Ruff
+      - - SSH
+        - Summer Scavenger Hunt
+      - - TDROM
+        - ^1 Register of Merit
+
+  - - DMWYD-AA
+    - Animal Actor (DMWYD)
+    - Do More With Your Dog
+    - Animal Actor
+    - - - AA1
+        - 'Level 1: Photoshoot'
+      - - AA2
+        - 'Level 2: Actor'
+      - - AA3
+        - 'Level 3: Film'
+      - - AA4
+        - 'Level 4: Leading Role'
+      - - AA5
+        - 'Level 5: Professional'
+
+  - - DMWYDS
+    - Stunts (DMWYD)
+    - Do More With Your Dog
+    - Stunt Dog
+    - - - NSD
+        - Novice ^1
+      - - OSD
+        - Open ^1
+      - - PSD
+        - Proven ^1
+      - - SDPRO
+        - ^1 Professional
+      - - SDCH
+        - ^1 Champion
+      - - SDGCH
+        - ^1 Grand Champion
+      - - SDGCH2
+        - ^1 Grand Champion 2

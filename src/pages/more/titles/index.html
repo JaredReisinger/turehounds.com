@@ -55,7 +55,40 @@ layout: page-full
     </p>
     <script defer src="/static/js/titleMap.js"></script>
     <script defer>
+      let data;
+
+      function getHash(hash) {
+        if (!data || !hash || hash.length <= 1) {
+          return;
+        }
+        const text = decodeURIComponent(hash.substring(1));
+        if (data.text !== text) {
+          data.text = text;
+        }
+      }
+
+      function setHash(text) {
+        const hash = `#${text}`;
+        if (window.location.hash !== hash) {
+          window.location.hash = hash;
+        }
+      }
+
+      // We don't need to listen for alpine:init, because the component's x-init
+      // calls this at the right time.
+      function initData(dataX) {
+        // bind the data proxy
+        data = dataX;
+        getHash(window.location.hash);
+      }
+
+      window.addEventListener('hashchange', (evt) => {
+        const u = new URL(evt.newURL);
+        getHash(u.hash);
+      });
+
       function decodeTitle(text) {
+        setHash(text);
         if (!text) {
           return '';
         }
@@ -95,7 +128,7 @@ layout: page-full
         return `<ul>${items}</ul>`;
       }
     </script>
-    <div x-data="{ text: '' }">
+    <div x-data="{ text: '' }" x-init="initData($data)">
       <form class="form-default">
         <input
           type="text"
@@ -131,7 +164,9 @@ layout: page-full
               <td class="!pl-4 whitespace-nowrap">{{ titleInfo.title }}</td>
               <td>
                 {{ titleInfo.name -}}
-                {%- if titleInfo.desc %} ({{ titleInfo.desc }}){% endif %}
+                {%- if titleInfo.desc %}
+                  <i>({{ titleInfo.desc }})</i>
+                {%- endif %}
               </td>
             </tr>
           {% endfor %}
@@ -150,7 +185,9 @@ layout: page-full
             <td class="!pl-4 whitespace-nowrap">{{ title }}</td>
             <td>
               {{ titleInfo.name -}}
-              {%- if titleInfo.desc %} ({{ titleInfo.desc }}){% endif %}
+              {%- if titleInfo.desc %}
+                <i>({{ titleInfo.desc }})</i>
+              {%- endif %}
             </td>
             <td>{{ titleInfo.event.name }}</td>
           </tr>

@@ -155,7 +155,12 @@ function withConfig(eleventyConfig, configOptions) {
 // write a titleMap file for client-side title decoding...
 function writeTitleMap(filename) {
   const leanMap = Object.fromEntries(
-    Object.entries(ensureTitleMap()).map(([title, obj]) => [title, `${obj.name} (${obj.event.name})`])
+    Object.entries(ensureTitleMap()).map(([title, obj]) => [
+      title.toUpperCase(),
+      `${title}: ${obj.name}${
+        obj.event.name !== obj.name ? `—${obj.event.name}` : ''
+      }`,
+    ])
   );
   fs.writeFileSync(filename, `window.titleMap = ${JSON.stringify(leanMap)};`);
 }

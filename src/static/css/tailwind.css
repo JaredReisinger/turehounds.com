@@ -24,7 +24,8 @@ h6 {
 
 .prose a,
 .prose-lg a,
-.prose-xl a {
+.prose-xl a,
+label a {
   @apply text-cyan-500;
 }
 
@@ -45,11 +46,24 @@ p:last-child {
 /* our default form.form-default styling... */
 form.form-default label,
 form.form-default fieldset legend {
-  @apply block text-sm font-bold mb-3;
+  @apply block text-sm font-bold;
+
+  input,
+  + input,
+  select,
+  + select,
+  textarea,
+  + textarea {
+    @apply font-normal mt-3;
+  }
 }
 
 form.form-default fieldset label {
-  @apply block text-base font-normal m-0;
+  @apply block text-base font-normal m-0 mt-2;
+
+  input {
+    @apply mt-0;
+  }
 
   input[type='radio'] {
     @apply mr-2 align-middle;
@@ -68,10 +82,13 @@ form.form-default input[type='week'],
 form.form-default input[type='time'],
 form.form-default input[type='search'],
 form.form-default input[type='tel'],
-/*form.form-default select,
-form.form-default select[multiple],*/
 form.form-default textarea {
   @apply block w-full rounded-md border-zinc-300 focus:border-cyan-500 focus:ring-cyan-500 shadow-sm;
+}
+
+form.form-default select,
+form.form-default select[multiple] {
+  @apply block w-auto rounded-md border-zinc-300 focus:border-cyan-500 focus:ring-cyan-500 shadow-sm;
 }
 
 form.form-default input[type='checkbox'],

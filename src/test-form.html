@@ -1,0 +1,212 @@
+---
+title: Test Form
+layout: base
+eleventyExcludeFromCollections: true
+robots: noindex,nofollow
+---
+<style type="text/css">
+  body {
+    padding: 2rem;
+  }
+</style>
+
+<form
+  class="form-default"
+  data-netlify="true"
+  name="test-form"
+  method="POST"
+>
+  <div class="grid x-grid-cols-1 gap-8 text-lg w-full">
+    <label
+      >Your name<input type="text" required name="name" placeholder="Your Name"
+    ></label>
+
+    <label
+      >Your email<input
+        type="email"
+        required
+        name="email"
+        placeholder="you@your-email.com"
+    ></label>
+
+    <label for="phone"
+      >Your phone number(s)<input
+        type="text"
+        required
+        name="phone"
+        placeholder="(987) 654-3210"
+    ></label>
+
+    <label
+      >Your location (city and state)<input
+        type="text"
+        required
+        name="location"
+        placeholder="City, ST"
+    ></label>
+
+    <label
+      >Age preference<select name="age-preference" required>
+        <option></option>
+        <option>No preference</option>
+        <option>Puppy</option>
+        <option>Adult</option>
+      </select></label
+    >
+
+    <label
+      >Sex preference<select name="sex-preference" required>
+        <option></option>
+        <option>No preference</option>
+        <option>Male</option>
+        <option>Female</option>
+      </select></label
+    >
+
+    <label
+      >Do you understand that no litter is yet planned, and we are not currently
+      accepting any reservations at all?<select
+        name="no-reservations"
+        required
+      >
+        <option></option>
+        <option>Yes</option>
+        <option>No</option>
+      </select></label
+    >
+
+    <label
+      >Describe the people who live in your home. Kids (how old)? Roommates?<textarea
+        required
+        name="people"
+        rows="5"
+      ></textarea>
+    </label>
+
+    <label
+      >On a typical day (post-quarantine!), how long will the dog be left at
+      home?<input
+        type="text"
+        required
+        name="alone-time"
+    ></label>
+
+    <label
+      >Do you have a securely enclosed area for the dog, such as a 6-foot fence
+      around the yard?<select name="secure-yard" required>
+        <option></option>
+        <option>Yes</option>
+        <option>No</option>
+      </select></label
+    >
+
+    <label
+      >Do you understand that a Basenji must always be on a leash or in a
+      securely fenced area at all times?
+      <span class="font-normal"
+        >When the hunting instincts kick in, they are unstoppable and are very
+        likely to dash off in pursuit of game. Please don’t think that you can
+        train a Basenji to stay in an unfenced area (like a park, or on a hike),
+        either. Five thousand years of instinct cannot be curbed easily. Being
+        struck by an automobile is one of the most common causes of death or
+        injury for a Basenji.</span
+      ><select name="always-secure" required>
+        <option></option>
+        <option>Yes</option>
+        <option>No</option>
+      </select></label
+    >
+
+    <label
+      >Do you understand that a Basenji must be kenneled/secured when riding in
+      a car at all times?
+      <span class="font-normal"
+        >See the
+        <a
+          href="https://www.centerforpetsafety.org/faqs/pet-travel-tips/"
+          target="_blank"
+          >Center for Pet Safety</a
+        >
+        for further details about the benefits both from a distraction and a
+        survivability point of view.</span
+      ><select name="secure-car" required>
+        <option></option>
+        <option>Yes</option>
+        <option>No</option>
+      </select></label
+    >
+
+    <label
+      >Why are you considering a Basenji? What specifically do you like about
+      this breed?
+      <span class="font-normal"
+        >(If your primary reason is because you understand that they are
+        hypoallergenic, please realize that they are <em>not</em>, nor is any
+        dog, really.)</span
+      ><textarea
+        required
+        name="reasons"
+        rows="5"
+      ></textarea>
+    </label>
+
+    <label
+      >What kind of research have you done on Basenjis? If online, please
+      include your most useful source.<textarea
+        required
+        name="research"
+        rows="5"
+      ></textarea>
+    </label>
+
+    <label
+      >Do you support and will you utilize only positive-reinforcement training
+      as outlined by Karen Pryor or Fenzi Dog Sports Academy?<select
+        name="positive-training"
+        required
+      >
+        <option></option>
+        <option>Yes</option>
+        <option>No</option>
+      </select></label
+    >
+
+    <label
+      >Have you owned a dog before? If so, were you the primary caregiver? What
+      kind (breed) of dog(s)?<input type="text" required name="previous-owner"
+    ></label>
+
+    <label
+      >Describe your ideal dog’s temperament.<textarea
+        required
+        name="temperament"
+        rows="5"
+      ></textarea>
+    </label>
+
+    <label
+      >What kind of activities are you most eager to do with your new dog?
+      Please explain.<textarea required name="activities" rows="5"></textarea>
+    </label>
+
+    <label
+      >Do you have other (non-dog) pets? Please describe.<textarea
+        required
+        name="other-pets"
+        rows="5"
+      ></textarea>
+    </label>
+
+    <label
+      >Do you have any other questions or comments you’d like to add?<textarea
+        required
+        name="other"
+        rows="5"
+      ></textarea>
+    </label>
+
+    <div>
+      <input type="submit">
+    </div>
+  </div>
+</form>

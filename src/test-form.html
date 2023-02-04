@@ -17,15 +17,21 @@ robots: noindex,nofollow
   method="POST"
 >
   <div class="grid x-grid-cols-1 gap-8 text-lg w-full">
-    <label
-      >Your name<input type="text" required name="name" placeholder="Your Name"
+    <label for="name"
+      >Your name<input
+        type="text"
+        required
+        name="name"
+        id="name"
+        placeholder="Your Name"
     ></label>
 
-    <label
+    <label for="email"
       >Your email<input
         type="email"
         required
         name="email"
+        id="email"
         placeholder="you@your-email.com"
     ></label>
 
@@ -38,16 +44,17 @@ robots: noindex,nofollow
         placeholder="(987) 654-3210"
     ></label>
 
-    <label
+    <label for="location"
       >Your location (city and state)<input
         type="text"
         required
-        name="your-location"
+        name="location"
+        id="location"
         placeholder="City, ST"
     ></label>
 
-    <label
-      >Age preference<select name="age-preference" required>
+    <label for="age-preference"
+      >Age preference<select name="age-preference" id="age-preference" required>
         <option></option>
         <option>No preference</option>
         <option>Puppy</option>
@@ -55,8 +62,8 @@ robots: noindex,nofollow
       </select></label
     >
 
-    <label
-      >Sex preference<select name="sex-preference" required>
+    <label for="sex-preference"
+      >Sex preference<select name="sex-preference" id="sex-preference" required>
         <option></option>
         <option>No preference</option>
         <option>Male</option>
@@ -64,10 +71,11 @@ robots: noindex,nofollow
       </select></label
     >
 
-    <label
+    <label for="no-reservations"
       >Do you understand that no litter is yet planned, and we are not currently
       accepting any reservations at all?<select
-        name="understand-there-are-no-reservations"
+        name="no-reservations"
+        id="no-reservations"
         required
       >
         <option></option>
@@ -76,32 +84,34 @@ robots: noindex,nofollow
       </select></label
     >
 
-    <label
+    <label for="people"
       >Describe the people who live in your home. Kids (how old)? Roommates?<textarea
         required
-        name="people-in-home"
+        name="people"
+        id="people"
         rows="5"
       ></textarea>
     </label>
 
-    <label
+    <label for="alone-time"
       >On a typical day (post-quarantine!), how long will the dog be left at
       home?<input
         type="text"
         required
         name="alone-time"
+        id="alone-time"
     ></label>
 
-    <label
+    <label for="secure-yard"
       >Do you have a securely enclosed area for the dog, such as a 6-foot fence
-      around the yard?<select name="secure-yard" required>
+      around the yard?<select name="secure-yard" id="secure-yard" required>
         <option></option>
         <option>Yes</option>
         <option>No</option>
       </select></label
     >
 
-    <label
+    <label for="always-secure"
       >Do you understand that a Basenji must always be on a leash or in a
       securely fenced area at all times?
       <span class="font-normal"
@@ -111,14 +121,14 @@ robots: noindex,nofollow
         either. Five thousand years of instinct cannot be curbed easily. Being
         struck by an automobile is one of the most common causes of death or
         injury for a Basenji.</span
-      ><select name="always-secure" required>
+      ><select name="always-secure" id="always-secure" required>
         <option></option>
         <option>Yes</option>
         <option>No</option>
       </select></label
     >
 
-    <label
+    <label for="secure-car"
       >Do you understand that a Basenji must be kenneled/secured when riding in
       a car at all times?
       <span class="font-normal"
@@ -130,14 +140,14 @@ robots: noindex,nofollow
         >
         for further details about the benefits both from a distraction and a
         survivability point of view.</span
-      ><select name="secure-car" required>
+      ><select name="secure-car" id="secure-car" required>
         <option></option>
         <option>Yes</option>
         <option>No</option>
       </select></label
     >
 
-    <label
+    <label for="reasons"
       >Why are you considering a Basenji? What specifically do you like about
       this breed?
       <span class="font-normal"
@@ -146,25 +156,28 @@ robots: noindex,nofollow
         dog, really.)</span
       ><textarea
         required
-        name="reasons"
         rows="5"
+        name="reasons"
+        id="reasons"
       ></textarea>
     </label>
 
-    <label
+    <label for="research"
       >What kind of research have you done on Basenjis? If online, please
       include your most useful source.<textarea
         required
-        name="research"
         rows="5"
+        name="research"
+        id="research"
       ></textarea>
     </label>
 
-    <label
+    <label for="positive-training"
       >Do you support and will you utilize only positive-reinforcement training
       as outlined by Karen Pryor or Fenzi Dog Sports Academy?<select
-        name="positive-training"
         required
+        name="positive-training"
+        id="positive-training"
       >
         <option></option>
         <option>Yes</option>
@@ -172,37 +185,49 @@ robots: noindex,nofollow
       </select></label
     >
 
-    <label
+    <label for="previous-owner"
       >Have you owned a dog before? If so, were you the primary caregiver? What
-      kind (breed) of dog(s)?<input type="text" required name="previous-owner"
+      kind (breed) of dog(s)?<input
+        type="text"
+        required
+        name="previous-owner"
+        id="previous-owner"
     ></label>
 
-    <label
+    <label for="temperament"
       >Describe your ideal dog’s temperament.<textarea
         required
-        name="temperament"
         rows="5"
+        name="temperament"
+        id="temperament"
       ></textarea>
     </label>
 
-    <label
+    <label for="activities"
       >What kind of activities are you most eager to do with your new dog?
-      Please explain.<textarea required name="activities" rows="5"></textarea>
+      Please explain.<textarea
+        required
+        rows="5"
+        name="activities"
+        id="activities"
+      ></textarea>
     </label>
 
-    <label
+    <label for="other-pets"
       >Do you have other (non-dog) pets? Please describe.<textarea
         required
-        name="other-pets"
         rows="5"
+        name="other-pets"
+        id="other-pets"
       ></textarea>
     </label>
 
-    <label
+    <label for="other"
       >Do you have any other questions or comments you’d like to add?<textarea
         required
-        name="other"
         rows="5"
+        name="other"
+        id="other"
       ></textarea>
     </label>
 

@@ -1,8 +1,11 @@
 {
   "name": "turehounds.com",
+  "private": true,
   "version": "0.0.1",
   "description": "",
-  "#main": "index.js",
+  "keywords": [],
+  "author": "Jared Reisinger",
+  "license": "ISC",
   "scripts": {
     "clean": "rimraf _site",
     "build": "npm-run-all --print-label css eleventy:prod search:build titles:build",
@@ -20,9 +23,6 @@
     "titles:build": "node src/_helpers/build_title_map.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "Jared Reisinger",
-  "license": "ISC",
   "devDependencies": {
     "@11ty/eleventy": "^2.0.0-beta.3",
     "@11ty/eleventy-img": "^3.0.0",

@@ -164,7 +164,8 @@ async function autoGallery(options: GalleryOptions | undefined = undefined) {
       const caption = await getCaptionInfo(src);
       //TEMP
       const metadata = await Image(src, {
-        widths: [null, 1200, 900, 600, 300],
+        // don't need a lot of sizes, and we max out at 1500
+        widths: [1500, 600, 300],
         formats: ['webp', 'jpg'],
         outputDir,
         urlPath: page.url,

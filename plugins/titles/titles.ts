@@ -1,28 +1,77 @@
-const fs = require('fs');
-const path = require('path');
-const yaml = require('js-yaml');
+import * as fs from 'fs';
+import * as path from 'path';
+import yaml from 'js-yaml';
 
 // Rather than load the titles as a 11ty data file, it's encapulated by this
 // "plugin" so that all of the needed variants are exposed.  I tried doing this
 // using a "normal" data file, but couldn't guarantee it was loaded when the
 // `addGlobalData` helper was called.  :-(
 
-let titleMap = undefined;
+interface RawTitleData {
+  levels: Record<string, string>;
+  // # - - KEY
+  // #   - NAME
+  // #   - DESC
+  // #   - DEFAULT TITLE (opt)  --- ever used?
+  // #   - - - TITLE-LETTERS
+  // #       - TITLE NAME
+  // #       - DESC
+  // #       - [SUPERCEDES]
+  // #       - PREFIX?
+  events: RawTitleEvent[];
+}
 
-function ensureTitleMap() {
+/**
+ * tuple: [key, name, description, default title (opt? unused?), details[]]
+ */
+type RawTitleEvent =
+  | [string, string, string, string, RawTitleDetail[]]
+  | [string, string, string, RawTitleDetail[]];
+
+/**
+ * tuple: [title-letters, title-name, description, supercedes?, prefix? ]
+ */
+type RawTitleDetail = [string, string, string, string[]?, 'PREFIX'?];
+
+interface TitleInfo {
+  title: string;
+  name: string;
+  desc?: string;
+  supercedes?: string[];
+  isPrefix?: boolean;
+}
+
+interface TitleEvent {
+  key: string;
+  name: string;
+  desc: string;
+  titles: TitleInfo[];
+}
+
+type TitleData = Omit<RawTitleData, 'events'> & { events: TitleEvent[] };
+
+type TitleMap = Record<
+  string,
+  { name: string; desc: string; info: TitleInfo; event: TitleEvent }
+>;
+
+let titleMap: TitleMap = undefined;
+
+export function ensureTitleMap() {
   if (titleMap) {
     return titleMap;
   }
 
-  const { _levels, events } = ensureTitleData();
+  const { /* levels, */ events } = ensureTitleData();
 
   // console.log('EVENTS', events);
-  titleMap = events.reduce((memo, evt) => {
+  titleMap = events.reduce<TitleMap>((memo, evt) => {
     // console.log('*** event', evt);
-    return evt.titles.reduce((memo2, titleInfo) => {
+    return evt.titles.reduce<TitleMap>((memo2, titleInfo) => {
       // *not* getting supercedes or isPrefix!
       const { title, name, desc } = titleInfo;
       if (title in memo2) {
+        // TODO: handle title collisions!
         throw new Error(`title ${title} is already used!`);
       }
       memo2[title] = { name, desc, info: titleInfo, event: evt };
@@ -35,19 +84,21 @@ function ensureTitleMap() {
   return titleMap;
 }
 
-let titleData = undefined;
+let titleData: TitleData = undefined;
 
-function ensureTitleData() {
+export function ensureTitleData() {
   if (titleData) {
     return titleData;
   }
 
   const titleDataFile = path.resolve(__dirname, 'titles.yaml');
   const titleDataYaml = fs.readFileSync(titleDataFile).toString();
-  const rawTitleData = yaml.load(titleDataYaml, { filename: titleDataFile });
+  const rawTitleData = yaml.load(titleDataYaml, {
+    filename: titleDataFile,
+  }) as RawTitleData;
 
   // We should normalize the title data here!
-  const events = rawTitleData.events.map(
+  const events = rawTitleData.events.map<TitleEvent>(
     ([
       eventKey,
       eventName,
@@ -63,7 +114,7 @@ function ensureTitleData() {
         ? titleInfosOrUndefined
         : defaultTitleOrTitleInfos;
 
-      const titles = titleInfos.map(
+      const titles = titleInfos.map<TitleInfo>(
         ([title, titleNameRaw, titleDesc, supercedes, isPrefix]) => {
           let titleName = titleNameRaw ?? '^^';
           const levelKey = title.slice(-1);
@@ -85,7 +136,7 @@ function ensureTitleData() {
           );
           titleName = titleName.replace('^', defaultTitle);
 
-          const titleInfo = {
+          const titleInfo: TitleInfo = {
             title,
             name: titleName,
           };
@@ -99,7 +150,7 @@ function ensureTitleData() {
           }
 
           if (isPrefix) {
-            titleInfo.isPrefix = isPrefix;
+            titleInfo.isPrefix = !!isPrefix;
           }
 
           return titleInfo;
@@ -119,17 +170,17 @@ function ensureTitleData() {
   return titleData;
 }
 
-function getTitleLevels() {
+export function getTitleLevels() {
   const { levels } = ensureTitleData();
   return levels;
 }
 
-function getTitleEvents() {
+export function getTitleEvents() {
   const { events } = ensureTitleData();
   return events;
 }
 
-function titlify(str) {
+export function titlify(str: string) {
   const titleMap = ensureTitleMap();
   const parts = str.split(' ').filter((x) => x);
   return parts
@@ -142,18 +193,8 @@ function titlify(str) {
     .join(' ');
 }
 
-/**
- * @param {UserConfig} eleventyConfig
- * @param {Object} configOptions
- */
-function withConfig(eleventyConfig, configOptions) {
-  eleventyConfig.addGlobalData('titleMap', ensureTitleMap);
-  eleventyConfig.addGlobalData('titleLevels', getTitleLevels);
-  eleventyConfig.addGlobalData('titleEvents', getTitleEvents);
-}
-
 // write a titleMap file for client-side title decoding...
-function writeTitleMap(filename) {
+export function writeTitleMap(filename: string) {
   const leanMap = Object.fromEntries(
     Object.entries(ensureTitleMap()).map(([title, obj]) => [
       title.toUpperCase(),
@@ -164,18 +205,3 @@ function writeTitleMap(filename) {
   );
   fs.writeFileSync(filename, `window.titleMap = ${JSON.stringify(leanMap)};`);
 }
-
-module.exports = {
-  filters: {
-    async: {},
-    sync: {
-      titlify,
-    },
-  },
-  shortcodes: {
-    async: {},
-    sync: {},
-  },
-  withConfig,
-  writeTitleMap,
-};

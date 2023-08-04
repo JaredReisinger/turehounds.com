@@ -1,17 +1,20 @@
 {
-  "include": ["./src/**/*", "./*", "./.*"],
+  "include": ["./src/**/*", "./*", "./.*", "./plugins/**/*", "./tools/**/*"],
   "compilerOptions": {
     "target": "es2022",
     "module": "commonjs",
 
-    // "rootDir": "./src",
     "rootDir": ".",
     "outDir": "./_js",
+
+    // include our generated/hand-coded types.
+    // "typeRoots": ["@types", "node_modules/@types"],
 
     "allowJs": true, // for now...
     // "checkJs": true,
     "checkJs": false,
 
+    "removeComments": true,
     "declaration": false,
     "declarationMap": false,
     // "sourceMap": true,

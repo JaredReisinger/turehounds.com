@@ -26,8 +26,8 @@ function keys(obj: Record<PropertyKey, unknown>) {
 /**
  * Picks specific keys into a new object.
  */
-function pick<
-  O extends Record<PropertyKey, unknown>,
+export function pick<
+  O extends object, // Record<PropertyKey, unknown>,
   K extends keyof O = keyof O,
 >(obj: O, keys: K[]) {
   return pickOmitImpl(obj, keys, true);
@@ -37,7 +37,7 @@ function pick<
  * Omits specific keys when cloning into a new object.
  */
 function omit<
-  O extends Record<PropertyKey, unknown>,
+  O extends object, // Record<PropertyKey, unknown>,
   K extends keyof O = keyof O,
 >(obj: O, keys: K[]) {
   return pickOmitImpl(obj, keys, false);
@@ -51,7 +51,7 @@ function omit<
  * @returns Object with/without given keys.
  */
 function pickOmitImpl<
-  O extends Record<PropertyKey, unknown>,
+  O extends object, // Record<PropertyKey, unknown>,
   K extends keyof O = keyof O,
 >(obj: O, keys: K[], doPick: boolean): Partial<O> {
   const objKeys = Object.keys(obj || {});
@@ -164,35 +164,12 @@ function typeOf(obj: any) {
  */
 export function withConfig(
   eleventyConfig: UserConfig,
-  configOptions: Record<PropertyKey, unknown>
+  // configOptions: Record<PropertyKey, unknown>
 ) {
   eleventyConfig.addGlobalData('debugConfig', () =>
     pick(eleventyConfig, ['collections', 'dir', 'pathPrefix'])
   );
 }
-
-// module.exports = {
-//   filters: {
-//     async: {},
-//     sync: {
-//       inspect,
-//       keys,
-//       pick,
-//       omit,
-//       collectionDebugInfo,
-//       arrayslice,
-//       split,
-//       trimstart,
-//       trimend,
-//       typeOf,
-//     },
-//   },
-//   shortcodes: {
-//     async: {},
-//     sync: {},
-//   },
-//   withConfig,
-// };
 
 export const filters = {
   async: {},

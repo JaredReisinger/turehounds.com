@@ -287,17 +287,5 @@ async function autoGallery(options: GalleryOptions | undefined = undefined) {
   return html;
 }
 
-// module.exports = {
-//   filters: {
-//     async: {},
-//     sync: {},
-//   },
-//   shortcodes: {
-//     async: { autoGallery },
-//     sync: {},
-//   },
-//   // withConfig,
-// };
-
 export const filters = { async: {}, sync: {} };
 export const shortcodes = { async: { autoGallery }, sync: {} };

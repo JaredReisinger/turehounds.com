@@ -1,9 +1,11 @@
-_js/
-_site/
+/_js/
+/_site/
 _tmp/
+/@types/@11ty/
+
 .DS_Store
 node_modules/
-.vscode/
+/.vscode/
 *git/
 #package-lock.json
 .env

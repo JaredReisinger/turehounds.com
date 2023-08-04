@@ -1,6 +1,6 @@
 const htmlmin = require('html-minifier');
 const yaml = require('js-yaml');
-
+const debug = require('debug')('MYCONFIG');
 const eleventyNavigationPlugin = require('@11ty/eleventy-navigation');
 const UserConfig = require('@11ty/eleventy/src/UserConfig');
 
@@ -12,7 +12,7 @@ const addins = require('./src/_helpers/addins');
 
 const configOptions = {
   dir: {
-    input: 'src',
+    input: '_js/src',
     output: '_site',
     // relative to input...
     data: '_data',
@@ -27,6 +27,9 @@ const configOptions = {
 
 /** @param {UserConfig} eleventyConfig */
 module.exports = function (eleventyConfig) {
+  // eleventyConfig.ignores.delete('./_js/**');
+  eleventyConfig.setUseGitIgnore(false);
+
   eleventyConfig.addPlugin(eleventyNavigationPlugin);
 
   // Merge data instead of overriding
@@ -37,22 +40,22 @@ module.exports = function (eleventyConfig) {
 
   // Add all filters/shortcodes from our helper addins...
   Object.entries(addins.filters?.async).forEach(([k, v]) => {
-    // console.log(`adding async filter ${k}...`);
+    debug(`adding async filter ${k}...`);
     eleventyConfig.addAsyncFilter(k, v);
   });
 
   Object.entries(addins.filters?.sync).forEach(([k, v]) => {
-    // console.log(`adding sync filter ${k}...`);
+    debug(`adding sync filter ${k}...`);
     eleventyConfig.addFilter(k, v);
   });
 
   Object.entries(addins.shortcodes?.async).forEach(([k, v]) => {
-    // console.log(`adding async shortcode ${k}...`);
+    debug(`adding async shortcode ${k}...`);
     eleventyConfig.addAsyncShortcode(k, v);
   });
 
   Object.entries(addins.shortcodes?.sync).forEach(([k, v]) => {
-    // console.log(`adding sync shortcode ${k}...`);
+    debug(`adding sync shortcode ${k}...`);
     eleventyConfig.addShortcode(k, v);
   });
 
@@ -63,22 +66,29 @@ module.exports = function (eleventyConfig) {
   // No Netlify CMS yet... may add this back in later?
 
   // copy media folder to /_site
-  eleventyConfig.addPassthroughCopy('src/static/media');
+  eleventyConfig.addPassthroughCopy('_js/src/static/media');
 
   // copy js folder to /_site
-  eleventyConfig.addPassthroughCopy('src/static/js');
+  eleventyConfig.addPassthroughCopy('_js/src/static/js');
 
   // copy dependency files to /_site
   eleventyConfig.addPassthroughCopy({
     'node_modules/alpinejs/dist/cdn.min.js': 'static/js/alpine.js',
     'node_modules/lunr/lunr.min.js': 'static/js/lunr.min.js',
+    // photoswipe
+    'node_modules/photoswipe/dist/photoswipe.esm.min.js': 'static/js/photoswipe.esm.min.js',
+    'node_modules/photoswipe/dist/photoswipe-lightbox.esm.min.js': 'static/js/photoswipe-lightbox.esm.min.js',
+    'node_modules/photoswipe/dist/photoswipe.css': 'static/css/photoswipe.css',
+    // photoswipe captions
+    'node_modules/photoswipe-dynamic-caption-plugin/dist/photoswipe-dynamic-caption-plugin.esm.min.js': 'static/js/photoswipe-dynamic-caption-plugin.esm.min.js',
+    'node_modules/photoswipe-dynamic-caption-plugin/photoswipe-dynamic-caption-plugin.css': 'static/css/photoswipe-dynamic-caption-plugin.css',
   });
 
   // copy favicon folder to /_site (and special copy for '/favicon.ico')
   eleventyConfig.addPassthroughCopy({
-    'src/static/favicon/favicon.ico': 'favicon.ico',
+    '_js/src/static/favicon/favicon.ico': 'favicon.ico',
   });
-  eleventyConfig.addPassthroughCopy('src/static/favicon');
+  eleventyConfig.addPassthroughCopy('_js/src/static/favicon');
 
   // Minify HTML
   eleventyConfig.addTransform('htmlmin', function (content, outputPath) {

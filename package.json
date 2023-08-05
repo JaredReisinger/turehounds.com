@@ -45,6 +45,7 @@
     "@types/exif-reader": "^1.0.0",
     "@types/html-minifier": "^4.0.2",
     "@types/js-yaml": "^4.0.5",
+    "@types/lunr": "^2.3.4",
     "@types/luxon": "^3.3.1",
     "@types/node": "^20.4.7",
     "alpinejs": "^3.12.3",

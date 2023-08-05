@@ -192,16 +192,3 @@ export function titlify(str: string) {
     )
     .join(' ');
 }
-
-// write a titleMap file for client-side title decoding...
-export function writeTitleMap(filename: string) {
-  const leanMap = Object.fromEntries(
-    Object.entries(ensureTitleMap()).map(([title, obj]) => [
-      title.toUpperCase(),
-      `${title}: ${obj.name}${
-        obj.event.name !== obj.name ? `—${obj.event.name}` : ''
-      }`,
-    ])
-  );
-  fs.writeFileSync(filename, `window.titleMap = ${JSON.stringify(leanMap)};`);
-}

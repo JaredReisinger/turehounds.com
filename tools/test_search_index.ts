@@ -1,9 +1,17 @@
-const fs = require('fs');
-const lunr = require('lunr');
+import * as fs from 'fs';
+import lunr from 'lunr';
+import windowPolyfill from 'node-window-polyfill';
 
-const windowPolyfill = require('node-window-polyfill');
+import type { Index, Previews } from './build_search_index';
 
 const SEARCH_INDEX = '_site/static/js/search_index.js';
+
+// when we eval our data, it defines `SEARCH_INDEX` on window.
+declare global {
+  interface Window {
+    SEARCH_INDEX: Index;
+  }
+}
 
 main();
 
@@ -32,7 +40,7 @@ function main() {
   console.log('result HTML:', html);
 }
 
-function buildSearchResults(results, previews) {
+function buildSearchResults(results: lunr.Index.Result[], previews: Previews) {
   const htmls = results.map((r) => {
     const { l: link, t: title, p: preview } = previews[r.ref];
     return `<div class="search-result"><div class="search-result-title"><a href="${link}">${title}</a><div><div class="search-result-preview">${preview}</div></div>`;

@@ -1,4 +1,4 @@
-// const fs = require('fs');
+import * as fs from 'fs';
 import * as path from 'path';
 // import { exit } from 'process';
 import * as glob from 'glob';
@@ -19,14 +19,6 @@ import {
 } from './images';
 
 const debug = debugFn('galleries');
-
-// /**
-//  * @typedef GalleryOptions
-//  * @type {object}
-//  * @property {string} galleryGlob Glob for gallery image files, relative to the current page.
-//  * @property {import('./images').ElementAttributes} containerAttrs Attributes (classes, styles) for the container element.
-//  * @property {import('./images').ImageOptions} imageOptions
-//  */
 
 export interface GalleryOptions {
   /** Glob for gallery image files, relative to the current page. */
@@ -58,7 +50,6 @@ const DEFAULT_OPTIONS: GalleryOptions = {
 /**
  * Gets the sharp metadata for an image.
  * @param src The image to get the metadata for.
- * @returns
  */
 async function getCaptionInfo(src: string) {
   const sharpImage = sharp(src, { failOn: 'none' });
@@ -138,7 +129,9 @@ function cleanXPInfo(buf: Uint8Array) {
  * (passed to the image shortcode) is independetly merged with the defaults so
  * that if you only set classes, for example, you still get the default sizes.
  */
-async function autoGallery(options: GalleryOptions | undefined = undefined) {
+export async function autoGallery(
+  options: GalleryOptions | undefined = undefined
+) {
   // merge options and defaults (note additional merging for imageOptions)
   const opts = Object.assign({}, DEFAULT_OPTIONS, options, {
     imageOptions: Object.assign(
@@ -288,5 +281,40 @@ async function autoGallery(options: GalleryOptions | undefined = undefined) {
   return html;
 }
 
-export const filters = { async: {}, sync: {} };
-export const shortcodes = { async: { autoGallery }, sync: {} };
+// helper for injecting gallery styles/code
+let galleryHead: string;
+
+function getGalleryHead() {
+  if (!galleryHead) {
+    galleryHead = fs.readFileSync(path.join(__dirname, '_gallery-head.html'), {
+      encoding: 'utf8',
+    });
+  }
+
+  return galleryHead;
+}
+
+export async function galleryHeadTransform(content: string) {
+  // debug('transform', this);
+
+  // if we don't see any 'data-pswp' on the page, immediately return the
+  // existing content unchanged.
+  if (!content.includes('data-pswp')) {
+    return content;
+  }
+
+  // otherwise, assume we need to inject the photoswipe styles and
+  // scripts...
+  debug('need photoswipe stuff for', this.page.url);
+
+  const endOfHead = content.indexOf('</head>');
+  // debug('CONTENT', content.substring(endOfHead - 50, endOfHead + 10));
+  const before = content.substring(0, endOfHead);
+  const after = content.substring(endOfHead);
+
+  // can I define this in a sidecar HTML file or something to get syntax
+  // formatting?
+  const magic = getGalleryHead();
+
+  return before + magic + after;
+}

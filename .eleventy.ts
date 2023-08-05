@@ -3,6 +3,7 @@ import yaml from 'js-yaml';
 import debugFn from 'debug';
 import eleventyNavigationPlugin from '@11ty/eleventy-navigation';
 import helpersPlugin from './plugins/helpers';
+import imagesPlugin from './plugins/images';
 import titlesPlugin from './plugins/titles';
 
 // Setting compilerOptions.typeRoots to @types seems to cause issues... perhaps
@@ -52,6 +53,7 @@ module.exports = function (eleventyConfig: UserConfig) {
 
   // Add all filters/shortcodes from our helper addins...
   eleventyConfig.addPlugin(helpersPlugin, configOptions);
+  eleventyConfig.addPlugin(imagesPlugin, configOptions);
   eleventyConfig.addPlugin(titlesPlugin, configOptions);
 
   // No Netlify CMS yet... may add this back in later?

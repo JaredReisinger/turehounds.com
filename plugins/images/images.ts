@@ -29,33 +29,12 @@ const defaultImageGenOpts: ImageGenOptions = {
 // Rather than positional arguments (which can't be omitted if a later one is
 // needed), we use a structured object for the options *other than* `src`.
 
-// /**
-//  * This is basically the same as @11ty/eleventy-img's `ImageOptions`.
-//  * @typedef {object} ImageGenOptions
-//  * @property {number[]} widths
-//  * @property {string[]} formats
-//  * @property {string} outputDir
-//  * @property {string} urlPath
-//  */
-
 /**
  * This is basically the same as `@11ty/eleventy-img`'s `ImageOptions`.
  */
 export type ImageGenOptions = Required<
   Pick<Image.BaseImageOptions, 'widths' | 'formats' | 'outputDir' | 'urlPath'>
 >;
-// export interface ImageGenOptions {
-//   widths: Image.BaseImageOptions['widths']; // number[];
-//   formats: Image.BaseImageOptions['formats']; // string[];
-//   outputDir: Image.BaseImageOptions['outputDir']; // string;
-//   urlPath: Image.BaseImageOptions['urlPath']; // string;
-// }
-
-// /**
-//  * @typedef {object} ElementAttributes
-//  * @property {string} class Class(es) for the element.
-//  * @property {string} style Style(s) for the element.
-//  */
 
 export interface ElementAttributes {
   /** Class(es) for the element. */
@@ -63,18 +42,6 @@ export interface ElementAttributes {
   /** Style(s) for the element. */
   style?: string;
 }
-
-// /**
-//  * @typedef {object} ImageOptions
-//  * @property {ImageGenOptions} generate
-//  * @property {string} alt (Should this just go inside img?)
-//  * @property {string} sizes
-//  * @property {string} loading
-//  * @property {string} decoding
-//  * @property {ElementAttributes} image
-//  * @property {ElementAttributes} picture
-//  * @property {ElementAttributes} img
-//  */
 
 export interface ImageOptions {
   generate: Partial<ImageGenOptions>;
@@ -93,7 +60,7 @@ export interface ImageOptions {
  * @param options Rendering options.
  * @returns Rendered HTML string for the image.
  */
-async function image(
+export async function image(
   src: string,
   options: Partial<ImageOptions> | undefined = undefined
 ) {
@@ -110,7 +77,7 @@ async function image(
  * @param options Rendering options.
  * @returns Rendered HTML string for the image.
  */
-function imageSync(
+export function imageSync(
   src: string,
   options: Partial<ImageOptions> | undefined = undefined
 ) {
@@ -129,7 +96,7 @@ function imageSync(
  * @param width Target width for the image.
  * @returns A URL for the generated image.
  */
-function imageUrl(src: string, width: number) {
+export function imageUrl(src: string, width: number) {
   const genOpts = mergeImageGenOptions({ widths: [width], formats: ['jpg'] });
   // const metadata = await Image(src, genOpts);
   Image(src, genOpts);
@@ -419,7 +386,7 @@ export interface BackgroundImageOptions {
  * @param src original source image
  * @param options options for background-image
  */
-async function backgroundImage(src: string, options: BackgroundImageOptions) {
+export async function backgroundImage(src: string, options: BackgroundImageOptions) {
   const opts = Object.assign({}, { quote: "'" }, options);
   const { quote, before, after } = opts;
 
@@ -459,39 +426,3 @@ async function backgroundImage(src: string, options: BackgroundImageOptions) {
     )
     .join(' ');
 }
-
-// module.exports = {
-//   filters: {
-//     async: {},
-//     sync: {},
-//   },
-//   shortcodes: {
-//     async: {
-//       image,
-//       // imageUrl,
-//       backgroundImage,
-//     },
-//     sync: {
-//       imageSync,
-//       imageUrl,
-//     },
-//   },
-
-//   generateBetterObject,
-//   generateBetterHTML,
-//   renderObjectHTML,
-//   renderTagAttrHTML,
-// };
-
-export const filters = { async: {}, sync: {} };
-export const shortcodes = {
-  async: {
-    image,
-    // imageUrl,
-    backgroundImage,
-  },
-  sync: {
-    imageSync,
-    imageUrl,
-  },
-};

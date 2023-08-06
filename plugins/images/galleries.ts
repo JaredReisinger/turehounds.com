@@ -2,9 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 // import { exit } from 'process';
 import * as glob from 'glob';
-import sharp from 'sharp';
 import debugFn from 'debug';
-import exifReader from 'exif-reader';
 import { DateTime } from 'luxon';
 
 // const UserConfig = require('@11ty/eleventy/src/UserConfig');
@@ -17,8 +15,9 @@ import {
   generateBetterObject,
   renderObjectHTML,
 } from './images';
+import { getCaptionInfo } from './captions';
 
-const debug = debugFn('galleries');
+const debug = debugFn('plugin:images:galleries');
 
 export interface GalleryOptions {
   /** Glob for gallery image files, relative to the current page. */
@@ -40,84 +39,6 @@ const DEFAULT_OPTIONS: GalleryOptions = {
     },
   },
 };
-
-// @11ty/eleventy-img doesn't expose the sharp image, nor the raw metadata, so
-// it's not possible to get other useful info like the EXIF/XMP data, which
-// would be useful for captions and things.  Thus, we have to replicate that
-// logic here, which is slower, and not as flexible as @11ty/eleventy-img's
-// support for remote images, etc.
-
-/**
- * Gets the sharp metadata for an image.
- * @param src The image to get the metadata for.
- */
-async function getCaptionInfo(src: string) {
-  const sharpImage = sharp(src, { failOn: 'none' });
-  const metadata = await sharpImage.metadata();
-
-  let artist: string | undefined;
-  let copyright: string | undefined;
-  let title: string | undefined;
-  let subject: string | undefined;
-  let comment: string | undefined;
-  let date: DateTime | undefined;
-
-  if (metadata.exif) {
-    debug('got image metadata with EXIF', src);
-    const { image: imageInfo, exif, ...other } = exifReader(metadata.exif);
-
-    // debug('EXIF info', { image: imageInfo, exif, ...other});
-    if (imageInfo) {
-      artist = (imageInfo.Artist as string) || undefined;
-      copyright = (imageInfo.Copyright as string) || undefined;
-      title =
-        (imageInfo.ImageDescription as string) ??
-        cleanXPInfo(imageInfo.XPTitle as Uint8Array);
-      subject = cleanXPInfo(imageInfo.XPSubject as Uint8Array);
-      comment = cleanXPInfo(imageInfo.XPComment as Uint8Array);
-    }
-
-    if (exif) {
-      date = DateTime.fromJSDate(
-        (exif.DateTimeOriginal as Date) || (exif.DateTimeDigitized as Date),
-        { zone: 'utc' }
-      );
-    }
-
-    // debug('UserComment:', exif.exif?.UserComment?.toString());
-  }
-
-  // if (metadata.xmp) {
-  //   debug('got image metadata with xmp', src);
-  //   const xmp = metadata.xmp.toString();
-  //   debug(xmp);
-  // }
-
-  const caption = { artist, copyright, title, subject, comment, date };
-
-  if (artist || copyright || title || subject || comment || date) {
-    debug('caption info...', caption);
-  }
-
-  return caption;
-}
-
-/**
- * Cleans a XP... string buffer from image metadata
- * @param buf raw buffer, UCS-2 encoded (?)
- * @returns A cleaned string, or undefined.
- */
-function cleanXPInfo(buf: Uint8Array) {
-  if (!buf) {
-    return undefined;
-  }
-
-  let str = Buffer.from(buf).toString('ucs2');
-  if (str.endsWith('\x00')) {
-    str = str.substring(0, str.length - 1);
-  }
-  return str;
-}
 
 /**
  * Creates an image gallery from the images in the "gallery" subdirectory of the
@@ -153,81 +74,110 @@ export async function autoGallery(
 
   const items = await Promise.all(
     imageSrcs.map(async (src) => {
-      //TEMP
-      const caption = await getCaptionInfo(src);
-      //TEMP
-      const metadata = await Image(src, {
-        // don't need a lot of sizes, and we max out at 1500
-        widths: [1500, 600, 300],
-        formats: ['webp', 'jpg'],
-        outputDir,
-        urlPath: page.url,
-      });
+      // get captions and metadata in parallel...
+      const [caption, metadata] = await Promise.all([
+        getCaptionInfo(src),
+        Image(src, {
+          // Using fork of eleventy-img!
+          widths:[1800, 600, 300],
+          /*
+          // Unfortunately, there's not a "max of X, or use orignal size if
+          // that's the best you can do" option, *unless* that's the only size
+          // available.  As soon as you ask for another (smaller) size, you will
+          // *only* get specified sizes smaller than the original, unless `null`
+          // in the list, which might resultin huge files.  For example, `[1500,
+          // 600]` with a 1200px image will *only* create a 600px one.  With
+          // `[null, 1500, 600]`, you'd get 1200px and 600px, but a 99999px file
+          // will pass through a huge one!  Maybe worth a PR to
+          // @11ty/eleventy-img to turn explicit-but-too-large widths into the
+          // original width?
+          widths: [1800, 1200, 600, 300],
+          */
+          formats: ['webp', 'jpg'],
+          outputDir,
+          urlPath: page.url,
+        }),
+      ]);
+
+      const { title, date, artist, copyright } = caption;
+
       // debug('image metadata', src, metadata );
       // console.log('image metadata', { src, metadata }, metadata);
 
       // in order to shoehorn any image-specific `alt` attribute, we need to
       // create an image-specific options object here...
       const imageOptions = Object.assign({}, opts.imageOptions);
-      if (caption.title) {
-        imageOptions.alt = caption.title;
+
+      if (title) {
+        imageOptions.alt = title;
       }
 
       const imageObj = generateBetterObject(src, metadata, imageOptions);
 
       const captionParts: HtmlObjectDefinition[] = [];
 
-      if (caption.title) {
-        captionParts.push({
-          $tag: 'div',
-          class: 'title',
-          $content: caption.title,
-        });
-      }
+      ['title', 'subject', 'comment'].forEach((part) => {
+        if (caption[part]) {
+          captionParts.push({
+            $tag: 'div',
+            class: part,
+            $content: caption[part],
+          });
+        }
+      });
 
-      if (caption.subject) {
-        captionParts.push({
-          $tag: 'div',
-          class: 'subject',
-          $content: caption.subject,
-        });
-      }
+      if (date) {
+        let dateFmt = date.toLocaleString(DateTime.DATE_FULL);
 
-      if (caption.comment) {
-        captionParts.push({
-          $tag: 'div',
-          class: 'comment',
-          $content: caption.comment,
-        });
-      }
+        // Look for some sentinal date/times... 23:59:58 means "we don't really
+        // know the day, just show month and year".
+        if (date.hour === 23 && date.minute === 59 && date.second === 58) {
+          dateFmt = date.toLocaleString({ year: 'numeric', month: 'long' });
+        }
 
-      if (caption.date) {
         captionParts.push({
           $tag: 'div',
           class: 'date',
-          $content: caption.date.toFormat('dd LLL yyyy'),
+          $content: dateFmt,
         });
       }
 
       // artist/copyright go together
-      if (caption.artist || caption.copyright) {
+      if (artist || copyright) {
         const creatorParts: HtmlObjectDefinition[] = [];
 
-        if (caption.artist) {
+        if (artist) {
           creatorParts.push({
             $tag: 'div',
             class: 'artist',
-            $content: caption.artist,
+            $content: artist,
           });
         }
 
-        if (caption.copyright) {
+        if (copyright) {
+          // strip any leading (c) or copyright, and replace with (c) symbol
+          let cleaned = copyright;
+          ['copyright', '(c)', '©'].forEach((prefix) => {
+            if (cleaned.toLowerCase().startsWith(prefix)) {
+              cleaned = cleaned.substring(prefix.length).trimStart();
+            }
+          });
+
+          // automatically inject the year, if there's a date?
+          if (date) {
+            const yearFmt = date.toLocaleString({ year: 'numeric' });
+            if (!cleaned.startsWith(yearFmt)) {
+              cleaned = `${yearFmt} ${cleaned}`;
+            }
+          }
+
           creatorParts.push({
             $tag: 'div',
             class: 'copyright',
-            $content: caption.copyright,
+            $content: cleaned, // © added in CSS styling
           });
         }
+
         captionParts.push({
           $tag: 'div',
           class: 'creator',

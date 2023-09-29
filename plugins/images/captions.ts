@@ -181,17 +181,18 @@ function extractCaptionFromImage(src: string) {
 
     if (metadata.exif) {
       debug('got image metadata with EXIF', src);
-      const { image: imageInfo, exif, ...other } = exifReader(metadata.exif);
+      const { Image: imageInfo, Photo: exif, ...other } = exifReader(metadata.exif);
 
-      // debug('EXIF info', { image: imageInfo, exif, ...other});
+      debug('EXIF info', { image: imageInfo, exif, ...other});
       if (imageInfo) {
-        artist = (imageInfo.Artist as string) || undefined;
-        copyright = (imageInfo.Copyright as string) || undefined;
+        artist = imageInfo.Artist || undefined;
+        copyright = imageInfo.Copyright || undefined;
         title =
-          (imageInfo.ImageDescription as string) ??
-          cleanXPInfo(imageInfo.XPTitle as Uint8Array);
-        subject = cleanXPInfo(imageInfo.XPSubject as Uint8Array);
-        comment = cleanXPInfo(imageInfo.XPComment as Uint8Array);
+          imageInfo.ImageDescription ??
+          // defined types for XPTitle (etc) are *wrong*
+          cleanXPInfo(imageInfo.XPTitle as unknown as Uint8Array);
+        subject = cleanXPInfo(imageInfo.XPSubject as unknown as Uint8Array);
+        comment = cleanXPInfo(imageInfo.XPComment as unknown as Uint8Array);
       }
 
       if (exif) {

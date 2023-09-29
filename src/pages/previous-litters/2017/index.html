@@ -2,28 +2,131 @@
 title: "2017: Disa x Bravo"
 order: 2017
 description: The first litter at Ture Hounds.
+layout: page-full
+
+galleryOptions:
+  galleryGlob: "**/gallery/*.{jpg,JPG,jpeg,JPEG,png,PNG,heic,HEIC}"
+
 ---
-<p class="lead">
-  On July 16, 2017, our first litter arrived! All of these puppies now have
-  their forever-homes, and we couldn’t be happier with their new families.
-</p>
+<div class="prose lg:prose-lg prose-zinc mx-auto">
 
-{% image "src/pages/previous-litters/2017/2017-puppies.jpg" %}
+  <p class="lead">
+    On July 16, 2017, our first litter arrived! All of these puppies now have
+    their forever-homes, and we couldn’t be happier with their new families.
+  </p>
 
-<p>
-  Finding a sire to pair with our first Basenji, Disa, took a while, but with
-  the help of Michael Work, a long-time principal in the breed, we finally found
-  one in Bravo: a dog who no longer lived, but who had been collected some
-  25-odd years previously. Using semen of that age meant a lot of advance
-  testing to help ensure that everything was as ideal as possible for the
-  artificial insemination’s success. Not only was it successful, but each and
-  every one of the puppies has been wonderfully healthy.
-</p>
+  {% image "src/pages/previous-litters/2017/gallery/2017-puppies.jpg" %}
 
-<ul>
-  <li><a href="dresden-mr-blue">Mr. Blue—Dresden</a></li>
-  <li><a href="banjo-mr-red">Mr. Red—Banjo</a></li>
-  <li><a href="delilah-miss-yellow">Miss Yellow—Delilah</a></li>
-  <li><a href="gable-mr-white">Mr. White—Gable</a></li>
-  <li><a href="cowboy-mr-green">Mr. Green—Cowboy</a></li>
-</ul>
+  <p>
+    Finding a sire to pair with our first Basenji, Disa, took a while, but with
+    the help of Michael Work, a long-time principal in the breed, we finally found
+    one in Bravo: a dog who no longer lived, but who had been collected some
+    25-odd years previously. Using semen of that age meant a lot of advance
+    testing to help ensure that everything was as ideal as possible for the
+    artificial insemination’s success. Not only was it successful, but each and
+    every one of the puppies has been wonderfully healthy.
+  </p>
+
+  {% from "utilities.njk" import bioCard %}
+
+  <div class="flex flex-col space-y-8">
+    {% call bioCard("Mr. Blue — Dresden", "src/pages/previous-litters/2017/gallery/dresden-group1.jpg") %}
+    <p class="lead font-semibold">
+      <small class="font-normal text-zinc-400">
+        {{- 'CH' | titlify | safe -}}
+      </small>
+      Ture & Taji’s Sirius Piece Of Work
+      {# <small class="font-normal text-zinc-400">
+        {{- '' | titlify | safe -}}
+      </small> #}
+    </p>
+    <p>
+      First-born Dresden.
+    </p>
+    {% endcall %}
+
+    {% call bioCard("Mr. Red — Banjo", "src/pages/previous-litters/2017/banjo-mr-red/gallery/Disa-x-Bravo-Puppies-2017-09-23-059.jpg") %}
+    <p class="lead font-semibold">
+      {# <small class="font-normal text-zinc-400">
+        {{- '' | titlify | safe -}}
+      </small> #}
+      Taji And Ture’s Strings Of Fire
+      {# <small class="font-normal text-zinc-400">
+        {{- '' | titlify | safe -}}
+      </small> #}
+    </p>
+    <p>
+      Banjo, the second born, was the high-jumper of the litter. He was the
+      motivating factor in all four of our puppy-pen upgrades, needing
+      climb-proofing and jump-proofing well before any of his siblings.
+    </p>
+    {% endcall %}
+
+    {% call bioCard("Miss Yellow — Delilah", "src/pages/previous-litters/2017/delilah-miss-yellow/gallery/Disa-x-Bravo-Puppies-2017-09-23-036.jpg") %}
+    <p class="lead font-semibold">
+      {# <small class="font-normal text-zinc-400">
+        {{- '' | titlify | safe -}}
+      </small> #}
+      Ture And Taji Dance With Delilah
+      {# <small class="font-normal text-zinc-400">
+        {{- '' | titlify | safe -}}
+      </small> #}
+    </p>
+    <p>
+      The middle child, and only girl, Miss Delilah very clearly grew up with four
+      brothers, learning to give as good as she got.
+    </p>
+    {% endcall %}
+
+    {% call bioCard("Mr. White — Gable", "gable-and-barbara.jpg") %}
+    <p class="lead font-semibold">
+      <small class="font-normal text-zinc-400">
+        {{- 'CH' | titlify | safe -}}
+      </small>
+      Taji & Ture’s G.Wiz R U Sirius?
+      <small class="font-normal text-zinc-400">
+        {{- 'SC CA BCAT TKI ITD-M' | titlify | safe -}}
+      </small>
+    </p>
+    <p>
+      Our initial “keeper” out of Disa’s first litter{# (sired by the famous Sonbar’s
+      Celestial Wizard, a.k.a. “Bravo”)#}, Gable is a spunky little monkey.
+      Having been raised from birth using the “Puppy Culture” protocol, he
+      believes that the world is a fun place, where new experiences can be
+      incredibly rewarding… which means he’s willing to try doing just about
+      anything! (If we could get a Basenji to swim voluntarily, it would most
+      likely be Gable.)
+    </p>
+    <p>
+      Gable is now the “brother from another mother” for the lovely Odette, and
+      aiming to become a Hollywood star.
+    </p>
+    {% endcall %}
+
+    {% call bioCard("Mr. Green — Cowboy", "src/pages/previous-litters/2017/cowboy-mr-green/gallery/Disa-x-Bravo-Puppies-2017-09-11-058.jpg") %}
+    <p class="lead font-semibold">
+      {# <small class="font-normal text-zinc-400">
+        {{- '' | titlify | safe -}}
+      </small> #}
+      Taji’s Midnight Cowboy Rides With Ture
+      {# <small class="font-normal text-zinc-400">
+        {{- '' | titlify | safe -}}
+      </small> #}
+    </p>
+    <p>
+      Last but certainly not least, Cowboy loved to play with all of his
+      brothers and his sister.
+    </p>
+    {% endcall %}
+  </div>
+
+  {# <ul>
+    <li><a href="dresden-mr-blue">Mr. Blue—Dresden</a></li>
+    <li><a href="banjo-mr-red">Mr. Red—Banjo</a></li>
+    <li><a href="delilah-miss-yellow">Miss Yellow—Delilah</a></li>
+    <li><a href="gable-mr-white">Mr. White—Gable</a></li>
+    <li><a href="cowboy-mr-green">Mr. Green—Cowboy</a></li>
+  </ul> #}
+</div>
+
+{% autoGallery galleryOptions %}

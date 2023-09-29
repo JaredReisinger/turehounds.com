@@ -25,14 +25,16 @@ interface CaptionYaml extends Omit<Caption, 'date'> {
 // We cache loaded/parsed/detected caption data so that we don't go through the
 // process for the same imge more than once. This is predicated on the
 // fundamental image src (non-resized) path.
-const cache: Record<string, Promise<Caption>> = {};
+const captionsFromSidecar: Record<string, Promise<Caption>> = {};
+const captionsFromImage: Record<string, Promise<Caption>> = {};
+const captionCache: Record<string, Caption> = {};
 
 // we also cache caption sidecar file attempts for much the same reason; a
 // sparse file in a directory with a lot of images will result in attempts for
 // all of the images *not* listed in the caption file.  Note that "true" in this
 // cache merely means that the sidecar file has been attempted at least once,
 // even if it does not exist.
-const sidecarCache: Record<string, Promise<boolean>> = {};
+const sidecars: Record<string, Promise<boolean>> = {};
 
 // @11ty/eleventy-img doesn't expose the sharp image, nor the raw metadata, so
 // it's not possible to get other useful info like the EXIF/XMP data, which
@@ -45,17 +47,24 @@ const sidecarCache: Record<string, Promise<boolean>> = {};
  */
 export async function getCaptionInfo(src: string) {
   src = path.resolve(src);
-  let caption = await cache[src];
+  // let caption = await captionCache[src];
 
-  if (caption) {
-    return caption;
+  if (captionCache[src]) {
+    return captionCache[src];
   }
 
-  caption = await findCaptionDatafile(src);
+  // TODO: we should really merge these!
+  const [fromSidecar, fromImage] = await Promise.all([
+    findSidecarCaption(src),
+    extractCaptionFromImage(src),
+  ]);
 
-  if (!caption) {
-    caption = await extractCaptionFromImage(src);
-  }
+  const caption = { ...fromImage, ...fromSidecar };
+  // caption = await findCaptionDatafile(src);
+
+  // if (!caption) {
+  //   caption = await extractCaptionFromImage(src);
+  // }
 
   if (
     caption.artist ||
@@ -69,6 +78,7 @@ export async function getCaptionInfo(src: string) {
   }
 
   // cache[src] = caption;
+  captionCache[src] = caption;
 
   return caption;
 }
@@ -78,7 +88,7 @@ export async function getCaptionInfo(src: string) {
  * data for *all* images listed in the sidecar file are added to the cache.
  * @param src image file for which to extract a captions
  */
-async function findCaptionDatafile(src: string) {
+async function findSidecarCaption(src: string) {
   const dir = path.dirname(src);
   const sidecar = path.join(dir, 'captions.yaml');
 
@@ -86,10 +96,10 @@ async function findCaptionDatafile(src: string) {
   // parallel.  Rather than caching the result, we actually cache the promise...
   // once it's resolved, awaiting it is instantaneous. But if it's still
   // in-progress, 2-N attempts will just wait for the initial attempt.
-  if (sidecarCache[sidecar]) {
+  if (sidecars[sidecar]) {
     debug('sidecar already found for', src);
   } else {
-    sidecarCache[sidecar] = (async () => {
+    sidecars[sidecar] = (async () => {
       try {
         debug('looking for caption yaml', sidecar);
         const content = await fs.readFile(sidecar, { encoding: 'utf8' });
@@ -100,15 +110,15 @@ async function findCaptionDatafile(src: string) {
 
         Object.entries(captions).forEach(([name, caption]) => {
           const filename = path.join(dir, name);
-          cache[filename] = Promise.resolve({
-            ...caption,
-            date: luxonify(caption.date),
+          captionsFromSidecar[filename] = Promise.resolve({
+            ...(caption as Omit<CaptionYaml, 'date'>),
+            ...(caption.date ? { date: luxonify(caption.date) } : {}),
           });
         });
 
         debug('loaded captions for', Object.keys(captions));
-        debug('current caption cache: %o', cache);
-        debug('caption for %s: %o', src, cache[src]);
+        // debug('current caption cache: %o', cacheFromSidecar);
+        debug('sidecar caption for %s: %o', src, captionsFromSidecar[src]);
 
         // return cache[src]; // could be undefined!
         // } catch (e) {
@@ -119,9 +129,9 @@ async function findCaptionDatafile(src: string) {
     })();
   }
 
-  await sidecarCache[sidecar];
-  debug('cached caption for %s: %o', src, cache[src]);
-  return cache[src]; // promise or undefined?
+  await sidecars[sidecar];
+  debug('cached sidecar caption for %s: %o', src, captionsFromSidecar[src]);
+  return captionsFromSidecar[src]; // promise or undefined?
 }
 
 function luxonify(date: Date | string | undefined) {
@@ -133,21 +143,32 @@ function luxonify(date: Date | string | undefined) {
     return DateTime.fromJSDate(date);
   }
 
-  const dt = DateTime.fromISO(date, { setZone: true });
+  const dt = DateTime.fromISO(date, {
+    zone: 'America/Los_Angeles',
+    setZone: true,
+  });
   if (dt.isValid) {
     return dt;
   }
   throw new Error(`could not parse ${date} as luxon.DateTime`);
 }
 
+const datePatterns = [
+  /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/,
+  /(?<year>\d{4})(?<month>\d{2})(?<day>\d{2})_(?<hour>\d{2})(?<minute>\d{2})(?<second>\d{2})/,
+  /(?<year>\d{4})(?<month>\d{2})(?<day>\d{2})/,
+];
+
 /**
  * Attempts to extract caption information from image metadata.
  * @param src image file for which to extract a captions
  */
 function extractCaptionFromImage(src: string) {
-  // If this is called, we know that there's nothing in the cache yet, so we go
-  // ahead and seed the cache with the promise we're working to fulfill.
-  cache[src] = (async () => {
+  if (captionsFromImage[src]) {
+    return captionsFromImage[src];
+  }
+
+  captionsFromImage[src] = (async () => {
     const sharpImage = sharp(src, { failOn: 'none' });
     const metadata = await sharpImage.metadata();
 
@@ -188,10 +209,41 @@ function extractCaptionFromImage(src: string) {
     //   debug(xmp);
     // }
 
-    return { artist, copyright, title, subject, comment, date } as Caption;
+    // If we don't have the date, see if we can find a likely candidate in the
+    // path/filename...
+    if (!date) {
+      for (const pat of datePatterns) {
+        const m = src.match(pat);
+        if (m) {
+          // sanity-check the year... between 1970 and 2050 (should use current
+          // year?)
+          const year = Number.parseInt(m.groups.year, 10);
+          if (year < 1970 || year > 2050) {
+            continue;
+          }
+
+          date = luxonify(
+            `${m.groups.year}-${m.groups.month}-${m.groups.day}T${
+              m.groups.hour ?? '00'
+            }:${m.groups.minute ?? '00'}:${m.groups.second ?? '00'}`
+          );
+          debug('date from filename', src, m, date);
+          break;
+        }
+      }
+    }
+
+    return {
+      ...(artist ? { artist } : {}),
+      ...(copyright ? { copyright } : {}),
+      ...(title ? { title } : {}),
+      ...(subject ? { subject } : {}),
+      ...(comment ? { comment } : {}),
+      ...(date ? { date } : {}),
+    } as Caption;
   })();
 
-  return cache[src];
+  return captionsFromImage[src];
 }
 
 /**

@@ -1,8 +1,6 @@
-# Print trailing commas wherever possible.
-# Valid options:
-#  - "none" - no trailing commas
-#  - "es5" - trailing commas where valid in ES5 (objects, arrays, etc)
-#  - "all" - trailing commas wherever possible (function arguments)
+plugins:
+  - '@shopify/prettier-plugin-liquid'
+
 trailingComma: es5
 singleQuote: true
 editorConfig: true

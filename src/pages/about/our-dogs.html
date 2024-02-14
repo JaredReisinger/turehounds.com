@@ -27,7 +27,7 @@ titleList:
   - TKN
   - TKP
 ---
-{% from "utilities.njk" import bioCard %}
+{% from "utilities.njk" import bioCard, dogName %}
 
 <div class="lg:flex justify-center lg:gap-8">
   <div class="prose lg:prose-lg prose-zinc mx-auto lg:mx-0">
@@ -38,14 +38,9 @@ titleList:
     </p>
     <div class="flex flex-col space-y-8">
       {% call bioCard("Disa", "Disa_JP 2.jpg") %}
-      <p class="lead font-semibold">
-        <small class="font-normal text-zinc-400">
-          {{- 'DC' | titlify | safe -}}
-        </small>
-        Taji’s hAfrican Queen Disa
-        <small class="font-normal text-zinc-400">
-          {{- 'SC CA BCAT CGCA CGCU TKA FDX RATM' | titlify | safe -}}</small
-        ><a href="#alphabet-soup" class="lg:hidden">*</a>
+      <p class="lead">
+        {{ dogName("Taji’s hAfrican Queen Disa", undefined, "DC", "SC CA BCAT CGCA CGCU TKA FDX RATM") -}}
+        <a href="#alphabet-soup" class="lg:hidden">*</a>
       </p>
       <p>
         A half-African out of a mother who was brought out of the Congo as a
@@ -64,14 +59,8 @@ titleList:
       {% endcall %}
 
       {% call bioCard("Spyros", "spyros-manhole.jpg") %}
-      <p class="lead font-semibold">
-        <small class="font-normal text-zinc-400">
-          {{- 'CH' | titlify | safe -}}
-        </small>
-        Kibushi Gugu Diospyros
-        <small class="font-normal text-zinc-400">
-          {{- 'RI JC CAA BCAT SWA RATO CGCA CGCU TKP' | titlify | safe -}}
-        </small>
+      <p class="lead">
+        {{ dogName("Kibushi Gugu Diospyros", undefined, "CH", "RI JC CAA BCAT SWA RATO CGCA CGCU TKP") }}
       </p>
       <p>
         Technically a half-African, but what we’d prefer to call “two-quarters
@@ -92,14 +81,8 @@ titleList:
       {% endcall %}
 
       {# {% call bioCard("Gable", "gable-and-barbara.jpg") %}
-      <p class="lead font-semibold">
-        <small class="font-normal text-zinc-400">
-          {{- 'CH' | titlify | safe -}}
-        </small>
-        Taji & Ture’s G.Wiz R U Sirius?
-        <small class="font-normal text-zinc-400">
-          {{- 'SC CA BCAT TKI ITD-M' | titlify | safe -}}
-        </small>
+      <p class="lead">
+        {{ dogName("Taji & Ture’s G.Wiz R U Sirius?", undefined, "CH", "SC CA BCAT TKI ITD-M") }}
       </p>
       <p>
         Our “keeper” out of Disa’s first litter (sired by the famous Sonbar’s
@@ -113,14 +96,8 @@ titleList:
       {% endcall %} #}
 
       {% call bioCard("Bogart", "bogart.jpg") %}
-      <p class="lead font-semibold">
-        <small class="font-normal text-zinc-400">
-          {{- 'BIF FC' | titlify | safe -}}
-        </small>
-        Ture’s Stuff Dreams Are Made Of
-        <small class="font-normal text-zinc-400">
-          {{- 'BCAT TKN NTD-M' | titlify | safe -}}
-        </small>
+      <p class="lead">
+        {{ dogName("Ture’s Stuff Dreams Are Made Of", undefined, "BIF FC", "BCAT TKN NTD-M") }}
       </p>
       <p>
         Our male “keeper” out of Disa’s second litter (sired by Dark Moon’s Bada
@@ -129,14 +106,8 @@ titleList:
       {% endcall %}
 
       {% call bioCard("Hedy", "hedy.jpg") %}
-      <p class="lead font-semibold">
-        <small class="font-normal text-zinc-400">
-          {{- 'GCHB' | titlify | safe -}}
-        </small>
-        Ture’s Sending Sirius Signals
-        <small class="font-normal text-zinc-400">
-          {{- 'TKN' | titlify | safe -}}
-        </small>
+      <p class="lead">
+        {{ dogName("Ture’s Sending Sirius Signals", undefined, "GCHB", "TKN") }}
       </p>
       <p>
         Our female “keeper” out of Disa’s second litter (sired by Dark Moon’s
@@ -155,8 +126,8 @@ titleList:
       <p>So glad you asked!</p>
 
       <p class="italic bg-amber-50 border border-amber-100 rounded-md p-2">
-        <b>TL;DR:</b> hover over the letters to see what title they represent. On
-        mobile, well, you’ll have to keep reading.
+        <b>TL;DR:</b> hover over the letters to see what title they represent.
+        On mobile, well, you’ll have to keep reading.
       </p>
 
       <p>
@@ -186,8 +157,7 @@ titleList:
 
       <p class="text-zinc-400">
         <i
-          >(There are more listed on the
-          <a href="/titles/">titles</a> page.)</i
+          >(There are more listed on the <a href="/titles/">titles</a> page.)</i
         >
       </p>
 

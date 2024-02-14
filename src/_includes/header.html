@@ -53,10 +53,15 @@
               >
                 <div class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                   <div class="relative grid xx-gap-6 bg-white xx-px-5 xx-py-6 xx-sm:gap-8 xx-sm:p-8">
+                    {% set prevGroup = '' %}
                     {% for child in nav.children %}
+                      {% if child.group != prevGroup and child.group != ''  %}
+                        <div class="pt-2 pb-1 px-2 text-xs text-zinc-400">{{ child.group }}</div>
+                      {% endif %}
+                      {% set prevGroup = child.group %}
                       <a
                         href="{{ child.url }}"
-                        class="xx--m-3 flex items-start rounded-lg p-3 hover:bg-zinc-50"
+                        class="xx--m-3 flex items-start rounded-lg p-3 hover:bg-zinc-100"
                       >
                         <div class="xx-ml-4">
                           {{- child.title -}}
@@ -143,7 +148,7 @@
                   <button
                     type="button"
                     @click="open = !open"
-                    class="rounded-md p-3 hover:bg-zinc-50 flex w-full"
+                    class="rounded-md p-3 hover:bg-zinc-100 flex w-full"
                     aria-expanded="false"
                   >
                     <span>{{ nav.title }}</span>
@@ -151,10 +156,15 @@
                   </button>
 
                   <div x-cloak x-show="open" class="ml-4">
+                    {% set prevGroup = '' %}
                     {% for child in nav.children %}
+                      {% if child.group != prevGroup and child.group != ''  %}
+                        <div class="pt-2 pb-1 px-2 text-xs text-zinc-400">{{ child.group }}</div>
+                      {% endif %}
+                      {% set prevGroup = child.group %}
                       <a
                         href="{{ child.url }}"
-                        class="block rounded-md p-3 hover:bg-zinc-50"
+                        class="block rounded-md p-3 hover:bg-zinc-100"
                       >
                         {{- child.title -}}
                       </a>
@@ -164,7 +174,7 @@
               {% else %}
                 <a
                   href="{{ nav.url }}"
-                  class="block rounded-md p-3 hover:bg-zinc-50"
+                  class="block rounded-md p-3 hover:bg-zinc-100"
                 >
                   {{- nav.title -}}
                 </a>

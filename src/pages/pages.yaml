@@ -15,3 +15,4 @@ eleventyComputed:
     parent: "{{ page.filePathStem | trimstart('/pages/') | trimend('/index') | split('/') | arrayslice(0, -1) | join('/') }}"
     order: "{{ order }}"
     hidden: "{{ hidden }}"
+    group: "{{ group }}"

@@ -42,6 +42,23 @@
 </div>
 {%- endmacro -%}
 
+{%- macro dogName(regName, callName = undefined, prefix = undefined, suffix = undefined) -%}
+  {%- if prefix -%}
+      <small class="font-normal text-zinc-400">
+        {{- prefix | titlify | safe -}}
+      </small>&nbsp;
+  {%- endif -%}
+  <b class="font-semibold">{{ regName }}</b>
+  {%- if suffix -%}
+      &nbsp;<small class="font-normal text-zinc-400">
+        {{- suffix | titlify | safe -}}
+      </small>
+  {%- endif -%}
+  {%- if callName -%}
+      {{ ' ' }}(a.k.a. “{{ callName }}”)
+  {%- endif -%}
+{%- endmacro -%}
+
 {%- macro titlesXX(str) -%}
 {%- set titles = str | split(' ') -%}
 {%- for title in titles -%}

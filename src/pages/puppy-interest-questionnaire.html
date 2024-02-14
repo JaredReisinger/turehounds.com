@@ -12,10 +12,18 @@ order: 40
   require answers.
 </p>
 
+{#
 <p class="italic bg-amber-100 text-amber-700 p-8 rounded-lg">
   <b>Please note:</b> We have no specific breeding plans for 2023/2024. We are
   always happy to start discussions with you about what you are looking for, but
   please be aware that you’ll likely need to wait a couple of years.
+</p>
+#}
+
+<p class="italic bg-green-100 text-green-700 p-8 rounded-lg">
+  <b>Please note:</b> We <b>DO</b> have
+  <a href="/litters/2024/">breeding plans for 2024/2025</a>! More information
+  will be forthcoming, but please reach out via this form if you are interested.
 </p>
 
 <form
@@ -53,6 +61,15 @@ order: 40
         placeholder="(987) 654-3210"
     ></label>
 
+    <label for="age-range"
+      >Your age (roughly)<select name="age-range" id="age-range" required>
+        <option></option>
+        <option>25 or younger</option>
+        <option>26-40</option>
+        <option>41-55</option>
+        <option>56 or over</option>
+      </select></label>
+
     <label for="location"
       >Your location (city and state)<input
         type="text"
@@ -80,7 +97,7 @@ order: 40
       </select></label
     >
 
-    <label for="no-reservations"
+    {# <label for="no-reservations"
       >Do you understand that no litter is yet planned, and we are not currently
       accepting any reservations at all?<select
         name="no-reservations"
@@ -91,7 +108,7 @@ order: 40
         <option>Yes</option>
         <option>No</option>
       </select></label
-    >
+    > #}
 
     <label for="people"
       >Describe the people who live in your home. Kids (how old)? Roommates?<textarea
@@ -163,7 +180,7 @@ order: 40
         >(If your primary reason is because you understand that they are
         hypoallergenic, please realize that they are <em>not</em>, nor is any
         dog, really.)</span
-      ><textarea
+      >><textarea
         required
         rows="5"
         name="reasons"

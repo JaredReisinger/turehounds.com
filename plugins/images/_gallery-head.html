@@ -41,8 +41,8 @@ import PhotoSwipeLightbox from '/static/js/photoswipe-lightbox.esm.min.js';
 import PhotoSwipeDynamicCaption from '/static/js/photoswipe-dynamic-caption-plugin.esm.min.js';
 
 const lightbox = new PhotoSwipeLightbox({
-  gallery: '#body-content > div > div.columns-xs',
-  children: 'div.rounded-lg',
+  gallery: '#body-content div.gallery',
+  children: 'div.gallery-img',
   //children: 'picture',
   bgOpacity: 0.9, // default is 0.8, but captions can be hard to read.
   pswpModule: () => import('/static/js/photoswipe.esm.min.js'),

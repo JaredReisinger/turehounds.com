@@ -30,12 +30,12 @@ export interface GalleryOptions {
 const DEFAULT_OPTIONS: GalleryOptions = {
   galleryGlob: 'gallery/*.{jpg,JPG,jpeg,JPEG,png,PNG,heic,HEIC}',
   containerAttrs: {
-    class: 'columns-xs gap-4 my-8',
+    class: 'gallery columns-xs gap-4 my-8',
   },
   imageOptions: {
     sizes: '20rem', // columns-xs gives a 20rem-wide column
     image: {
-      class: 'rounded-lg mb-4 block w-full',
+      class: 'gallery-img rounded-lg mb-4 block w-full',
     },
   },
 };
@@ -47,7 +47,7 @@ const DEFAULT_OPTIONS: GalleryOptions = {
  *
  * As with the "improved" image shortcodes, this takes an option object rather
  * than positional parameters.  Also note that the `options.imageOptions` value
- * (passed to the image shortcode) is independetly merged with the defaults so
+ * (passed to the image shortcode) is independently merged with the defaults so
  * that if you only set classes, for example, you still get the default sizes.
  */
 export async function autoGallery(
@@ -68,9 +68,14 @@ export async function autoGallery(
   // output dir will be same as the page
   const outputDir = path.dirname(page.outputPath);
 
-  const imageSrcs = glob.sync(
+  const imageSrcs = await glob.glob(
     path.resolve(path.dirname(page.inputPath), opts.galleryGlob)
   );
+
+  // glob seems to pretty reliably return reverse-sorted strings... we want
+  // deterministically forward-sorted strings (so that you can define order with
+  // prefixes like "01-", "02-", etc.)
+  imageSrcs.sort();
 
   const items = await Promise.all(
     imageSrcs.map(async (src) => {
@@ -81,11 +86,11 @@ export async function autoGallery(
           // Using fork of eleventy-img!
           widths:[1800, 600, 300],
           /*
-          // Unfortunately, there's not a "max of X, or use orignal size if
+          // Unfortunately, there's not a "max of X, or use original size if
           // that's the best you can do" option, *unless* that's the only size
           // available.  As soon as you ask for another (smaller) size, you will
           // *only* get specified sizes smaller than the original, unless `null`
-          // in the list, which might resultin huge files.  For example, `[1500,
+          // in the list, which might result in huge files.  For example, `[1500,
           // 600]` with a 1200px image will *only* create a 600px one.  With
           // `[null, 1500, 600]`, you'd get 1200px and 600px, but a 99999px file
           // will pass through a huge one!  Maybe worth a PR to
@@ -129,7 +134,7 @@ export async function autoGallery(
       if (date) {
         let dateFmt = date.toLocaleString(DateTime.DATE_FULL);
 
-        // Look for some sentinal date/times... 23:59:58 means "we don't really
+        // Look for some sentinel date/times... 23:59:58 means "we don't really
         // know the day, just show month and year".
         if (date.hour === 23 && date.minute === 59 && date.second === 58) {
           dateFmt = date.toLocaleString({ year: 'numeric', month: 'long' });

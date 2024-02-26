@@ -4,6 +4,17 @@ order: 1 # 2024
 group: Future Litter
 description: The fourth litter at Ture Hounds.
 layout: page-full
+
+# galleryHedy:
+#  galleryGlob: "gallery/hedy*"
+
+# we limit to 2-wide, instead of full width...
+galleryOptions:
+  containerAttrs:
+    class: gallery not-prose grid grid-cols-2 gap-4 my-8
+  imageOptions:
+    image:
+      class: gallery-img rounded-lg block w-full
 ---
 {% from "utilities.njk" import dogName %}
 <div class="prose lg:prose-lg prose-zinc mx-auto">
@@ -22,13 +33,54 @@ layout: page-full
     and she has
     <a href="https://saorsabasenjis.wixsite.com/basenjis/projects-6"
       >a fantastic write-up on what we expect from the litter</a
-    >.
+    >:
+  </p>
+
+  <blockquote>
+    <p>
+      It will be a co-breeding with our good friends Barbara &amp; Jared of Ture
+      Basenjis, and blends the “old” so-called domestic and the “new” African
+      pedigrees in what we hope will be beautifully tempered dogs that exude
+      “Basenji-ness”, and are up for whatever activity you want to try. The
+      parents will be
+      {{ dogName("Saorsa FoPaw’s Warp Factor Won", "Gage", "SBIF GCH DC", "SC CA BCAT TKA SGRC VBX") }}
+      and {{ dogName("Ture’s Sending Sirius Signals", "Hedy", "GCHB", "TKN") }}.
+    </p>
+
+    <p>
+      This combo will result in puppies who will not have Fanconi Syndrome, and
+      though they could possibly carry one copy of the gene that causes
+      PRA-Night Blindness, they will never actually have it. Dogs must have two
+      copies to be affected by the disease.
+    </p>
+
+    <p>
+      Puppies are expected to be red and tri colored, and though this is a
+      complete outcross, we expect fun, engaged temperaments, beautiful heads,
+      rich coats, level toplines, and beautiful Basenji movement. We also expect
+      them to have lots of potential in various sports, including racing, lure
+      coursing, scent work (Gage is in classes now), or whatever else you might
+      like to try. Mostly, they should be fun little dogs.
+    </p>
+
+    <p>
+      These puppies will be ⅛ recent African import, which is not a lot, but it
+      is my hope that this will help promote some heterozygosity important to
+      immune health, but maintain the breed type we desire.
+    </p>
+  </blockquote>
+
+  <p>
+    Health screening results for both
+    <a href="https://ofa.org/advanced-search/?appnum=2238435">Hedy</a> and
+    <a href="https://ofa.org/advanced-search/?appnum=2072125">Gage</a> are
+    available.
   </p>
 
   <p>
-    If you are interested, please fill out the
+    If you are interested in this litter, please fill out the
     <a href="/puppy-interest-questionnaire">puppy interest questionnaire</a>.
   </p>
-</div>
 
-{% autoGallery %}
+  {% autoGallery galleryOptions %}
+</div>

@@ -43,6 +43,20 @@ p:last-child {
   margin-bottom: 0 !important;
 }
 
+/* prevent additional blockquote quotes... */
+.prose
+  :where(blockquote p:first-of-type):not(
+    :where([class~='not-prose'], [class~='not-prose'] *)
+  )::before {
+  content: '';
+}
+
+.prose
+  :where(blockquote p:last-of-type):not(
+    :where([class~='not-prose'], [class~='not-prose'] *)
+  )::after {
+  content: '';
+}
 /* our default form.form-default styling... */
 form.form-default label,
 form.form-default fieldset legend {

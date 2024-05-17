@@ -33,6 +33,7 @@
     "search:build": "node _js/tools/build_search_index.js",
     "search:test": "node _js/tools/test_search_index.js",
     "titles:build": "node _js/tools/build_title_map.js",
+    "titles:test": "npm run prebuild && node _js/tools/test_title_map.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {

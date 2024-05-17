@@ -1,672 +1,661 @@
-# I'm trying to come up with a compact format for describing titles and
-# definitions. I think an array or arrays (to avoid key boilerplate) will work:
-# an array of "Events", where each event is a title prefix (if any?), name,
-# description, and then a sub-array for individual titles:
-#
-#   [[KEY, Name, Description, DefaultTitle, [[TN, Title], [TA, Title], ...]], [KEY2, Name2,
-#   ...]]
-#
-# where the [TN, Title] goes on to include:
-#
-#   [TN, Title, Description, [SUPERCEDES, ...], PREFIX?]
-#
-# There are also some shortcuts:
-#    ^1 - use the default event title
-#    ^2 - use the level that's the trailing letter of the title
-#    ^A - (any letter) use the specified level
-#    ^^ - shortcut for "^1 ^2"
-#    ^  - shotcut for just "^1"
-#
-# By default, if the SUPERCEDES list is not present, a title supercedes anything
-# before it in the event title list.
-#
-# UPDATE (2023-02-01): Maybe the lesser-used values (description, supercedes,
-# prefix) should be in a keyed object? Like [TN, Title, {desc:, supercedes:...}]
-# We're not actually using those fields yet, though, so :shrug:
+# See the README for the replacement shortcuts.
 
 levels:
   N: Novice
   I: Intermediate
   O: Open
+  J: Junior
   S: Senior
+  B: Beginner
   A: Advanced
   X: Excellent
   M: Master
   E: Elite
+  C: Champion
+  G: Grand Champion
+  # should we recognize "CH" as a term?
 
 events:
-  # - - KEY
-  #   - NAME
-  #   - DESC
-  #   - DEFAULT TITLE (opt)
-  #   - - - TITLE-LETTERS
-  #       - TITLE NAME
-  #       - DESC
-  #       - [SUPERCEDES]
-  #       - PREFIX?
-  - - DC
-    - Dual-champion
-    - Special indicator when a dog earns both conformation Champion and Field Champion
-    - - - DC
-        - Dual-champion
-        - Dog earns both conformation Champion and Field Champion
-        - [CH, FC]
-        - PREFIX
+  - name: Dual-champion
+    desc: Special indicator when a dog earns both conformation Champion and Field Champion
+    titles:
+      DC:
+        name: ^1
+        desc: Dog earns both conformation Champion and Field Champion
+        # this technically won't work, because DC isn't in same "event" as CH or
+        # FC
+        supersedes: [CH, FC]
+        prefix: true
 
-  - - CH
-    - Conformation
-    - Conformation championships
-    - Grand Champion
-    - - - CH
-        - Champion
-        - 15 points with at least 2 majors
-        - []
-        - PREFIX
-      - - GCH
-        - ^1
-        - ''
-        - [CH]
-      - - GCHB
-        - ^1 Bronze
-        - ''
-        - [GCH]
-      - - GCHS
-        - ^1 Silver
-        - ''
-        - [GCHB]
-      - - GCHG
-        - ^1 Gold
-        - ''
-        - [GCHS]
-      - - GCHP
-        - ^1 Platinum
-        - ''
-        - [GCHG]
+  - name: Conformation
+    desc: Conformation championships
+    # it looks weird to list GCH/Grand Champion as the default, but aside from
+    # CH, all of the rest of the titles are GCH titles.
+    key: GCH
+    defaultTitle: Grand Champion
+    titles:
+      CH:
+        name: ^C
+        desc: 15 points with at least 2 majors
+        prefix: true
+      GCH:
+        name: ^1
+        supersedes: [CH]
+        prefix: true
+      GCHB:
+        name: ^1 Bronze
+        supersedes: [GCH]
+        prefix: true
+      GCHS:
+        name: ^1 Silver
+        supersedes: [GCHB]
+        prefix: true
+      GCHG:
+        name: ^1 Gold
+        supersedes: [GCHS]
+        prefix: true
+      GCHP:
+        name: ^1 Platinum
+        supersedes: [GCHG]
+        prefix: true
 
-  - - FC
-    - Field Champion
-    - Performance championship; sport depends on the breed—for Basenjis, it’s lure coursing
-    - - - FC
-        - ^1
-      - - GFC
-        - Grand ^1
-      - - NFC
-        - National ^1
-        - ''
-        - []
-        - PREFIX
+  - name: Field Champion
+    desc: Performance championship; sport depends on the breed—for Basenjis, it’s lure coursing
+    key: FC
+    titles:
+      FC:
+        name: ^1
+        prefix: true
+      GFC:
+        name: ^3 ^1
+        # desc: X
+        supersedes: [FC]
+        prefix: true
+      NFC:
+        name: National ^1
+        # desc: X
+        supersedes: [FC]
+        prefix: true
 
-  - - C
-    - Lure Coursing
-    - ''
-    - Courser
-    - - - JC
-        - Junior ^1
-        - Two successful solo lure-coursing scores
-      - - SC
-        - Senior ^1
-        - Four successful scores
-      - - MC
-        - Master ^1
-        - 25 successful scores after earning SC
-      # - - FC
-      #   - Field Champion
-      #   - 15 points with at least 2 majors
-      #   - []
-      #   - PREFIX
-      - - LCX
-        - Lure ^^
-        - Earned 45 points after earning FC
-      - - BIF
-        - Best In Field
-        - Won final Best In Field run-off against all other breeds at a lure coursing trial
-        - []
-        - PREFIX
+  - name: Lure Coursing
+    key: C
+    defaultTitle: Courser
+    titles:
+      JC:
+        name: ^3 ^1
+        desc: Two successful solo lure-coursing scores
+      SC:
+        name: ^3 ^1
+        desc: Four successful scores
+      MC:
+        name: ^3 ^1
+        desc: 25 successful scores after earning SC
+      # FC:
+      #   name: Field Champion
+      #   desc: 15 points with at least 2 majors
+      #   prefix: true
+      LCX:
+        name: Lure ^^
+        desc: Earned 45 points after earning FC
+      BIF:
+        name: Best In Field
+        desc: Won final Best In Field run-off against all other breeds at a lure coursing trial
+        prefix: true
+      # MBIF:
+      #   name: Multiple Best In Field
+      #   desc: Won final Best In Field run-off against all other breeds at a lure coursing trial, more than once.
+      #   supersedes: [BIF]
+      #   prefix: true
 
-  - - CA
-    - Coursing Ability
-    - Like lure-coursing, but open to all breeds
-    - - - CA
-        - ^1
-      - - CAA
-      - - CAX
-      - - CAX2
-        - ^1 Excellent 2
+  - name: Coursing Ability
+    desc: Inspired by lure-coursing, but open to all breeds
+    key: CA
+    titles:
+      CA:
+        name: ^1
+      CAA:
+        supersedes: [CA]
+      CAX:
+        supersedes: [CAA]
+      # TODO: add support for "multiplier" suffix
+      CAX2:
+        name: ^1 ^X 2
+        supersedes: [CAX]
 
-  - - CAT
-    - Fast CAT
-    - Straight-line lure event, open to all breeds
-    - - - BCAT
-        - ^1—150 points
-        - Earned 150 points at Fast CAT events
-      - - DCAT
-        - ^1—500 points
-        - Earned 500 points at Fast CAT events
-      - - FCAT
-        - ^1—1000 points
-        - Earned 1000 points at Fast CAT events
+  - name: Fast CAT
+    desc: Straight-line lure event, open to all breeds
+    key: CAT
+    titles:
+      BCAT:
+        name: ^1—150 points
+        desc: Earned 150 points at Fast CAT events
+      DCAT:
+        name: ^1—500 points
+        desc: Earned 500 points at Fast CAT events
+        supersedes: [BCAT]
+      FCAT:
+        name: ^1—1000 points
+        desc: Earned 1000 points at Fast CAT events
+        supersedes: [DCAT]
 
-  - - A
-    - Agility
-    - ''
-    - - - ACT1
-        - ^1 Course Test 1
-      - - ACT2
-        - ^1 Course Test 2
-      - - ACT1J
-        - ^1 Course Test 1 Jumpers
-      - - ACT2J
-        - ^1 Course Test 2 Jumpers
-      - - NA
-        - Novice ^1
-      - - NAP
-        - Novice ^1 Preferred
-      - - OA
-        - Open ^1
-      - - OAP
-        - Open ^1 Preferred
-      - - AX
-      - - AXP
-        - ^1 Excellent Preferred
-      - - MX
-        - Master ^1 Excellent
-      - - MXP
-        - Master ^1 Excellent Preferred
-      - - NAJ
-        - Novice ^1 Jumper
-      - - NJP
-        - Novice ^1 Jumper Preferred
-      - - OAJ
-        - Open ^1 Jumper
-      - - OJP
-        - Open ^1 Jumper Preferred
-      - - AXJ
-        - Excellent ^1 Jumper
-      - - AJP
-        - ^1 Excellent Preferred
-      - - MXJ
-        - Master Excellent Jumper
-      - - MJP
-        - Master Excellent Jumper Preferred
-      - - MACH
-        - Master ^1 Champion
+  - name: Agility
+    # desc: X
+    key: A
+    titles:
+      ACT1:
+        name: ^1 Course Test 1
+      ACT2:
+        name: ^1 Course Test 2
+      ACT1J:
+        name: ^1 Course Test 1 Jumpers
+      ACT2J:
+        name: ^1 Course Test 2 Jumpers
+      NA:
+        name: ^3 ^1
+      NAP:
+        name: ^3 ^1 Preferred
+      OA:
+        name: ^3 ^1
+      OAP:
+        name: ^3 ^1 Preferred
+      AX:
+      AXP:
+        name: ^1 ^X Preferred
+      MX:
+        name: ^3 ^^
+      MXP:
+        name: ^3 ^1 ^X Preferred
+      NAJ:
+        name: ^3 ^1 Jumper
+      NJP:
+        name: ^3 ^1 Jumper Preferred
+      OAJ:
+        name: ^3 ^1 Jumper
+      OJP:
+        name: ^3 ^1 Jumper Preferred
+      AXJ:
+        name: ^X ^1 Jumper
+      AJP:
+        name: ^X ^1 Jumper Preferred # used to have "^1 Excellent Preferred"; did we miss the Jumper part?
+      MXJ:
+        name: ^3 ^X Jumper
+      MJP:
+        name: ^3 ^X Jumper Preferred
+      MACH:
+        name: ^3 ^1 ^C
 
-  - - O
-    - Obedience
-    - ''
-    - - - BN
-        - Beginner Novice
-      - - BN-V
-        - Beginner Novice Virtual
-      - - GN
-        - Graduate Novice
-      - - GO
-        - Graduate Open
-      - - CD
-        - Companion Dog
-      - - CD-V
-        - Companion Dog Virtual
-      - - CDX
-        - Companion Dog Excellent
-      - - UD
-        - Utility Dog
-      - - UDX
-        - Utility Dog Excellent
-      - - VER
-        - Versatility
-      - - OM
-        - ^^
-      - - OGM
-        - ^1 Grand Master
-      - - OTCH
-        - ^1 Trial Champion
-      - - NOC
-        - National ^1 Champion
+  - name: Obedience
+    # desc: X
+    key: O
+    titles:
+      BN:
+        name: ^3 ^2
+      BN-V:
+        name: ^3 ^N Virtual
+      GN:
+        name: Graduate ^2
+      GO:
+        name: Graduate ^2
+      CD:
+        name: Companion Dog
+      CD-V:
+        name: Companion Dog Virtual
+      CDX:
+        name: Companion Dog ^2
+      UD:
+        name: Utility Dog
+      UDX:
+        name: Utility Dog ^2
+      VER:
+        name: Versatility
+      OM:
+        # name: ^^
+      OGM:
+        name: ^1 ^G ^2
+      OTCH:
+        name: ^1 Trial ^C
+      NOC:
+        name: National ^1 ^C
 
-  - - R
-    - Rally
-    - ''
-    - - - RN
-      - - RI
-      - - RA
-      - - RE
-      - - RM
-      - - RAE
-        - ^1 Advanced Excellent
-      - - RNC
-        - ^1 National Champion
-      - - RACH
-        - ^1 Champion
+  - name: Rally
+    # desc:
+    key: R
+    titles:
+      RN:
+      RI:
+      RA:
+      RE:
+      RM:
+      RAE:
+        name: ^1 ^A ^X
+      RNC:
+        name: ^1 National ^2
+      RACH:
+        name: ^1 ^C
 
-  - - CGC
-    - Canine Good Citizen
-    - ''
-    - - - CGC
-        - ^1
-      - - CGCA
-        - ^^
-        - ''
-        - - CGC
-      - - CGCU
-        - ^1 Urban
-        - ''
-        - - CGC
+  - name: Canine Good Citizen
+    # desc: X
+    key: CGC
+    titles:
+      CGC:
+        name: ^1
+      CGCA:
+        supersedes: [CGC]
+      CGCU:
+        name: ^1 Urban
+        supersedes: [CGC]
 
-  - - S
-    - Scent Work
-    - There are four elements to scentwork events, interior, exterior, containers, and buried. Each element has its own title, and there’s a “roll-up” title once you’ve earned that level across all four elements.
-    - - - SBN
-        - ^1 Buried Novice
-      - - SBNE
-        - ^1 Buried Novice Elite
-      - - SCN
-        - ^1 Container Novice
-      - - SCNE
-        - ^1 Container Novice Elite
-      - - SEN
-        - ^1 Exterior Novice
-      - - SENE
-        - ^1 Exterior Novice Elite
-      - - SIN
-        - ^1 Interior Novice
-      - - SINE
-        - ^1 Interior Novice Elite
-      - - SWN
-        - ^^
-        - 'complete all four elements in novice'
-        - [SBN, SCN, SEN, SIN]
-      - - SWNE
-        - ^1 Novice Elite
-        - 'complete all four elements in novice elite'
-        - [SBNE, SCNE, SENE, SINE]
-      - - SBA
-        - ^1 Buried Advanced
-        - ''
-        - [SBN]
-      - - SBAE
-        - ^1 Buried Advanced Elite
-      - - SCA
-        - ^1 Container Advanced
-        - ''
-        - [SCN]
-      - - SCAE
-        - ^1 Container Advanced Elite
-      - - SEA
-        - ^1 Exterior Advanced
-        - ''
-        - [SEN]
-      - - SEAE
-        - ^1 Exterior Advanced Elite
-      - - SIA
-        - ^1 Interior Advanced
-        - ''
-        - [SIN]
-      - - SIAE
-        - ^1 Interior Advanced Elite
-      - - SWA
-        - ^^
-        - 'complete all four elements in advanced'
-        - [SBA, SCA, SEA, SIA]
-      - - SWAE
-        - ^1 Advanced Elite
-      - - SBE
-        - ^1 Buried Excellent
-      - - SBEE
-        - ^1 Buried Excellent Elite
-      - - SCE
-        - ^1 Container Excellent
-      - - SCEE
-        - ^1 Container Excellent Elite
-      - - SEE
-        - ^1 Exterior Excellent
-      - - SEEE
-        - ^1 Exterior Excellent Elite
-      - - SIE
-        - ^1 Interior Excellent
-      - - SIEE
-        - ^1 Interior Excellent Elite
-      - - SWE
-        - ^^
-      - - SWEE
-        - ^1 Excellent Elite
-      - - SBM
-        - ^1 Buried Master
-        - ''
-        - [SBA]
-      - - SBME
-        - ^1 Buried Master Elite
-      - - SCM
-        - ^1 Container Master
-        - ''
-        - [SCA]
-      - - SCME
-        - ^1 Container Master Elite
-      - - SEM
-        - ^1 Exterior Master
-        - ''
-        - [SEA]
-      - - SEME
-        - ^1 Exterior Master Elite
-      - - SIM
-        - ^1 Interior Master
-        - ''
-        - [SIA]
-      - - SIME
-        - ^1 Interior Master Elite
-      - - SWM
-        - ^^
-        - 'complete all four elements in master'
-        - [SBM, SCM, SEM, SIM]
-      - - SWME
-        - ^1 Master Elite
-      - - SHDN
-        - ^1 Handler Discrimination Novice
-      - - SHDNE
-        - ^1 Handler Discrimination Novice Elite
-      - - SHDA
-        - ^1 Handler Discrimination Advanced
-      - - SHDAE
-        - ^1 Handler Discrimination Advanced Elite
-      - - SHDE
-        - ^1 Handler Discrimination Excellent
-      - - SHDEE
-        - ^1 Handler Discrimination Excellent Elite
-      - - SHDM
-        - ^1 Handler Discrimination Master
-      - - SHDME
-        - ^1 Handler Discrimination Master Elite
-      - - SWD
-        - ^1 Detective
+  - name: Scent Work
+    desc: There are four elements to scent work events, interior, exterior, containers, and buried. Each element has its own title, and there’s a “roll-up” title once you’ve earned that level across all four elements.
+    key: S
+    titles:
+      SBN:
+        name: ^1 Buried ^2
+      SBNE:
+        name: ^1 Buried ^N ^2
+      SCN:
+        name: ^1 Container ^2
+      SCNE:
+        name: ^1 Container ^N ^2
+      SEN:
+        name: ^1 Exterior ^2
+      SENE:
+        name: ^1 Exterior ^N ^2
+      SIN:
+        name: ^1 Interior ^2
+      SINE:
+        name: ^1 Interior ^N ^2
+      SWN:
+        # name: ^1 X ^2
+        desc: complete all four elements in novice
+        supersedes: [SBN, SCN, SEN, SIN]
+      SWNE:
+        name: ^1 ^N ^2
+        desc: complete all four elements in novice elite
+        supersedes: [SBNE, SCNE, SENE, SINE]
+      SBA:
+        name: ^1 Buried ^2
+        supersedes: [SBN]
+      SBAE:
+        name: ^1 Buried ^A ^2
+      SCA:
+        name: ^1 Container ^2
+        supersedes: [SCN]
+      SCAE:
+        name: ^1 Container ^A ^2
+      SEA:
+        name: ^1 Exterior ^2
+        supersedes: [SEN]
+      SEAE:
+        name: ^1 Exterior ^A ^2
+      SIA:
+        name: ^1 Interior ^2
+        supersedes: [SIN]
+      SIAE:
+        name: ^1 Interior ^A ^2
+      SWA:
+        # name: ^1 X ^2
+        desc: complete all four elements in advanced
+        supersedes: [SBA, SCA, SEA, SIA]
+      SWAE:
+        name: ^1 ^A ^2
+        desc: complete all four elements in advanced elite
+        supersedes: [SBAE, SCAE, SEAE, SIAE]
+      SBE:
+        name: ^1 Buried ^X
+        supersedes: [SBA]
+      SBEE:
+        name: ^1 Buried ^X ^2
+      SCE:
+        name: ^1 Container ^X
+        supersedes: [SCA]
+      SCEE:
+        name: ^1 Container ^X ^2
+      SEE:
+        name: ^1 Exterior ^X
+        supersedes: [SEA]
+      SEEE:
+        name: ^1 Exterior ^X ^2
+      SIE:
+        name: ^1 Interior ^X
+        supersedes: [SIA]
+      SIEE:
+        name: ^1 Interior ^X ^2
+      SWE:
+        # name: ^1 X ^2
+        desc: complete all four elements in excellent
+        supersedes: [SBE, SCE, SEE, SIE]
+      SWEE:
+        name: ^1 ^X ^E
+        desc: complete all four elements in excellent elite
+        supersedes: [SBEE, SCEE, SEEE, SIEE]
+      SBM:
+        name: ^1 Buried ^2
+        supersedes: [SBE]
+      SBME:
+        name: ^1 Buried ^M ^2
+      SCM:
+        name: ^1 Container ^2
+        supersedes: [SCE]
+      SCME:
+        name: ^1 Container ^M ^2
+      SEM:
+        name: ^1 Exterior ^2
+        supersedes: [SEE]
+      SEME:
+        name: ^1 Exterior ^M ^2
+      SIM:
+        name: ^1 Interior ^2
+        supersedes: [SIE]
+      SIME:
+        name: ^1 Interior ^M ^2
+      SWM:
+        # name: ^1 X ^2
+        desc: complete all four elements in master
+        supersedes: [SBM, SCM, SEM, SIM]
+      SWME:
+        name: ^1 ^M ^2
+        desc: complete all four elements in master elite
+        supersedes: [SBME, SCME, SEME, SIME]
+      SHDN:
+        name: ^1 Handler Discrimination ^2
+      SHDNE:
+        name: ^1 Handler Discrimination ^N ^2
+      SHDA:
+        name: ^1 Handler Discrimination ^2
+      SHDAE:
+        name: ^1 Handler Discrimination ^A ^2
+      SHDE:
+        name: ^1 Handler Discrimination ^X
+      SHDEE:
+        name: ^1 Handler Discrimination ^X ^2
+      SHDM:
+        name: ^1 Handler Discrimination ^2
+      SHDME:
+        name: ^1 Handler Discrimination ^M ^2
+      SWD:
+        name: ^1 Detective
 
-  # - - KEY
-  #   - NAME
-  #   - DESC
-  #   - - - TITLE
-  #       - DESC
+  - name: Therapy Dog
+    # desc:
+    key: THD
+    titles:
+      THD:
+        name: ^1
+      THDN:
+      THDA:
+      THDX:
+      THDD:
+        name: ^1 Distinguished
+      THDS:
+        name: ^1 Supreme
 
-  - - THD
-    - Therapy Dog
-    - ''
-    - - - THD
-        - ^1
-      - - THDN
-      - - THDA
-      - - THDE
-      - - THDD
-        - ^1 Distinguished
-      - - THDS
-        - ^1 Supreme
+  - name: Trick Dog
+    # desc:
+    key: TK
+    titles:
+      TKN:
+      TKI:
+      TKA:
+      TKP:
+        name: ^1 Performer
+      TKE:
+        name: ^^ Performer
 
-  - - TK
-    - Trick Dog
-    - ''
-    - - - TKN
-      - - TKI
-      - - TKA
-      - - TKP
-        - ^1 Performer
-      - - TKE
-        - ^1 Elite Performer
+  - name: Miscellaneous (BCOA)
+    desc: Basenji Club of America
+    key: BCOA
+    titles:
+      SDHR:
+        name: Stud Dog Honor Roll
+      BBHR:
+        name: Brood Bitch Honor Roll
 
-  - - BCOA
-    - Miscellaneous (BCOA)
-    - Basenji Club of America
-    - - - SDHR
-        - Stud Dog Honor Roll
-      - - BBHR
-        - Brood Bitch Honor Roll
+  - name: Miscellaneous
+    desc: Other recognized-but-not-regulated titles
+    key: MISC
+    titles:
+      BISS:
+        name: Best in Specialty Show
+        prefix: true
+      MBISS:
+        name: Multiple Best in Specialty Show
+        supersedes: [BISS]
+        prefix: true
+      MBIF:
+        name: Multiple Best in Field
+        supersedes: [BIF]
+        prefix: true
 
-  - - MISC
-    - Miscellaneous
-    - Other recognized-but-not-regulated titles
-    - - - BISS
-        - Best in Specialty Show
-      - - MBISS
-        - Multiple Best in Specialty Show
-      - - MBIF
-        - Multiple Best in Field
+  - name: Flyball Dog (NAFA)
+    desc: From the North American Flyball Association, not AKC
+    key: FD
+    defaultTitle: Flyball Dog
+    titles:
+      FD:
+        name: ^1
+      FDX:
+      FDCh:
+        name: ^1 ^C
+      FDCh-S:
+        name: ^1 ^C Silver
+      FDCh-G:
+        name: ^1 ^C Gold
+      FM:
+        name: Flyball ^2
+      # ONYX, HOBBES...
 
-  - - FD
-    - Flyball Dog (NAFA)
-    - From the North American Flyball Association, not AKC
-    - Flyball Dog
-    - - - FD
-        - ^1
-      - - FDX
-        - ^^
-        - ''
-        - [FD]
-      - - FDCh
-        - ^1 Champion
-        - ''
-        - [FDX]
-      - - FDCh-S
-        - ^1 Champion Silver
-        - ''
-        - [FDCh]
-      - - FDCh-G
-        - ^1 Champion Gold
-        - ''
-        - [FDCh-S]
-      - - FM
-        - Flyball Master
-        - ''
-        - [FDCh-G]
+  - name: Barn Hunt (BHA)
+    desc: Granted by Barn Hunt Association, not AKC
+    key: RAT
+    defaultTitle: Barn Hunt
+    titles:
+      RATN:
+      RATO:
+      RATS:
+      RATM:
+      RATCH:
+        name: ^1 ^C
 
-  - - RAT
-    - Barn Hunt (BHA)
-    - Granted by Barn Hunt Association, not AKC
-    - Barn Hunt
-    - - - RATN
-      - - RATO
-      - - RATS
-      - - RATM
-      - - RATCH
-        - ^1 Champion
+  - name: Scent Work (NACSW)
+    desc: NACSW—National Association of Canine Scent Work
+    key: NW
+    defaultTitle: Nose Work
+    titles:
+      ORT:
+        name: Odor Recognition Title
+        desc: Must pass all three odors (birch, anise, clove)
+      L1C:
+        name: Level 1 Containers
+      L1E:
+        name: Level 1 Exteriors
+      L1I:
+        name: Level 1 Interiors
+      L1V:
+        name: Level 1 Vehicles
+      L2C:
+        name: Level 2 Containers
+        supersedes: [L1C]
+      L2E:
+        name: Level 2 Exteriors
+        supersedes: [L1E]
+      L2I:
+        name: Level 2 Interiors
+        supersedes: [L1I]
+      L2V:
+        name: Level 2 Vehicles
+        supersedes: [L1V]
+      L3C:
+        name: Level 3 Containers
+        supersedes: [L2C]
+      L3E:
+        name: Level 3 Exteriors
+        supersedes: [L2E]
+      L3I:
+        name: Level 3 Interiors
+        supersedes: [L2I]
+      L3V:
+        name: Level 3 Vehicles
+        supersedes: [L2V]
+      NW1:
+        name: ^1 1
+      NW2:
+        name: ^1 2
+      NW3:
+        name: ^1 3
+      NW3-C:
+        name: ^1 3 Container
+      NW3-E:
+        name: ^1 3 Exterior
+      NW3-I:
+        name: ^1 3 Interior
+      NW3-V:
+        name: ^1 3 Vehicle
+      NW3-ELITE:
+        name: ^1 3 ^E
+      ELT1:
+        name: ^3 Division Trial 1
+        desc: 150 points at Elite Division Trials
+      ELT2:
+        name: ^3 Division Trial 2
+        desc: 400 points at Elite Division Trials
+      ELT3:
+        name: ^3 Division Trial 3
+        desc: 650 points at Elite Division Trials
+      ELT-CH:
+        name: ^3 Division Trial ^C
+        desc: 1000 points at Elite Division Trials
+      SMT:
+        name: Summit League Title
+      NSA1:
+        name: ^1 Skill Achievement 1
+      NSA2:
+        name: ^1 Skill Achievement 2
+      NSA3:
+        name: ^1 Skill Achievement 3
+      NSAM:
+        name: ^1 Skill Achievement ^2
 
-  - - NW
-    - Scent Work (NACSW)
-    - NACSW—National Association of Canine Scent Work
-    - Nose Work
-    - - - ORT
-        - Odor Recognition Title
-        - Must pass all three odors (birch, anise, clove)
-      - - L1C
-        - Level 1 Containers
-      - - L1E
-        - Level 1 Exteriors
-      - - L1I
-        - Level 1 Interiors
-      - - L1V
-        - Level 1 Vehicles
-      - - L2C
-        - Level 2 Containers
-        - ''
-        - [L1C]
-      - - L2E
-        - Level 2 Exteriors
-        - ''
-        - [L1E]
-      - - L2I
-        - Level 2 Interiors
-        - ''
-        - [L1I]
-      - - L2V
-        - Level 2 Vehicles
-        - ''
-        - [L1V]
-      - - L3C
-        - Level 3 Containers
-        - ''
-        - [L2C]
-      - - L3E
-        - Level 3 Exteriors
-        - ''
-        - [L2E]
-      - - L3I
-        - Level 3 Interiors
-        - ''
-        - [L2I]
-      - - L3V
-        - Level 3 Vehicles
-        - ''
-        - [L2V]
-      - - NW1
-        - ^1 1
-      - - NW2
-        - ^1 2
-      - - NW3
-        - ^1 3
-      - - NW3-C
-        - ^1 3 Container
-      - - NW3-E
-        - ^1 3 Exterior
-      - - NW3-I
-        - ^1 3 Interior
-      - - NW3-V
-        - ^1 3 Vehicle
-      - - NW3-ELITE
-        - ^1 3 Elite
-      - - ELT1
-        - Elite Division Trial 1
-        - 150 points at Elite Division Trials
-      - - ELT2
-        - Elite Division Trial 2
-        - 400 points at Elite Division Trials
-      - - ELT3
-        - Elite Division Trial 3
-        - 650 points at Elite Division Trials
-      - - ELT-CH
-        - Elite Division Trial Champion
-        - 1000 points at Elite Division Trials
-      - - SMT
-        - Summit League Title
-      - - NSA1
-        - ^1 Skill Achievment 1
-      - - NSA2
-        - ^1 Skill Achievment 2
-      - - NSA3
-        - ^1 Skill Achievment 3
-      - - NSAM
-        - ^1 Skill Achievment ^2
+  - name: Racing (LGRA)
+    desc: Large Gazehound Racing Association
+    key: SR
+    defaultTitle: Straight Racer
+    titles:
+      JSR:
+        name: ^3 ^1
+      SSR:
+        name: ^3 ^1
+        supersedes: [JSR]
+      GRC:
+        name: Gazehound Racing ^2ship
+        supersedes: [JSR, SSR]
+      SGRC:
+        name: Superior Gazehound Racing ^2
 
-  - - LGRA
-    - Racing (LGRA)
-    - Large Gazehound Racing Association
-    - Straight Racer
-    - - - JSR
-        - Junior ^1
-      - - SSR
-        - Senior ^1
-        - ''
-        - [JSR]
-      - - GRC
-        - Gazehound Racing Championship
-        - ''
-        - [JSR, SSR]
-      - - SGRC
-        - Superior Gazehound Racing Champion
+  - name: Racing (NOTRA)
+    desc: National Oval Track Racing Association
+    key: OTR
+    defaultTitle: Oval Track Racer
+    titles:
+      OTR:
+        name: ^1
+        desc: Earns 25 points
+      OTRM:
+        name: ^1 of Merit
+        desc: Earns 100 points
+        supersedes: [OTR]
+      OTRM2:
+        name: ^1 of Merit 2
+        desc: Earns 200 points
+        supersedes: [OTRM]
+      OTRM3:
+        name: ^1 of Merit 3
+        desc: Earns 300 points
+        supersedes: [OTRM2]
+      JOR:
+        name: ^3 Oval Racer
+      SOR:
+        name: ^3 Oval Racer
+      ORC:
+        name: Oval Racing ^Cship
+      SORC:
+        name: Supreme Oval Racing ^Cship
 
-  - - NOTRA
-    - Racing (NOTRA)
-    - National Oval Track Racing Association
-    - Oval Track Racer
-    - - - OTR
-        - ^1
-        - Earns 25 points
-      - - OTRM
-        - ^1 of Merit
-        - Earns 100 points
-        - [OTR]
-      - - OTRM2
-        - ^1 of Merit 2
-        - Earns 200 points
-        - [OTRM]
-      - - OTRM3
-        - ^1 of Merit 3
-        - Earns 300 points
-        - [OTRM2]
-      - - JOR
-        - Junior Oval Racer
-      - - SOR
-        - Senior Oval Racer
-      - - ORC
-        - Oval Racing Championship
-      - - SORC
-        - Supreme Oval Racing Championship
-
-  - - DMWYD
-    - Tricks (DMWYD)
-    - Do More With Your Dog
-    - Trick Dog
-    - - - NTD
-        - Novice ^1
-      - - ITD
-        - Intermediate ^1
-      - - ATD
-        - Advanced ^1
-      - - ETD
-        - Expert ^1
-      - - TDCH
-        - ^1 Champion
-      - - TDGCH
-        - ^1 Grand Champion
-      - - NTD-M
-        - Novice ^1 Masters
-      - - ITD-M
-        - Intermediate ^1 Masters
-      - - ATD-M
-        - Advanced ^1 Masters
-      - - ETD-M
-        - Expert ^1 Masters
-      - - A+
-        - Teacher's Pet
-      - - '20:1'
-        - '20 Dog Tricks: One Prop'
-      - - BTC
-        - Beat the Clock
-      - - AtoZ
-        - Alphabet Challenge
-      - - AKA
-        - That's My Name
+  - name: Tricks (DMWYD)
+    desc: Do More With Your Dog
+    key: TD
+    defaultTitle: Trick Dog
+    titles:
+      NTD:
+        name: ^3 ^1
+      ITD:
+        name: ^3 ^1
+      ATD:
+        name: ^3 ^1
+      ETD:
+        name: Expert ^1
+      TDCH:
+        name: ^1 ^C
+      TDGCH:
+        name: ^1 ^G
+      NTD-M:
+        name: ^3 ^1 Masters
+      ITD-M:
+        name: ^3 ^1 Masters
+      ATD-M:
+        name: ^3 ^1 Masters
+      ETD-M:
+        name: Expert ^1 Masters
+      A+:
+        name: Teacher's Pet
+      '20:1':
+        name: '20 Dog Tricks: One Prop'
+      BTC:
+        name: Beat the Clock
+      AtoZ:
+        name: Alphabet Challenge
+      AKA:
+        name: That's My Name
       # CONFLICTS WITH SENIOR OVAL RACER!
-      # - - SOR
-      #   - Summer of Ruff
-      - - SSH
-        - Summer Scavenger Hunt
-      - - TDROM
-        - ^1 Register of Merit
+      # SOR:
+      #   name: Summer of Ruff
+      SSH:
+        name: Summer Scavenger Hunt
+      TDROM:
+        name: ^1 Register of Merit
 
-  - - DMWYD-AA
-    - Animal Actor (DMWYD)
-    - Do More With Your Dog
-    - Animal Actor
-    - - - AA1
-        - 'Level 1: Photoshoot'
-      - - AA2
-        - 'Level 2: Actor'
-      - - AA3
-        - 'Level 3: Film'
-      - - AA4
-        - 'Level 4: Leading Role'
-      - - AA5
-        - 'Level 5: Professional'
+  - name: Animal Actor (DMWYD)
+    desc: Do More With Your Dog
+    key: AA
+    defaultTitle: Animal Actor
+    titles:
+      AA1:
+        name: 'Level 1: Photoshoot'
+      AA2:
+        name: 'Level 2: Actor'
+      AA3:
+        name: 'Level 3: Film'
+      AA4:
+        name: 'Level 4: Leading Role'
+      AA5:
+        name: 'Level 5: Professional'
 
-  - - DMWYDS
-    - Stunts (DMWYD)
-    - Do More With Your Dog
-    - Stunt Dog
-    - - - NSD
-        - Novice ^1
-      - - OSD
-        - Open ^1
-      - - PSD
-        - Proven ^1
-      - - SDPRO
-        - ^1 Professional
-      - - SDCH
-        - ^1 Champion
-      - - SDGCH
-        - ^1 Grand Champion
-      - - SDGCH2
-        - ^1 Grand Champion 2
+  - name: Stunts (DMWYD)
+    desc: Do More With Your Dog
+    key: SD
+    defaultTitle: Stunt Dog
+    titles:
+      NSD:
+        name: ^3 ^1
+      OSD:
+        name: ^3 ^1
+      PSD:
+        name: Proven ^1
+      SDPRO:
+        name: ^1 Professional
+      SDCH:
+        name: ^1 ^C
+      SDGCH:
+        name: ^1 ^G
+      SDGCH2:
+        name: ^1 ^G 2

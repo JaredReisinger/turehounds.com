@@ -1,0 +1,28 @@
+{% set form_reference %}
+{% if page.url == '/puppy-interest-questionnaire/' %}
+  this form
+{% else %}
+  <a href="/puppy-interest-questionnaire">the puppy interest questionnaire</a>
+{% endif %}
+{% endset %}
+
+{#
+<p class="italic bg-amber-100 text-amber-700 p-8 rounded-lg">
+  <b>Please note:</b> We have no specific breeding plans for 2023/2024. We are
+  always happy to start discussions with you about what you are looking for, but
+  please be aware that you’ll likely need to wait a couple of years.
+</p>
+#}
+
+<p class="italic bg-green-100 text-green-700 p-8 rounded-lg">
+  <b>Please note:</b> We <b>DO</b> have
+  <a href="/litters/2024/">breeding plans for 2024/2025</a>! More information
+  will be forthcoming, but please reach out via {{ form_reference | safe }} if you are
+  interested.
+</p>
+
+<p class="italic bg-green-100 text-green-700 p-8 rounded-lg">
+  We <b>also</b> have
+  <a href="/litters/adults/">one adult currently available</a>. Please reach out
+  via {{ form_reference | safe}} if you are interested.
+</p>

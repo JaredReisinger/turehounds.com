@@ -41,6 +41,9 @@ robots: noindex,nofollow
 
 <h1>Debugging info...</h1>
 
+<h2>Page metadata</h2>
+<pre>{{ page | inspect }}</pre>
+
 <h2>Top-level values</h2>
 <pre>{{ collections.all[0].data | pick(['eleventy', 'pkg', 'settings', 'titles']) | inspect }}</pre>
 <h3>eleventyConfig...</h3>

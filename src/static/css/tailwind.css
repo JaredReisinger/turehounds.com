@@ -43,6 +43,15 @@ p:last-child {
   margin-bottom: 0 !important;
 }
 
+/* prevent blockquote bold italics... */
+.prose
+  :where(blockquote):not(
+    :where([class~='not-prose'], [class~='not-prose'] *)
+  ) {
+  font-weight: inherit;
+  font-style: inherit;
+}
+
 /* prevent additional blockquote quotes... */
 .prose
   :where(blockquote p:first-of-type):not(
@@ -57,6 +66,7 @@ p:last-child {
   )::after {
   content: '';
 }
+
 /* our default form.form-default styling... */
 form.form-default label,
 form.form-default fieldset legend {

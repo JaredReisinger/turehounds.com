@@ -21,14 +21,14 @@ const debug = debugFn('plugin:images:galleries');
 
 export interface GalleryOptions {
   /** Glob for gallery image files, relative to the current page. */
-  galleryGlob: string;
+  galleryGlob: string | string[];
   /** Attributes (classes, styles) for the container element. */
   containerAttrs: ElementAttributes;
   imageOptions: Partial<ImageOptions>;
 }
 
 const DEFAULT_OPTIONS: GalleryOptions = {
-  galleryGlob: 'gallery/*.{jpg,JPG,jpeg,JPEG,png,PNG,heic,HEIC}',
+  galleryGlob: 'gallery/*.{jpg,JPG,jpeg,JPEG,png,PNG}',
   containerAttrs: {
     class: 'gallery columns-xs gap-4 my-8',
   },
@@ -67,15 +67,21 @@ export async function autoGallery(
 
   // output dir will be same as the page
   const outputDir = path.dirname(page.outputPath);
+  const inputDir = path.dirname(page.inputPath);
 
-  const imageSrcs = await glob.glob(
-    path.resolve(path.dirname(page.inputPath), opts.galleryGlob)
-  );
+  let patterns = opts.galleryGlob
+  if (!Array.isArray(patterns)) {
+    patterns = [patterns]
+  }
+
+  patterns = patterns.map(p => path.resolve(inputDir, p))
+
+  const imageSrcs = await glob.glob(patterns);
 
   // glob seems to pretty reliably return reverse-sorted strings... we want
   // deterministically forward-sorted strings (so that you can define order with
   // prefixes like "01-", "02-", etc.)
-  imageSrcs.sort();
+  imageSrcs.sort(photoNameComparer);
 
   const items = await Promise.all(
     imageSrcs.map(async (src) => {
@@ -234,6 +240,28 @@ export async function autoGallery(
   // column-first layout.
   const html = renderObjectHTML(galleryObj);
   return html;
+}
+
+// // replicates the logic inside Array.sort() when no comparer is given  (see
+// // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#Parameters):
+// // convert to strings, and then sort by Unicode code point value.
+// function defaultComparer(a: unknown, b: unknown) {
+//   const aStr = String(a);
+//   const bStr = String(b);
+
+//   // instead of Unicode code point value, though, we use localeCompare...
+//   return aStr.localeCompare(bStr, 'en', { sensitivity: 'base' });
+// }
+
+// export const compareStrings = defaultComparer;
+
+// ensures we only look at the filename portion to sort...
+function photoNameComparer(a: unknown, b: unknown) {
+  const aStr = path.basename(String(a)).toLowerCase();
+  const bStr = path.basename(String(b)).toLowerCase();
+
+  // instead of Unicode code point value, though, we use localeCompare...
+  return aStr.localeCompare(bStr, 'en', { sensitivity: 'base' });
 }
 
 // helper for injecting gallery styles/code

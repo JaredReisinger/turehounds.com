@@ -4,7 +4,7 @@ shortTitle: Adults available
 order: 0 # temporary
 group: Adults
 description: We have an adult available.
-layout: page
+layout: page-full
 
 # galleryHedy:
 #  galleryGlob: "gallery/hedy*"
@@ -16,18 +16,69 @@ layout: page
 #  imageOptions:
 #    image:
 #      class: gallery-img rounded-lg block w-full
+
+galleryOptions:
+  galleryGlob:
+    - "dresden/*.{jpg,JPG,jpeg,JPEG,png,PNG}"
+    - "../2017/gallery/dresden-group1.jpg"
+    #- "../2017/dresden-mr-blue/gallery/*.{jpg,JPG,jpeg,JPEG,png,PNG}"
+    - "../2017/dresden-mr-blue/gallery/Disa-x-Bravo-Puppies-2017-{09,10}*.jpg"
+
 ---
+{% from "utilities.njk" import bioCard, dogName %}
 
-<p class="lead">
-  We currently have one adult available for placement.
-</p>
+<div class="prose lg:prose-lg prose-zinc mx-auto">
+  <p class="lead">We currently have one adult available for placement.</p>
 
-<p>
-  He is an almost-8-year-old male (neutered), red &amp; white dog.  He is a <em>wonderfully</em> sweet boy and very well-mannered.  He has been accustomed to being an only dog, and loves to play.
-<p>
+  <p>
+    Dresden, from our <a href="/litters/2017/">first litter</a>, is looking for
+    a forever home through absolutely no fault of his own… his previous home had
+    a change of circumstance—one of the couple requires hospice, and caring for
+    a dog is now just too much for them to handle.
+  </p>
 
-<p>
-  If you are interested, please fill out the
-  <a href="/puppy-interest-questionnaire">puppy interest questionnaire</a>.
-</p>
+  {% call bioCard(dogName("Ture & Taji’s Sirius Piece Of Work", "Dresden", "CH"), "src/pages/litters/2017/gallery/dresden-group1.jpg") %}
+  <p>
+    First-born Dresden was the fantastic older-by-minutes-brother to the rest of
+    the litter. He stayed with us longer than any other puppy (except for Gable)
+    until he headed out east for conformation fame.
+  </p>
+  {% endcall %}
 
+  <p>Dresden:</p>
+
+  <ul>
+    <li>will be 7-years-old on July 16, 2024</li>
+    <li>is a neutered red &amp; white male</li>
+    <li>
+      is a conformation champion, and has won Group 1 (if you know, you know)
+    </li>
+    <li>is <em>wonderfully</em> sweet</li>
+    <li>loves to play</li>
+    <li>travels fantastically in a kennel</li>
+    <li>
+      is up-to-date on all of the vaccinations that we require, and his
+      <a href="https://ofa.org/advanced-search/?appnum=1904168"
+        >health-testing results are available on OFA</a
+      >
+    </li>
+    <li>walks beautifully on lead... unless a bunny or lizard runs by!</li>
+  </ul>
+
+  <p>
+    He has become accustomed to being an only dog, so we are
+    <em><strong>only</strong></em> considering homes in which this will be the
+    case. He is good with children as long as they are respectful of his
+    space—typical of Basenjis. He does not currently enjoy being kenneled at
+    home, which we suspect is because he simply hasn’t had to. That said, we’ve
+    been able to leave him loose and unsupervised for 3 hours, and he just curls
+    up and naps; an advantage to his <em>not</em> being a puppy.
+  </p>
+
+  <p>
+    If you are interested, please fill out the
+    <a href="/puppy-interest-questionnaire">puppy interest questionnaire</a>.
+  </p>
+</div>
+
+{% autoGallery galleryOptions %}

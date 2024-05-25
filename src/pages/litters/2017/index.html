@@ -6,7 +6,7 @@ description: The first litter at Ture Hounds.
 layout: page-full
 
 galleryOptions:
-  galleryGlob: "**/gallery/*.{jpg,JPG,jpeg,JPEG,png,PNG,heic,HEIC}"
+  galleryGlob: "**/gallery/*.{jpg,JPG,jpeg,JPEG,png,PNG}"
 
 ---
 {% from "utilities.njk" import bioCard, dogName %}
@@ -35,7 +35,11 @@ galleryOptions:
     <p class="lead">
       {{ dogName("Ture & Taji’s Sirius Piece Of Work", undefined, "CH") }}
     </p>
-    <p>First-born Dresden.</p>
+    <p>
+      First-born Dresden was the fantastic older-by-minutes-brother to the rest
+      of the litter. He stayed with us longer than any other puppy (except for
+      Gable) until he headed out east for conformation fame.
+    </p>
     {% endcall %}
 
     {% call bioCard("Mr. Red — Banjo", "src/pages/litters/2017/banjo-mr-red/gallery/Disa-x-Bravo-Puppies-2017-09-23-059.jpg") %}

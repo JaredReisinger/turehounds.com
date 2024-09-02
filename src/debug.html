@@ -62,9 +62,11 @@ robots: noindex,nofollow
 </div>
 
 <h2>Navigation</h2>
-<pre>{{ collections.all | eleventyNavigation | rejectattr("hidden") | inspect }}</pre>
+<pre>{{ collections.all | rejectget("data.hidden") | eleventyNavigation | inspect }}</pre>
 
 <h2>Collections</h2>
+
+<pre>{{ collections | keys | sort | inspect }}</pre>
 
 <div class="nest">
   {% for k in collections | keys %}

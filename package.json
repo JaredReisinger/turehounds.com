@@ -63,6 +63,7 @@
     "heroicons": "^2.1.5",
     "html-minifier": "^4.0.0",
     "js-yaml": "^4.1.0",
+    "lodash": "^4.17.21",
     "lunr": "^2.3.9",
     "luxon": "^3.5.0",
     "monex": "^2.2.1",

@@ -32,7 +32,7 @@
         class="flex-1 hidden lg:flex space-x-6 justify-end items-center"
       >
         {# all of the top-level pages, with sub-menus if there are children #}
-        {% for nav in (collections.all | eleventyNavigation | rejectattr("hidden")) %}
+        {% for nav in (collections.all | rejectget("data.hidden") | eleventyNavigation ) %}
           {% if nav.children | length %}
             <div x-show="!search" x-data="{ open: false }" class="relative">
               <button
@@ -142,7 +142,7 @@
           <nav class="text-base font-medium text-zinc-900">
             {# all of the top-level pages, with one-level of expansion for
             children #}
-            {% for nav in (collections.all | eleventyNavigation | rejectattr("hidden")) %}
+            {% for nav in (collections.all | rejectget("data.hidden") | eleventyNavigation) %}
               {% if nav.children | length %}
                 <div x-data="{ open: false }">
                   <button

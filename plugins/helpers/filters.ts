@@ -3,6 +3,8 @@
 
 import util from 'util';
 
+import _ from 'lodash';
+
 import UserConfig from '@11ty/eleventy/src/UserConfig';
 
 /**
@@ -77,6 +79,7 @@ function collectionDebugInfo(obj: Record<PropertyKey, unknown>) {
   const o = omit(obj, [
     '_templateContent',
     'checkTemplateContent',
+    'content',
     'template',
     'templateContent',
     'data',
@@ -161,9 +164,25 @@ function typeOf(obj: any) {
 }
 
 /**
+ * A replacement for rejectattr that allows arbitrary path to prop/attr, using
+ * lodash.get.
+ */
+function rejectget(objs: Record<PropertyKey, unknown>[], propPath: string) {
+  return _.filter(objs, (o: Record<PropertyKey, unknown>) => !_.get(o, propPath));
+}
+
+/**
+ * A replacement for selectattr that allows arbitrary path to prop/attr, using
+ * lodash.get.
+ */
+function selectget(objs: Record<PropertyKey, unknown>[], propPath: string) {
+  return _.filter(objs, (o: Record<PropertyKey, unknown>) => _.get(o, propPath));
+}
+
+/**
  */
 export function withConfig(
-  eleventyConfig: UserConfig,
+  eleventyConfig: UserConfig
   // configOptions: Record<PropertyKey, unknown>
 ) {
   eleventyConfig.addGlobalData('debugConfig', () =>
@@ -184,6 +203,8 @@ export const filters = {
     trimstart,
     trimend,
     typeOf,
+    rejectget,
+    selectget,
   },
 };
 

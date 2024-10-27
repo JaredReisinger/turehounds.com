@@ -16,16 +16,24 @@
       gtag('js', new Date());
       gtag('config', 'G-B9PQSPTHMH');
     </script>
+
     <title>{{ title or settings.name }}</title>
+
     {% if description %}
       <meta name="description" content="{{ description }}">
     {% endif %}
+
     <link rel="cannonical" href="{{ settings.url }}{{ page.url }}">
+
     {% if robots %}
       <meta name="robots" content="{{ robots }}">
     {% endif %}
+
+    <meta name="generator" content="{{ eleventy.generator }}">
+
     {% block head %}
     {% endblock %}
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link

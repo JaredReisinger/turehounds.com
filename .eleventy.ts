@@ -1,6 +1,6 @@
 import htmlmin from 'html-minifier';
 import yaml from 'js-yaml';
-import debugFn from 'debug';
+// import debugFn from 'debug';
 import eleventyNavigationPlugin from '@11ty/eleventy-navigation';
 import helpersPlugin from './plugins/helpers';
 import imagesPlugin from './plugins/images';
@@ -16,8 +16,9 @@ import type UserConfig from './@types/@11ty/eleventy/src/UserConfig';
 
 // import * as addins from './src/_plugins/helpers/addins';
 
-const debug = debugFn('MYCONFIG');
-// Some of the addins want the config'd directories, but that's not availble
+// const debug = debugFn('MY_CONFIG');
+
+// Some of the addins want the config'd directories, but that's not available
 // until the *return* of the called config function.  But, since it's a constant
 // value, we pre-define it and pass it into our `withConfig` helper.
 

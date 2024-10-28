@@ -411,6 +411,39 @@ events:
       BBHR:
         name: Brood Bitch Honor Roll
 
+  - name: Versatile Basenji (BCOA)
+    # desc:
+    defaultTitle: Versatile Basenji
+    key: VB
+    titles:
+      PVB:
+        name: Pre-^1
+        desc: Proof of any 3 titles; titles must be from at least 2 different categories.
+      VBS:
+        name: ^1 Started
+        desc: Proof of 3 entry titles; titles must be from 3 different categories.
+        supersedes: [PVB]
+      VBS2:
+        name: ^1 Started 2
+        desc: Proof of 3 titles - 2 entry titles plus 1 qualifying title; titles must be from 3 different categories.
+        supersedes: [VBS]
+      VB:
+        name: ^1
+        desc: Proof of 3 qualifying titles; titles must be from 3 different categories
+        supersedes: [VBS2]
+      VBX:
+        # name: Versatile Basenji Excellent
+        desc: "Option A: Proof of 4 titles - 3 qualifying titles plus 1 intermediate title; titles must be from at least 3 different categories. Option B: Proof of 5 qualifying titles; titles must be from at least 4 different categories."
+        supersedes: [VB]
+      MVB:
+        name: ^3 ^1
+        desc: "Option A: Proof of 4 titles - 3 qualifying titles plus 1 advanced title; titles must be from at least 3 different categories.  Option B: Proof of 7 qualifying titles; titles must be from at least 5 different categories."
+        supersedes: [VBX]
+      VBE:
+        # name: Versatile Basenji Elite
+        desc: "Option A: Proof of 4 titles - 3 qualifying titles plus 1 elite title; titles must be from at least 3 different categories.  Option B: Proof of 9 qualifying titles; titles must be from at least 6 different categories."
+        supersedes: [MVB]
+
   - name: Miscellaneous
     desc: Other recognized-but-not-regulated titles
     key: MISC
@@ -421,6 +454,10 @@ events:
       MBISS:
         name: Multiple Best in Specialty Show
         supersedes: [BISS]
+        prefix: true
+      SBIF:
+        # Gage has this... is this the right interpretation?
+        name: Specialty Best in Field
         prefix: true
       MBIF:
         name: Multiple Best in Field

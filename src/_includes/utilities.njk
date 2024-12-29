@@ -12,7 +12,7 @@
 
 {%- macro fontawesome(setName, iconName, classes) -%}
 {%- set iconSvg -%}
-{%- include "node_modules/fontawesome-free/svgs/" + setName + "/" + iconName + ".svg" -%}
+{%- include "fontawesome-svgs/" + setName + "/" + iconName + ".svg" -%}
 {%- endset -%}
 {%- set openTag = '<svg class="' + classes + '" fill="currentColor" ' -%}
 {{- iconSvg | replace("<svg ", openTag) | safe -}}

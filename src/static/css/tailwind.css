@@ -1,6 +1,37 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/typography';
+@plugin '@tailwindcss/forms';
+
+@source '../../../_js/**/*.{html,njk,js}';
+
+@theme {
+  --font-*: initial;
+  --font-sans: 'Open Sans', sans-serif;
+  --font-serif: Rokkitt, serif;
+}
+
+@utility container {
+  margin-inline: auto;
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
 
 .text-shadow {
   text-shadow: 0 0 0.5em black;
@@ -107,12 +138,12 @@ form.form-default input[type='time'],
 form.form-default input[type='search'],
 form.form-default input[type='tel'],
 form.form-default textarea {
-  @apply block w-full rounded-md border-zinc-300 focus:border-cyan-500 focus:ring-cyan-500 shadow-sm;
+  @apply block w-full rounded-md border-zinc-300 focus:border-cyan-500 focus:ring-cyan-500 shadow-xs;
 }
 
 form.form-default select,
 form.form-default select[multiple] {
-  @apply block w-auto rounded-md border-zinc-300 focus:border-cyan-500 focus:ring-cyan-500 shadow-sm;
+  @apply block w-auto rounded-md border-zinc-300 focus:border-cyan-500 focus:ring-cyan-500 shadow-xs;
 }
 
 form.form-default input[type='checkbox'],
@@ -122,15 +153,15 @@ form.form-default input[type='radio'] {
 
 form.form-default input[type='submit'],
 form.form-default button {
-  @apply rounded-md border border-transparent bg-cyan-600 py-2 px-4 text-lg font-medium text-white shadow-sm hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2;
+  @apply rounded-md border border-transparent bg-cyan-600 py-2 px-4 text-lg font-medium text-white shadow-xs hover:bg-cyan-700 focus:outline-hidden focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2;
 }
 
 form.search input[type='text'] {
-  @apply block w-full rounded-md border-zinc-300 focus:border-cyan-500 focus:ring-cyan-500 shadow-sm text-xs;
+  @apply block w-full rounded-md border-zinc-300 focus:border-cyan-500 focus:ring-cyan-500 shadow-xs text-xs;
 }
 
 form.search input[type='submit'] {
-  @apply rounded-md border border-transparent bg-cyan-600 py-0 px-1 text-xs font-medium text-white shadow-sm hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2;
+  @apply rounded-md border border-transparent bg-cyan-600 py-0 px-1 text-xs font-medium text-white shadow-xs hover:bg-cyan-700 focus:outline-hidden focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2;
 }
 
 .search-results {

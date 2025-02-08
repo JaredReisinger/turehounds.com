@@ -16,15 +16,17 @@
     ":prebuild:data:plugins": "cpy --cwd . --dot 'plugins/**/*' '!**/*.{js,ts}' './_js/plugins'",
     ":prebuild:data:src": "cpy --cwd . --dot 'src/**/*' '!**/*.{js,ts}' './_js/src'",
     ":prebuild:data:tools": "cpy --cwd . --dot 'tools/**/*' '!**/*.{js,ts}' './_js/tools'",
-    "build": "npm-run-all -l css eleventy:prod build:data",
+    "build": "npm-run-all -l css:prod eleventy:prod build:data",
     "build:data": "npm-run-all -l -p search:build titles:build",
     "build:dev": "npm-run-all -l css eleventy build:data",
     "prebuild:dev": "npm run prebuild",
     "start": "npm-run-all -l --parallel css eleventy",
     "dev": "npm-run-all -l build:dev --parallel css:dev src:dev eleventy:dev",
     "src:dev": "monex --watch 'src' --ignore '**/*.{js,ts}' --delay 250 --exec 'npm::prebuild:data:src'",
-    "css": "postcss _js/src/static/css/tailwind.css --o _site/static/css/style.css",
+    "css##old": "postcss _js/src/static/css/tailwind.css --o _site/static/css/style.css",
+    "css": "tailwindcss --input _js/src/static/css/tailwind.css --output _site/static/css/style.css",
     "css:dev": "npm run css -- --watch",
+    "css:prod": "npm run css -- --minify",
     "eleventy": "eleventy --config ./_js/.eleventy.js",
     "eleventy:prod": "cross-env NODE_ENV=production npm run eleventy",
     "eleventy:dev": "npm run eleventy -- --serve --watch --ignore-initial",
@@ -78,8 +80,11 @@
     "prettier": "^3.4.2",
     "rimraf": "^6.0.1",
     "sharp": "^0.33.5",
-    "tailwindcss": "^3.4.17",
+    "tailwindcss": "^4.0.0",
     "typescript": "^5.7.2",
     "watcher": "^2.3.1"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.0.4"
   }
 }

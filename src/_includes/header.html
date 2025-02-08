@@ -5,7 +5,7 @@
   class="relative z-10 lg:fixed w-full bg-white shadow-lg font-serif font-bold"
 >
   <div class="mx-auto max-w-7xl px-4 sm:px-6">
-    <div class="flex items-center justify-between justify-items-stretch border-b-2 border-zinc-100 py-6 space-x-10">
+    <div class="flex items-center justify-between justify-items-stretch border-b-2 border-zinc-100 py-6 gap-x-10">
       <div class="flex justify-start">
         <a href="/">
           <span class="sr-only">{{ settings.name }}</span>
@@ -29,7 +29,7 @@
       </div>
       <nav
         x-data="{ search: false, query: '' }"
-        class="flex-1 hidden lg:flex space-x-6 justify-end items-center"
+        class="flex-1 hidden lg:flex gap-x-6 justify-end items-center"
       >
         {# all of the top-level pages, with sub-menus if there are children #}
         {% for nav in (collections.all | rejectget("data.hidden") | eleventyNavigation ) %}

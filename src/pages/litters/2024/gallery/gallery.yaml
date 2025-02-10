@@ -16,5 +16,6 @@ assets:
   - youtube: LNFpAU97Ads
     caption: Meal and playtime
 
-  - youtube: 9DaKhe_Zp0k
-    caption: Outside playtime
+  # This is from twitch, and very glitchy... not a great video
+  # - youtube: 9DaKhe_Zp0k
+  #   caption: Outside playtime

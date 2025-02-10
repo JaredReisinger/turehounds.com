@@ -1,0 +1,63 @@
+<link rel="stylesheet" href="/static/css/bigger-picture.css">
+<style type="text/css">
+  div.gallery-bp picture {
+    cursor: pointer;
+  }
+
+  div.bp-caption-content {
+    display: block;
+  }
+
+  div.bp-caption-content .title {
+    font-weight: bold;
+  }
+
+  div.bp-caption-content .comment {
+    margin: 1rem 0;
+  }
+
+  div.bp-caption-content .date {
+    margin: 1rem 0;
+    font-style: italic;
+  }
+
+  div.bp-caption-content .creator {
+    margin: 1rem 0;
+    font-style: italic;
+    font-size: 84%;
+  }
+
+  div.bp-caption-content .artist::before {
+    content: 'by ';
+  }
+
+  div.bp-caption-content .copyright::before {
+    content: '© ';
+  }
+</style>
+<script type="module">
+  import BiggerPicture from '/static/js/bigger-picture.min.mjs';
+
+  const bp = new BiggerPicture({
+    target: document.body,
+  });
+
+  // helper functions to use per-gallery
+  function createBpGallery(selector) {
+    const items = document.querySelectorAll(selector);
+
+    function openGallery(e) {
+      e.preventDefault();
+      bp.open({ items, el: e.currentTarget });
+    }
+
+    for (const item of items) {
+      item.addEventListener('click', openGallery);
+    }
+  }
+
+  window.createBpGallery = createBpGallery;
+
+  // needed for async loading?
+  document.dispatchEvent(new CustomEvent("bp-loaded"));
+</script>

@@ -1,10 +1,24 @@
 import debugFn from 'debug';
+import { basename } from 'node:path';
 import type UserConfig from '../../@types/@11ty/eleventy/src/UserConfig';
 
 import { backgroundImage, image, imageSync, imageUrl } from './images';
-import { autoGallery, galleryHeadTransform } from './galleries';
+// import {
+//   autoGallery as autoGalleryPswp,
+//   galleryHeadTransform as galleryHeadTransformPswp,
+//   staticFiles as staticFilesPswp,
+// } from './gallery-photoswipe';
+import {
+  autoGallery as autoGalleryBp,
+  galleryHeadTransform as galleryHeadTransformBp,
+  staticFiles as staticFilesBp,
+} from './gallery-bigger-picture';
 
 const debug = debugFn('plugin:images');
+
+// So... the examples that create shortcodes for eleventy-image don't have great
+// consumability/extensibility design.  This plugin attempts to solve some of
+// those problems.
 
 // TODO: we should define our expectation about configOptions and export it!
 export default function (
@@ -18,23 +32,33 @@ export default function (
   eleventyConfig.addShortcode('imageSync', imageSync);
   eleventyConfig.addShortcode('imageUrl', imageUrl);
 
-  eleventyConfig.addAsyncShortcode('autoGallery', autoGallery);
+  // eleventyConfig.addAsyncShortcode('autoGalleryPswp', autoGalleryPswp);
+  eleventyConfig.addAsyncShortcode('autoGallery', autoGalleryBp);
 
   // copy dependency files -- TODO: pass static css/js locations in config?
-  eleventyConfig.addPassthroughCopy({
-    // photoswipe
-    'node_modules/photoswipe/dist/photoswipe.esm.min.js':
-      'static/js/photoswipe.esm.min.js',
-    'node_modules/photoswipe/dist/photoswipe-lightbox.esm.min.js':
-      'static/js/photoswipe-lightbox.esm.min.js',
-    'node_modules/photoswipe/dist/photoswipe.css': 'static/css/photoswipe.css',
-    // photoswipe captions
-    'node_modules/photoswipe-dynamic-caption-plugin/dist/photoswipe-dynamic-caption-plugin.esm.min.js':
-      'static/js/photoswipe-dynamic-caption-plugin.esm.min.js',
-    'node_modules/photoswipe-dynamic-caption-plugin/photoswipe-dynamic-caption-plugin.css':
-      'static/css/photoswipe-dynamic-caption-plugin.css',
-  });
+  // eleventyConfig.addPassthroughCopy(
+  //   passthroughMapper(staticFilesPswp.js, 'js')
+  // );
+  // eleventyConfig.addPassthroughCopy(
+  //   passthroughMapper(staticFilesPswp.css, 'css')
+  // );
+
+  eleventyConfig.addPassthroughCopy(passthroughMapper(staticFilesBp.js, 'js'));
+  eleventyConfig.addPassthroughCopy(
+    passthroughMapper(staticFilesBp.css, 'css')
+  );
 
   // add transform for injecting scripts, etc.
-  eleventyConfig.addTransform('galleryHeadTransform', galleryHeadTransform);
+  // eleventyConfig.addTransform(
+  //   'galleryHeadTransformPswp',
+  //   galleryHeadTransformPswp
+  // );
+  eleventyConfig.addTransform('galleryHeadTransformBp', galleryHeadTransformBp);
+}
+
+function passthroughMapper(srcs: string[], outDir: string) {
+  return srcs.reduce((memo, val) => {
+    memo[val] = `static/${outDir}/${basename(val)}`;
+    return memo;
+  }, {});
 }

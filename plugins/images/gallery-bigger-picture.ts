@@ -8,16 +8,18 @@ import { DateTime } from 'luxon';
 // const UserConfig = require('@11ty/eleventy/src/UserConfig');
 import Image from '@11ty/eleventy-img';
 
-import {
-  ElementAttributes,
-  HtmlObjectDefinition,
-  ImageOptions,
-  generateBetterObject,
-  renderObjectHTML,
-} from './images';
+import { ElementAttributes, ImageOptions } from './options';
+import { generateHtmlObject as generateHtmlObject } from './html';
+import { HtmlObject } from './html';
+import { renderObjectHtml } from './html';
 import { getCaptionInfo } from './captions';
 
-const debug = debugFn('plugin:images:galleries');
+const debug = debugFn('plugin:images:galleries:bigger-picture');
+
+export const staticFiles = {
+  js: ['node_modules/bigger-picture/dist/bigger-picture.min.mjs'],
+  css: ['node_modules/bigger-picture/dist/bigger-picture.css'],
+};
 
 export interface GalleryOptions {
   /** Glob for gallery image files, relative to the current page. */
@@ -30,7 +32,7 @@ export interface GalleryOptions {
 const DEFAULT_OPTIONS: GalleryOptions = {
   galleryGlob: 'gallery/*.{jpg,JPG,jpeg,JPEG,png,PNG}',
   containerAttrs: {
-    class: 'gallery columns-xs gap-4 my-8',
+    class: 'gallery-bp columns-xs gap-4 my-8',
   },
   imageOptions: {
     sizes: '20rem', // columns-xs gives a 20rem-wide column
@@ -69,12 +71,12 @@ export async function autoGallery(
   const outputDir = path.dirname(page.outputPath);
   const inputDir = path.dirname(page.inputPath);
 
-  let patterns = opts.galleryGlob
+  let patterns = opts.galleryGlob;
   if (!Array.isArray(patterns)) {
-    patterns = [patterns]
+    patterns = [patterns];
   }
 
-  patterns = patterns.map(p => path.resolve(inputDir, p))
+  patterns = patterns.map((p) => path.resolve(inputDir, p));
 
   const imageSrcs = await glob.glob(patterns);
 
@@ -90,7 +92,7 @@ export async function autoGallery(
         getCaptionInfo(src),
         Image(src, {
           // Using fork of eleventy-img!
-          widths:[1800, 600, 300],
+          widths: [1800, 600, 300],
           /*
           // Unfortunately, there's not a "max of X, or use original size if
           // that's the best you can do" option, *unless* that's the only size
@@ -123,9 +125,33 @@ export async function autoGallery(
         imageOptions.alt = title;
       }
 
-      const imageObj = generateBetterObject(src, metadata, imageOptions);
+      // imageObj is the underlying <img> or <picture> element
+      const imageObj = generateHtmlObject(
+        src,
+        metadata,
+        imageOptions
+        // pictureAttrs
+      );
 
-      const captionParts: HtmlObjectDefinition[] = [];
+      // bigger-picture wants us to wrap that in an <a> for clicks
+
+      // TODO: create helper utilities for managing metadata
+      const formats = Object.values(metadata) as Image.MetadataEntry[][];
+      const bestFormat = formats[0];
+      const bestSize = bestFormat[bestFormat.length - 1];
+      const imageWrapperObj: HtmlObject = {
+        $tag: 'a',
+        class: imageObj.class,
+        href: bestSize.url,
+        'data-thumb': bestFormat[0].url, // use lowsrc?
+        'data-img': bestFormat.map((entry) => entry.srcset).join(', '),
+        'data-width': bestSize.width,
+        'data-height': bestSize.height,
+        $children: [imageObj],
+      };
+      delete imageObj.class;
+
+      const captionParts: HtmlObject[] = [];
 
       ['title', 'subject', 'comment'].forEach((part) => {
         if (caption[part]) {
@@ -155,7 +181,7 @@ export async function autoGallery(
 
       // artist/copyright go together
       if (artist || copyright) {
-        const creatorParts: HtmlObjectDefinition[] = [];
+        const creatorParts: HtmlObject[] = [];
 
         if (artist) {
           creatorParts.push({
@@ -200,37 +226,30 @@ export async function autoGallery(
         captionParts.length > 0
           ? {
               $tag: 'div',
-              class: 'pswp-caption-content',
+              class: 'bp-caption-content',
               $children: captionParts,
             }
           : undefined;
 
       debug('caption', captionDiv);
-      return { imageObj, captionDiv };
+      imageWrapperObj['data-caption'] = renderObjectHtml(captionDiv)
+        .replaceAll('"', '&quot;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;');
+      return { imageObj: imageWrapperObj, captionDiv };
     })
   );
 
-  // console.log('auto-gallery?', items);
-  const galleryObj: HtmlObjectDefinition = {
-    $tag: 'div',
-    ...opts.containerAttrs,
-    $children: items.map<HtmlObjectDefinition>(({ imageObj, captionDiv }) => {
-      // hoist photoswipe attributes up to parent div!
-      const pswpData = {};
-      ['data-pswp-src', 'data-pswp-width', 'data-pswp-height'].forEach((k) => {
-        if (imageObj.picture?.[k]) {
-          pswpData[k] = imageObj.picture[k];
-        }
-      });
+  // we *always* include 'gallery-bp' and 'gallery-bp-MAGICID' class values.
 
-      return {
-        $tag: 'div',
-        // TODO: move class outside imageOptions?
-        ...opts.imageOptions?.image,
-        ...pswpData,
-        $children: [imageObj, ...(captionDiv ? [captionDiv] : [])],
-      };
-    }),
+  // console.log('auto-gallery?', items);
+  const galleryID = 'XXX';
+
+  const galleryObj: HtmlObject = {
+    $tag: 'div',
+    class: `gallery-bp gallery-bp-${galleryID}${opts.containerAttrs.class ? ` ${opts.containerAttrs.class}` : ''}`,
+    ...(opts.containerAttrs.style ? { style: opts.containerAttrs.style } : {}),
+    $children: items.map<HtmlObject>(({ imageObj, captionDiv }) => imageObj),
   };
 
   // debug(galleryObj.div.children[0]);
@@ -238,8 +257,33 @@ export async function autoGallery(
   // The `<picture>` element needs to be wrapped in a `div` to get actual column
   // behavior.  Also note that this isn't true masonry, row-first layout, it's
   // column-first layout.
-  const html = renderObjectHTML(galleryObj);
-  return html;
+  const html = renderObjectHtml(galleryObj);
+
+  // need a better way to write inline script?
+  const scriptHtml = `
+  <script type="module">
+    const selector = "${`div.gallery-bp-${galleryID} > a`}";
+    if (window.createBpGallery) {
+      window.createBpGallery(selector);
+    } else {
+      document.addEventListener('bp-loaded', () => {
+        window.createBpGallery(selector);
+      });
+    }
+  </script>`;
+  return html + scriptHtml;
+}
+
+/** Additional picture element attributes */
+function pictureAttrs(meta: Image.MetadataEntry) {
+  return {
+    // 'data-type': 'image',
+    'data-image': meta.url,
+    // 'data-thumb': '???',
+    // 'data-alt': '???',
+    'data-width': meta.width,
+    'data-height': meta.height,
+  };
 }
 
 // // replicates the logic inside Array.sort() when no comparer is given  (see
@@ -269,9 +313,12 @@ let galleryHead: string;
 
 function getGalleryHead() {
   if (!galleryHead) {
-    galleryHead = fs.readFileSync(path.join(__dirname, '_gallery-head.html'), {
-      encoding: 'utf8',
-    });
+    galleryHead = fs.readFileSync(
+      path.join(__dirname, '_bigger-picture-head.html'),
+      {
+        encoding: 'utf8',
+      }
+    );
   }
 
   return galleryHead;
@@ -280,15 +327,15 @@ function getGalleryHead() {
 export async function galleryHeadTransform(content: string) {
   // debug('transform', this);
 
-  // if we don't see any 'data-pswp' on the page, immediately return the
+  // if we don't see any 'gallery-bp' on the page, immediately return the
   // existing content unchanged.
-  if (!content.includes('data-pswp')) {
+  if (!content.includes('gallery-bp')) {
     return content;
   }
 
   // otherwise, assume we need to inject the photoswipe styles and
   // scripts...
-  debug('need photoswipe stuff for', this.page.url);
+  debug('need bigger-picture stuff for', this.page.url);
 
   const endOfHead = content.indexOf('</head>');
   // debug('CONTENT', content.substring(endOfHead - 50, endOfHead + 10));

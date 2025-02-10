@@ -20,6 +20,8 @@ hedyGageGalleryOptions:
 <!-- puppyGalleryOptions:
   galleryGlob: gallery/*.{jpg,JPG,jpeg,JPEG,png,PNG,heic,HEIC} -->
 
+puppyGalleryOptions:
+  file: gallery/gallery.yaml
 ---
 {% from "utilities.njk" import dogName %}
 
@@ -105,4 +107,5 @@ hedyGageGalleryOptions:
 <div class="prose lg:prose-lg prose-zinc mt-8">
   <h3>The puppies</h3>
 </div>
-{% autoGallery %}
+
+{% fileGallery puppyGalleryOptions %}

@@ -10,6 +10,7 @@ import { backgroundImage, image, imageSync, imageUrl } from './images';
 // } from './gallery-photoswipe';
 import {
   autoGallery as autoGalleryBp,
+  fileGallery as fileGalleryBp,
   galleryHeadTransform as galleryHeadTransformBp,
   staticFiles as staticFilesBp,
 } from './gallery-bigger-picture';
@@ -34,6 +35,7 @@ export default function (
 
   // eleventyConfig.addAsyncShortcode('autoGalleryPswp', autoGalleryPswp);
   eleventyConfig.addAsyncShortcode('autoGallery', autoGalleryBp);
+  eleventyConfig.addAsyncShortcode('fileGallery', fileGalleryBp);
 
   // copy dependency files -- TODO: pass static css/js locations in config?
   // eleventyConfig.addPassthroughCopy(

@@ -1,0 +1,54 @@
+---
+title: "2025: Hedy × ???"
+order: 1 # 2025
+group: Upcoming Litter
+description: The fifth litter at Ture Hounds.
+layout: page-full
+
+# galleryHedy:
+#  galleryGlob: "gallery/hedy*"
+
+# we limit to 2-wide, instead of full width...
+hedySireGalleryOptions:
+  galleryGlob: parents-gallery/*.{jpg,JPG,jpeg,JPEG,png,PNG}
+  containerAttrs:
+    class: not-prose grid grid-cols-2 gap-4 my-8
+  imageOptions:
+    image:
+      class: gallery-img rounded-lg block w-full
+
+#puppyGalleryOptions:
+#  galleryGlob: gallery/*.{jpg,JPG,jpeg,JPEG,png,PNG,heic,HEIC}
+
+#puppyGalleryOptions:
+#  file: gallery/gallery.yaml
+---
+{% from "utilities.njk" import dogName %}
+
+<div class="zxl:columns-2 2xl:flex 2xl:flex-wrap 2xl:gap-x-[4rem] justify-center">
+  <div>
+    <div class="prose lg:prose-lg prose-zinc mx-auto mb-12">
+      <p class="lead">
+        We are planning a litter for the fall/winter of 2025 out of
+        {{ dogName("Ture’s Sending Sirius Signals", "Hedy", "GCHB", "TKN") }}.
+      </p>
+
+      <p>
+        Health screening results for
+        <a href="https://ofa.org/advanced-search/?appnum=2238435">Hedy</a> are
+        available.
+      </p>
+
+      <p>
+        If you are interested in this litter, please fill out the
+        <a href="/puppy-interest-questionnaire">puppy interest questionnaire</a
+        >.
+      </p>
+
+      <h3>Hedy and ???</h3>
+
+      {% autoGallery hedySireGalleryOptions %}
+    </div>
+  </div>
+
+</div>

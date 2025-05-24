@@ -1,5 +1,8 @@
+import debugFn from 'debug';
 import Image from '@11ty/eleventy-img';
 import { ImageOptions } from './options.js';
+
+const debug = debugFn('plugin:images:html');
 
 /**
  * An object representation for HTML rendering; $tag is the element name, where
@@ -212,6 +215,7 @@ export function generateHtmlObject(
  * @returns HTML for the object element.
  */
 export function renderObjectHtml(obj: HtmlObject): string {
+  debug('rendering HTML for', obj);
   const { $tag: tagName, $children, $content, ...attrs } = obj;
 
   const attrHtml = Object.entries(attrs)

@@ -39,7 +39,8 @@
 
 /*Your Custom CSS Goes here*/
 
-p {
+/* this overrides scaled prose sizes... need scoping? */
+p, .p {
   margin-top: 1em;
   margin-bottom: 1em;
 }
@@ -60,18 +61,56 @@ label a {
   @apply text-cyan-500;
 }
 
-/* headers as a first child never get top-margin? */
+/* headers and paragraphs as a first child never get top-margin? */
 h1:first-child,
 h2:first-child,
 h3:first-child,
 h4:first-child,
 h5:first-child,
-h6:first-child {
+h6:first-child,
+p:first-child,
+.p:first-child {
   margin-top: 0 !important;
 }
 
-p:last-child {
+p:last-child,
+.p:last-child {
   margin-bottom: 0 !important;
+}
+
+/* contract/agreement markup */
+abbr {
+  font-size: 90%;
+  font-weight: 600;
+}
+
+var {
+  font-size: 90%;
+  @apply text-zinc-400;
+}
+
+/*
+  support for annotated text put .annotated on parent
+  uses rem, not ch, because annotations are smaller
+*/
+.annotated {
+  /* use a right-padding for the annotation-space (only size lg and larger) */
+  @apply lg:pr-[25rem] xl:pr-[30rem] 2xl:pr-[40rem];
+
+  &.prose {
+    @apply lg:max-w-[60rem] xl:max-w-[80rem] 2xl:max-w-[100rem]
+  }
+
+  & *:not(aside) {
+    @apply relative;
+
+    aside {
+      @apply lg:absolute lg:top-0 lg:left-full lg:ml-[1rem] lg:w-[25rem] xl:w-[30rem] 2xl:w-[40rem] py-1 px-2 border rounded-lg bg-zinc-100 prose prose-sm prose-zinc max-w-full font-sans font-normal;
+
+      /* fudge the top margin to -2 because of the padding, and +0.25em for the font difference */
+      margin-top: calc((var(--spacing) * -1) + 0.25em);
+    }
+  }
 }
 
 /* prevent blockquote bold italics... */

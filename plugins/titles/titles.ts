@@ -27,7 +27,7 @@ interface RawTitleDetail {
   prefix?: boolean;
 }
 
-interface TitleInfo {
+export interface TitleInfo {
   title: string;
   name: string;
   desc?: string;
@@ -35,7 +35,7 @@ interface TitleInfo {
   isPrefix?: boolean;
 }
 
-interface TitleEvent {
+export interface TitleEvent {
   key: string;
   name: string;
   desc?: string;
@@ -52,9 +52,9 @@ interface TitleData {
 // "Senior Oval Racer" (NOTRA) and also "Summer of Ruff" (DMWYD-Tricks).  I
 // think we can make this map either *always* key to an array of title details,
 // or allow either a singular object or an array.
-type TitleMap = Record<string, TitleMapInfo>;
+type TitleMap = Record<string, TitleMapInfo | TitleMapInfo[]>;
 
-interface TitleMapInfo {
+export interface TitleMapInfo {
   name: string;
   desc: string;
   info: TitleInfo;
@@ -76,11 +76,17 @@ export function ensureTitleMap() {
     return evt.titles.reduce<TitleMap>((memo2, titleInfo) => {
       // *not* getting supersedes or isPrefix!
       const { title, name, desc } = titleInfo;
+      const newInfo: TitleMapInfo = { name, desc, info: titleInfo, event: evt };
       if (title in memo2) {
-        // TODO: handle title collisions!
-        throw new Error(`title ${title} is already used!`);
+        // // TODO: handle title collisions!
+        // throw new Error(`title ${title} is already used!`);
+        if (!Array.isArray(memo2[title])) {
+          memo2[title] = [memo2[title]];
+        }
+        memo2[title].push(newInfo);
+      } else {
+        memo2[title] = { name, desc, info: titleInfo, event: evt };
       }
-      memo2[title] = { name, desc, info: titleInfo, event: evt };
       return memo2;
     }, memo);
   }, {});
@@ -230,10 +236,19 @@ export function titlify(str: string) {
   const parts = str.split(' ').filter((x) => x);
   return parts
     .map(
-      (part) =>
-        `<span title="${
-          titleMap[part]?.name || '(unknown title)'
-        }">${part}</span>`
+      (part) => {
+        var name = '(unknown title)';
+        const val = titleMap[part];
+        if (val) {
+          if (Array.isArray(val)) {
+            name = val.map(v => v.name).join(', or ');
+          } else {
+            name = val.name;
+          }
+        }
+
+        return `<span title="${name}">${part}</span>`;
+      }
     )
     .join(' ');
 }

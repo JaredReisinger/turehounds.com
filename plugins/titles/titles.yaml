@@ -653,9 +653,8 @@ events:
         name: Alphabet Challenge
       AKA:
         name: That's My Name
-      # CONFLICTS WITH SENIOR OVAL RACER!
-      # SOR:
-      #   name: Summer of Ruff
+      SOR:
+        name: Summer of Ruff
       SSH:
         name: Summer Scavenger Hunt
       TDROM:

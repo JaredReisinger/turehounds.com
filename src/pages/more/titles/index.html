@@ -180,17 +180,19 @@ layout: page-full
     <table class="table-default">
       <tbody>
         {% for title in titleMap | keys | sort %}
-          {% set titleInfo = titleMap[title] %}
-          <tr>
-            <td class="!pl-4 whitespace-nowrap">{{ title }}</td>
-            <td>
-              {{ titleInfo.name -}}
-              {%- if titleInfo.desc %}
-                <i>({{ titleInfo.desc }})</i>
-              {%- endif %}
-            </td>
-            <td>{{ titleInfo.event.name }}</td>
-          </tr>
+          {% set titleInfos = [titleMap[title]] if titleMap[title].name else titleMap[title] %}
+          {% for titleInfo in titleInfos %}
+            <tr>
+              <td class="!pl-4 whitespace-nowrap">{{ title }}</td>
+              <td>
+                {{ titleInfo.name -}}
+                {%- if titleInfo.desc %}
+                  <i>({{ titleInfo.desc }})</i>
+                {%- endif %}
+              </td>
+              <td>{{ titleInfo.event.name }}</td>
+            </tr>
+          {% endfor %}
         {% endfor %}
       </tbody>
     </table>

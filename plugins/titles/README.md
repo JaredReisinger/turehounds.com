@@ -14,6 +14,8 @@ Here's the new model:
 
 - **`levels`:** A convenience lookup table for common title abbreviations like "Novice" and "Advanced". This exists to allow many titles' "full names" to be inferred simply from the title symbol itself. (e.g. "TKA" means "Trick Dog Advanced" because "TK" is the "Trick Dog" prefix, and "A" is a level lookup.)
 
+- **`qualifiers`:** A set of title-prefix values for things like "AM CH", "AM/CAN CH", etc.
+
 - **`events`:** The events for which titles can be earned. Each event represents a collection of titles.
 
   - **`name`:** _(required)_ The base name of the event, used as a default portion of the title names as well

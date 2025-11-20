@@ -9,6 +9,7 @@ import yaml from 'js-yaml';
 
 interface RawTitleData {
   levels: Record<string, string>;
+  qualifiers: Record<string, string>;
   events: RawTitleEvent[];
 }
 
@@ -42,16 +43,15 @@ export interface TitleEvent {
   titles: TitleInfo[];
 }
 
-interface TitleData {
+export interface TitleData {
   levels: RawTitleData['levels'];
+  qualifiers: RawTitleData['qualifiers'];
   events: TitleEvent[];
 }
 
-// We currently use a simple map, but that kills us for the (very few) times
-// that a title is used by more than one event. For example, "SOR" can mean both
-// "Senior Oval Racer" (NOTRA) and also "Summer of Ruff" (DMWYD-Tricks).  I
-// think we can make this map either *always* key to an array of title details,
-// or allow either a singular object or an array.
+// There are a few titles that collide; for example "SOR" can mean both "Senior
+// Oval Racer" (NOTRA) and also "Summer of Ruff" (DMWYD-Tricks). To handle this
+// the map value is either a singular object or an array.
 type TitleMap = Record<string, TitleMapInfo | TitleMapInfo[]>;
 
 export interface TitleMapInfo {
@@ -68,7 +68,7 @@ export function ensureTitleMap() {
     return titleMap;
   }
 
-  const { /* levels, */ events } = ensureTitleData();
+  const { events } = ensureTitleData();
 
   // console.log('EVENTS', events);
   titleMap = events.reduce<TitleMap>((memo, evt) => {
@@ -226,6 +226,11 @@ export function getTitleLevels() {
   return levels;
 }
 
+export function getTitleQualifiers() {
+  const { qualifiers } = ensureTitleData();
+  return qualifiers;
+}
+
 export function getTitleEvents() {
   const { events } = ensureTitleData();
   return events;
@@ -241,7 +246,7 @@ export function titlify(str: string) {
         const val = titleMap[part];
         if (val) {
           if (Array.isArray(val)) {
-            name = val.map(v => v.name).join(', or ');
+            name = val.map(v => v.name).join(' or ');
           } else {
             name = val.name;
           }

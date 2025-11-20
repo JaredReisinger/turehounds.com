@@ -94,11 +94,19 @@ layout: page-full
         }
 
         // first, evaluate each part and tag with likely kind...
-        const words = text.split(/\s+/).map((word) => {
+        const words = text.split(/,?\s+/).flatMap((word) => {
           const title = window.titleMap[word.toUpperCase()];
-          return title
-            ? { kind: 'title', value: title }
+          if (title) {
+            return { kind: 'title', value: title };
+          }
+
+          // non-titles are either qualifiers or name parts
+          return word.split('/').map((word) => {
+            const qual = window.titleQualifiers[word.toUpperCase()];
+            return qual
+            ? { kind: 'qualifier', value: qual }
             : { kind: 'name', value: word };
+          });
         });
 
         // consolidate name terms
@@ -118,9 +126,11 @@ layout: page-full
 
         const items = terms
           .map(({ kind, value }) => {
-            return kind === 'title'
-              ? value
-              : `<b>${value}</b> <i>(probable name)</i>`;
+            switch (kind) {
+              case 'title': return value;
+              case 'qualifier': return `${value} <i>(modifies next title)</i>`;
+              case 'name': return `<b>${value}</b> <i>(likely name)</i>`;
+            }
           })
           .map((l) => `<li>${l}</li>`)
           .join('\n');

@@ -15,6 +15,20 @@ levels:
   G: Grand Champion
   # should we recognize "CH" as a term?
 
+qualifiers:
+  AKC: American Kennel Club
+  AM: American
+  BR: Brazilian
+  BRA: Brazilian
+  BRZ: Brazilian
+  CAN: Canadian
+  CZECH: Czech
+  INT: International
+  PANAM: Pan-American
+  POL: Polish
+  RUS: Russian
+  UIC-INT: International (UIC?)
+
 events:
   - name: Dual-champion
     desc: Special indicator when a dog earns both conformation Champion and Field Champion

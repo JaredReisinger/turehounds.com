@@ -258,6 +258,9 @@ events:
       CGCU:
         name: ^1 Urban
         supersedes: [CGC]
+      # S.T.A.R. Puppy is listed as a part of the CGC family on the AKC site
+      STR:
+        name: S.T.A.R. Puppy
 
   - name: Scent Work
     desc: There are four elements to scent work events, interior, exterior, containers, and buried. Each element has its own title, and there’s a “roll-up” title once you’ve earned that level across all four elements.

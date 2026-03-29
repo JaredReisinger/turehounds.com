@@ -450,15 +450,15 @@ events:
         supersedes: [VBS2]
       VBX:
         # name: Versatile Basenji Excellent
-        desc: "Option A: Proof of 4 titles - 3 qualifying titles plus 1 intermediate title; titles must be from at least 3 different categories. Option B: Proof of 5 qualifying titles; titles must be from at least 4 different categories."
+        desc: 'Option A: Proof of 4 titles - 3 qualifying titles plus 1 intermediate title; titles must be from at least 3 different categories. Option B: Proof of 5 qualifying titles; titles must be from at least 4 different categories.'
         supersedes: [VB]
       MVB:
         name: ^3 ^1
-        desc: "Option A: Proof of 4 titles - 3 qualifying titles plus 1 advanced title; titles must be from at least 3 different categories.  Option B: Proof of 7 qualifying titles; titles must be from at least 5 different categories."
+        desc: 'Option A: Proof of 4 titles - 3 qualifying titles plus 1 advanced title; titles must be from at least 3 different categories.  Option B: Proof of 7 qualifying titles; titles must be from at least 5 different categories.'
         supersedes: [VBX]
       VBE:
         # name: Versatile Basenji Elite
-        desc: "Option A: Proof of 4 titles - 3 qualifying titles plus 1 elite title; titles must be from at least 3 different categories.  Option B: Proof of 9 qualifying titles; titles must be from at least 6 different categories."
+        desc: 'Option A: Proof of 4 titles - 3 qualifying titles plus 1 elite title; titles must be from at least 3 different categories.  Option B: Proof of 9 qualifying titles; titles must be from at least 6 different categories.'
         supersedes: [MVB]
 
   - name: Miscellaneous

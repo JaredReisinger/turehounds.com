@@ -240,20 +240,18 @@ export function titlify(str: string) {
   const titleMap = ensureTitleMap();
   const parts = str.split(' ').filter((x) => x);
   return parts
-    .map(
-      (part) => {
-        var name = '(unknown title)';
-        const val = titleMap[part];
-        if (val) {
-          if (Array.isArray(val)) {
-            name = val.map(v => v.name).join(' or ');
-          } else {
-            name = val.name;
-          }
+    .map((part) => {
+      var name = '(unknown title)';
+      const val = titleMap[part];
+      if (val) {
+        if (Array.isArray(val)) {
+          name = val.map((v) => v.name).join(' or ');
+        } else {
+          name = val.name;
         }
-
-        return `<span title="${name}">${part}</span>`;
       }
-    )
+
+      return `<span title="${name}">${part}</span>`;
+    })
     .join(' ');
 }

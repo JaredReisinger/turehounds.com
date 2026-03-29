@@ -11,10 +11,7 @@ import {
 const debug = debugFn('plugin:titles');
 
 // TODO: we should define our expectation about configOptions and export it!
-export default function (
-  eleventyConfig: EleventyConfig,
-  _configOptions?: any,
-) {
+export default function (eleventyConfig: EleventyConfig, _configOptions?: any) {
   debug('loading titles plugin' /* , configOptions */);
 
   eleventyConfig.addFilter('titlify', titlify);

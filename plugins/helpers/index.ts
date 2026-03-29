@@ -45,10 +45,9 @@ export default function (
   eleventyConfig.addGlobalData('debugConfig', () =>
     // somehow, we know that dir and pathPrefix are added by the time the
     // function is called... is this documented anywhere?
-    pick(eleventyConfig as EleventyConfig & { dir: unknown; pathPrefix: unknown }, [
-      'collections',
-      'dir',
-      'pathPrefix',
-    ])
+    pick(
+      eleventyConfig as EleventyConfig & { dir: unknown; pathPrefix: unknown },
+      ['collections', 'dir', 'pathPrefix']
+    )
   );
 }

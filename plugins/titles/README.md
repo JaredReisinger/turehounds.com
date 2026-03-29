@@ -17,7 +17,6 @@ Here's the new model:
 - **`qualifiers`:** A set of title-prefix values for things like "AM CH", "AM/CAN CH", etc.
 
 - **`events`:** The events for which titles can be earned. Each event represents a collection of titles.
-
   - **`name`:** _(required)_ The base name of the event, used as a default portion of the title names as well
 
   - **`desc`:** _(required)_ A description of the event.
@@ -27,7 +26,6 @@ Here's the new model:
   - **`key`:** _(required)_ The default level-less symbol for the titles. This maps to `defaultTitle` for the title display names.
 
   - **`titles`:** _(required)_ A map of "title letters" to information about that title. The same title letters _might_ be used for two or more events, but any one event necessarily defines only one title with a given title-letters.
-
     - **`name`:** _(optional)_ The name of the title. If the title follows the standard pattern of "_`defaultTitle`_ _`level`_" (`TKA` => `Trick Dog Advanced`), this value can be omitted completely. In addition to a literal name, the following replacements can also be used to reduce typing:
 
       | symbol | replacement                                                                                                                   |

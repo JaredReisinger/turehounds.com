@@ -23,7 +23,7 @@ interface CaptionYaml extends Omit<Caption, 'date'> {
 }
 
 // We cache loaded/parsed/detected caption data so that we don't go through the
-// process for the same imge more than once. This is predicated on the
+// process for the same image more than once. This is predicated on the
 // fundamental image src (non-resized) path.
 const captionsFromSidecar: Record<string, Promise<Caption>> = {};
 const captionsFromImage: Record<string, Promise<Caption>> = {};
@@ -181,9 +181,13 @@ function extractCaptionFromImage(src: string) {
 
     if (metadata.exif) {
       debug('got image metadata with EXIF', src);
-      const { Image: imageInfo, Photo: exif, ...other } = exifReader(metadata.exif);
+      const {
+        Image: imageInfo,
+        Photo: exif,
+        ...other
+      } = exifReader(metadata.exif);
 
-      debug('EXIF info', { image: imageInfo, exif, ...other});
+      debug('EXIF info', { image: imageInfo, exif, ...other });
       if (imageInfo) {
         artist = imageInfo.Artist || undefined;
         copyright = imageInfo.Copyright || undefined;

@@ -4,7 +4,7 @@ This is an attempt to better modularize the additional functionality in the same
 
 ## `helpers`
 
-Amalgam of helper filters and shortcodes... the images/gallery should be separated out, but this is the first stab at things.  The images/gallery stuff would add/use these dependencies:
+Amalgam of helper filters and shortcodes... the images/gallery should be separated out, but this is the first stab at things. The images/gallery stuff would add/use these dependencies:
 
 - `@11ty/eleventy-img`
 - `exif-reader` (`@types/exif-reader`)

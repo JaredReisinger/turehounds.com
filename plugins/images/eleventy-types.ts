@@ -126,7 +126,7 @@ export interface Data {
      * { id: 1 }
      */
     path: {
-        [key: string]: any;
+      [key: string]: any;
     };
     /**
      * The `event.queryStringParameters` received from the
@@ -138,7 +138,7 @@ export interface Data {
      * { id: 1 }
      */
     query: {
-        [key: string]: any;
+      [key: string]: any;
     };
   };
 }

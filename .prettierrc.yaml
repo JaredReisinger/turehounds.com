@@ -1,16 +1,16 @@
 plugins:
-  - '@shopify/prettier-plugin-liquid'
+  # - '@shopify/prettier-plugin-liquid'
+  - 'prettier-plugin-jinja-template'
 
 trailingComma: es5
 singleQuote: true
-editorConfig: true
 
 overrides:
   - files:
       - '*.html'
       - '*.njk'
     options:
-      # use liquid parser as an "almost nunjucks" one...
-      parser: liquid-html
+      # use jinja-template as an "almost nunjucks" one...
+      parser: jinja-template
       singleQuote: false
       printWidth: 80

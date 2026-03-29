@@ -55,8 +55,10 @@
                   <div class="relative grid xx-gap-6 bg-white xx-px-5 xx-py-6 xx-sm:gap-8 xx-sm:p-8">
                     {% set prevGroup = '' %}
                     {% for child in nav.children %}
-                      {% if child.group != prevGroup and child.group != ''  %}
-                        <div class="pt-2 pb-1 px-2 text-xs text-zinc-400">{{ child.group }}</div>
+                      {% if child.group != prevGroup and child.group != '' %}
+                        <div class="pt-2 pb-1 px-2 text-xs text-zinc-400">
+                          {{ child.group }}
+                        </div>
                       {% endif %}
                       {% set prevGroup = child.group %}
                       <a
@@ -158,8 +160,10 @@
                   <div x-cloak x-show="open" class="ml-4">
                     {% set prevGroup = '' %}
                     {% for child in nav.children %}
-                      {% if child.group != prevGroup and child.group != ''  %}
-                        <div class="pt-2 pb-1 px-2 text-xs text-zinc-400">{{ child.group }}</div>
+                      {% if child.group != prevGroup and child.group != '' %}
+                        <div class="pt-2 pb-1 px-2 text-xs text-zinc-400">
+                          {{ child.group }}
+                        </div>
                       {% endif %}
                       {% set prevGroup = child.group %}
                       <a

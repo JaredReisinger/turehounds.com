@@ -12,4 +12,4 @@ To me, having a distinct transpile step is completely acceptable; we assume the
 
 There are a lot of pieces to coordinate to get the site up and running: css, eleventy, search info (lunr), etc. To keep these steps rational, they are broken down by function (`css`, `eleventy`, `search`, `titles`), with `:`-suffixes for variants (`css: watch`, `eleventy: prod`), etc. There are roll-up scripts for common invocations that use `npm-run-all` to coordinate. Generally, these _**won’t**_ use `**`-style globbing, because order matters.
 
-Truly, we need full Make-style dependencies (that de-duplicate steps), but we'll live with hand-rolled "just enough" scripts.  (Perhaps something like `_`-prefixed scripts to indicate those that shouldn't be manually run?)
+Truly, we need full Make-style dependencies (that de-duplicate steps), but we'll live with hand-rolled "just enough" scripts. (Perhaps something like `_`-prefixed scripts to indicate those that shouldn't be manually run?)

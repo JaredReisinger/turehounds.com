@@ -94,22 +94,27 @@ layout: page-full
         }
 
         // first, evaluate each part and tag with likely kind...
-        const words = text.split(/,?\s+/).flatMap((word) => {
-          const upperWord = word.toUpperCase();
-          const title = window.titleMap[upperWord];
-          if (title) {
-            return { kind: 'title', key: upperWord, value: title };
-          }
-
-          // non-titles are either qualifiers or name parts
-          return word.split('/').map((word) => {
+        const words = text
+          .split(/,?\s+/)
+          .flatMap((word) => {
             const upperWord = word.toUpperCase();
-            const qual = window.titleQualifiers[upperWord];
-            return qual
-            ? { kind: 'qualifier', key: upperWord, value: qual }
-            : word ? { kind: 'name', key: word, value: word } : null;
-          });
-        }).filter(el => el); // strip nulls
+            const title = window.titleMap[upperWord];
+            if (title) {
+              return { kind: 'title', key: upperWord, value: title };
+            }
+
+            // non-titles are either qualifiers or name parts
+            return word.split('/').map((word) => {
+              const upperWord = word.toUpperCase();
+              const qual = window.titleQualifiers[upperWord];
+              return qual
+                ? { kind: 'qualifier', key: upperWord, value: qual }
+                : word
+                  ? { kind: 'name', key: word, value: word }
+                  : null;
+            });
+          })
+          .filter((el) => el); // strip nulls
 
         console.dir(words);
 
@@ -131,9 +136,12 @@ layout: page-full
         const items = terms
           .map(({ kind, key, value }) => {
             switch (kind) {
-              case 'title': return `<i>${key}:</i> ${value}`;
-              case 'qualifier': return `<i>${key}:</i> ${value} <i>(modifies next title)</i>`;
-              case 'name': return `<b>${value}</b> <i>(dog’s name)</i>`;
+              case 'title':
+                return `<i>${key}:</i> ${value}`;
+              case 'qualifier':
+                return `<i>${key}:</i> ${value} <i>(modifies next title)</i>`;
+              case 'name':
+                return `<b>${value}</b> <i>(dog’s name)</i>`;
             }
           })
           .map((l) => `<li>${l}</li>`)

@@ -22,10 +22,7 @@ const debug = debugFn('plugin:images');
 // those problems.
 
 // TODO: we should define our expectation about configOptions and export it!
-export default function (
-  eleventyConfig: EleventyConfig,
-  _configOptions?: any,
-) {
+export default function (eleventyConfig: EleventyConfig, _configOptions?: any) {
   debug('loading images plugin' /* , configOptions */);
 
   eleventyConfig.addAsyncShortcode('image', image);

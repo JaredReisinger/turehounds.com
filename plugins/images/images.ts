@@ -138,12 +138,13 @@ export async function backgroundImage(
   // well... (and if they don't handle image-set, they might not handle webp,
   // either, so we just fall back to jpeg.)
   const bgImageKinds = [
-    ('jpeg' in metadata) ? `url(${metadata.jpeg![0].url})` : null,
+    'jpeg' in metadata ? `url(${metadata.jpeg![0].url})` : null,
     `-webkit-image-set(${imageSet})`,
     `image-set(${imageSet})`,
   ];
 
-  return bgImageKinds.filter(exists)
+  return bgImageKinds
+    .filter(exists)
     .map(
       (kind) =>
         `background-image: ${before ? `${before}, ` : ''}${kind}${

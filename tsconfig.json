@@ -9,9 +9,7 @@
 
     // include our generated/hand-coded types.
     "typeRoots": ["@types", "node_modules/@types"],
-    "types": [
-      "eleventy-navigation",
-    ],
+    "types": ["eleventy-navigation"],
 
     "allowJs": false,
     "checkJs": false,

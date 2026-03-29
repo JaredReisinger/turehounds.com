@@ -40,7 +40,8 @@
 /*Your Custom CSS Goes here*/
 
 /* this overrides scaled prose sizes... need scoping? */
-p, .p {
+p,
+.p {
   margin-top: 1em;
   margin-bottom: 1em;
 }
@@ -98,7 +99,7 @@ var {
   @apply lg:pr-[25rem] xl:pr-[30rem] 2xl:pr-[40rem];
 
   &.prose {
-    @apply lg:max-w-[60rem] xl:max-w-[80rem] 2xl:max-w-[100rem]
+    @apply lg:max-w-[60rem] xl:max-w-[80rem] 2xl:max-w-[100rem];
   }
 
   & *:not(aside) {
@@ -115,9 +116,7 @@ var {
 
 /* prevent blockquote bold italics... */
 .prose
-  :where(blockquote):not(
-    :where([class~='not-prose'], [class~='not-prose'] *)
-  ) {
+  :where(blockquote):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
   font-weight: inherit;
   font-style: inherit;
 }

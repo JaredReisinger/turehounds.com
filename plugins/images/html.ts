@@ -93,7 +93,13 @@ export function generateHtmlObject(
   };
   // TODO: define "lowsrc"... I *think* it's the "lowest common denominator"
   // source, which should work anywhere as a fallback.
-  const LOWSRC_FORMAT_PREFERENCE = ['jpeg', 'png', 'svg', 'webp', 'avif'] as const;
+  const LOWSRC_FORMAT_PREFERENCE = [
+    'jpeg',
+    'png',
+    'svg',
+    'webp',
+    'avif',
+  ] as const;
 
   const opts = Object.assign({}, DEFAULT_OPTIONS, options);
 
@@ -115,7 +121,7 @@ export function generateHtmlObject(
   // TODO: lowsrc calculation?
   let lowsrcFormat: Image.MetadataEntry[] | undefined;
   for (const format of LOWSRC_FORMAT_PREFERENCE) {
-    if (format in metadata && (metadata[format]!.length > 0)) {
+    if (format in metadata && metadata[format]!.length > 0) {
       lowsrcFormat = metadata[format]!;
       break;
     }

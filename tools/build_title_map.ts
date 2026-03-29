@@ -1,6 +1,10 @@
 // Build the title map data file
 import * as fs from 'fs';
-import { ensureTitleMap, getTitleQualifiers, type TitleMapInfo } from '../plugins/titles/titles.js';
+import {
+  ensureTitleMap,
+  getTitleQualifiers,
+  type TitleMapInfo,
+} from '../plugins/titles/titles.js';
 
 const OUTPUT_FILE = '_site/static/js/titleMap.js';
 
@@ -21,8 +25,11 @@ function writeTitleMap(filename: string) {
   );
 
   // write the titles and the qualifiers
-  fs.writeFileSync(filename, `window.titleMap = ${JSON.stringify(leanMap)};
-  window.titleQualifiers = ${JSON.stringify(getTitleQualifiers())}`);
+  fs.writeFileSync(
+    filename,
+    `window.titleMap = ${JSON.stringify(leanMap)};
+  window.titleQualifiers = ${JSON.stringify(getTitleQualifiers())}`
+  );
 }
 
 function eventName(info: TitleMapInfo) {

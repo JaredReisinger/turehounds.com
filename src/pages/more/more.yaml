@@ -1,3 +1,2 @@
 # automatically makes "more" pages into top-level URLs (no "/pages/more/" prefix)
 permalink: "{{ page.filePathStem | trimstart('/pages/more/') | trimend('/index') }}/index.html"
-

@@ -1,7 +1,5 @@
 import * as fs from 'fs';
 import lunr from 'lunr';
-// import windowPolyfill from 'node-window-polyfill';
-// import 'node-window-polyfill/register';
 
 import type { Index, Previews } from './build_search_index.js';
 
@@ -23,7 +21,6 @@ function main() {
   // set on it.
   global.window ??= {} as Window & typeof globalThis;
 
-  // windowPolyfill.register();
   const data = fs.readFileSync(SEARCH_INDEX).toString();
   eval(data); // approximate browser loading!
   // console.log('search index?', window.SEARCH_INDEX);

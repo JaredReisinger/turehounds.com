@@ -4,18 +4,14 @@ layout: base
 eleventyExcludeFromCollections: true
 robots: noindex,nofollow
 ---
+
 <style type="text/css">
   body {
     padding: 2rem;
   }
 </style>
 
-<form
-  class="form-default"
-  data-netlify="true"
-  name="test-form"
-  method="POST"
->
+<form class="form-default" data-netlify="true" name="test-form" method="POST">
   <div class="grid x-grid-cols-1 gap-8 text-lg w-full">
     <label for="name"
       >Your name<input
@@ -24,7 +20,7 @@ robots: noindex,nofollow
         name="name"
         id="name"
         placeholder="Your Name"
-    ></label>
+    /></label>
 
     <label for="email"
       >Your email<input
@@ -33,7 +29,7 @@ robots: noindex,nofollow
         name="email"
         id="email"
         placeholder="you@your-email.com"
-    ></label>
+    /></label>
 
     <label for="phone"
       >Your phone number(s)<input
@@ -42,7 +38,7 @@ robots: noindex,nofollow
         name="phone"
         id="phone"
         placeholder="(987) 654-3210"
-    ></label>
+    /></label>
 
     <label for="location"
       >Your location (city and state)<input
@@ -51,7 +47,7 @@ robots: noindex,nofollow
         name="location"
         id="location"
         placeholder="City, ST"
-    ></label>
+    /></label>
 
     <label for="age-preference"
       >Age preference<select name="age-preference" id="age-preference" required>
@@ -85,7 +81,8 @@ robots: noindex,nofollow
     >
 
     <label for="people"
-      >Describe the people who live in your home. Kids (how old)? Roommates?<textarea
+      >Describe the people who live in your home. Kids (how old)?
+      Roommates?<textarea
         required
         name="people"
         id="people"
@@ -99,7 +96,7 @@ robots: noindex,nofollow
         required
         name="alone-time"
         id="alone-time"
-    ></label>
+    /></label>
 
     <label for="secure-yard"
       >Do you have a securely enclosed area for the dog, such as a 6-foot fence
@@ -153,12 +150,7 @@ robots: noindex,nofollow
         >(If your primary reason is because you understand that they are
         hypoallergenic, please realize that they are <em>not</em>, nor is any
         dog, really.)</span
-      >><textarea
-        required
-        rows="5"
-        name="reasons"
-        id="reasons"
-      ></textarea>
+      >><textarea required rows="5" name="reasons" id="reasons"></textarea>
     </label>
 
     <label for="research"
@@ -191,7 +183,7 @@ robots: noindex,nofollow
         required
         name="previous-owner"
         id="previous-owner"
-    ></label>
+    /></label>
 
     <label for="temperament"
       >Describe your ideal dog’s temperament.<textarea
@@ -230,7 +222,7 @@ robots: noindex,nofollow
     </label>
 
     <div>
-      <input type="submit">
+      <input type="submit" />
     </div>
   </div>
 </form>

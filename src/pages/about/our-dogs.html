@@ -27,6 +27,7 @@ titleList:
   - TKN
   - TKP
 ---
+
 {% from "utilities.njk" import bioCard, dogName %}
 
 <div class="lg:flex justify-center lg:gap-8">
@@ -38,48 +39,46 @@ titleList:
     </p>
     <div class="flex flex-col gap-y-8">
       {% call bioCard("Disa", "Disa_JP 2.jpg") %}
-      <p class="lead">
-        {{ dogName("Taji’s hAfrican Queen Disa", undefined, "DC", "SC CA BCAT CGCA CGCU TKA FDX RATM") -}}
-        <a href="#alphabet-soup" class="lg:hidden">*</a>
-      </p>
-      <p>
-        A half-African out of a mother who was brought out of the Congo as a
-        puppy ({{ dogName("Avongara Naziki") }}) and a domesticated father (
-        {{- dogName("Penda Taji’s Tri-Umphant One") -}}
-        ), Disa is a prime example of the uncommon “open cap” coloration
-        pattern.
-      </p>
-      <p>
-        She is a natural hunter, finding great success in both
-        lure-coursing—she’s earned her Field Championship, which is implied in
-        the “DC” title—and in Barn Hunt—the “RATM”. Disa also enjoys “working”
-        just for the sake of work, and spending time with us, be it working on
-        tricks (“TKA”) or on flyball (“FDX”). Yes, that’s right, Basenjis can
-        play flyball! (If you’re patient, anyway.)
-      </p>
+        <p class="lead">
+          {{ dogName("Taji’s hAfrican Queen Disa", undefined, "DC", "SC CA BCAT CGCA CGCU TKA FDX RATM") -}}
+          <a href="#alphabet-soup" class="lg:hidden">*</a>
+        </p>
+        <p>
+          A half-African out of a mother who was brought out of the Congo as a
+          puppy ({{ dogName("Avongara Naziki") }}) and a domesticated father (
+          {{- dogName("Penda Taji’s Tri-Umphant One") -}} ), Disa is a prime
+          example of the uncommon “open cap” coloration pattern.
+        </p>
+        <p>
+          She is a natural hunter, finding great success in both
+          lure-coursing—she’s earned her Field Championship, which is implied in
+          the “DC” title—and in Barn Hunt—the “RATM”. Disa also enjoys “working”
+          just for the sake of work, and spending time with us, be it working on
+          tricks (“TKA”) or on flyball (“FDX”). Yes, that’s right, Basenjis can
+          play flyball! (If you’re patient, anyway.)
+        </p>
       {% endcall %}
 
       {% call bioCard("Spyros", "spyros-manhole.jpg") %}
-      <p class="lead">
-        {{ dogName("Kibushi Gugu Diospyros", undefined, "CH", "RI JC CAA BCAT SWA RATO CGCA CGCU TKP") }}
-      </p>
-      <p>
-        Technically a half-African, but what we’d prefer to call “two-quarters
-        African” because of an additional generation of breeding, Spyros is out
-        of two half-African parents: mother
-        {{ dogName("Possum Creek’s Ngoma") }} and father
-        {{ dogName("Kibushi The Oracle", "Wags") }}. Spyros shows a
-        much-more-typical tri-color pattern but is distinguished by having very
-        little white, with no flashy white “collar” around his neck.
-      </p>
-      <p>
-        Spyros loves to run and chase, happily volunteering to test
-        lure-coursing layouts, run in the singles stakes, and in coursing
-        ability tests, all on the same day. As long as the “bunny” is moving,
-        he’s after it! He also truly loves “working” when there’s a chance for
-        treats at the end.
-      </p>
-
+        <p class="lead">
+          {{ dogName("Kibushi Gugu Diospyros", undefined, "CH", "RI JC CAA BCAT SWA RATO CGCA CGCU TKP") }}
+        </p>
+        <p>
+          Technically a half-African, but what we’d prefer to call “two-quarters
+          African” because of an additional generation of breeding, Spyros is
+          out of two half-African parents: mother
+          {{ dogName("Possum Creek’s Ngoma") }} and father
+          {{ dogName("Kibushi The Oracle", "Wags") }}. Spyros shows a
+          much-more-typical tri-color pattern but is distinguished by having
+          very little white, with no flashy white “collar” around his neck.
+        </p>
+        <p>
+          Spyros loves to run and chase, happily volunteering to test
+          lure-coursing layouts, run in the singles stakes, and in coursing
+          ability tests, all on the same day. As long as the “bunny” is moving,
+          he’s after it! He also truly loves “working” when there’s a chance for
+          treats at the end.
+        </p>
       {% endcall %}
 
       {# {% call bioCard("Gable", "gable-and-barbara.jpg") %}
@@ -98,29 +97,31 @@ titleList:
       {% endcall %} #}
 
       {% call bioCard("Bogart", "bogart.jpg") %}
-      <p class="lead">
-        {{ dogName("Ture’s Stuff Dreams Are Made Of", undefined, "BIF FC", "BCAT TKN NTD-M") }}
-      </p>
-      <p>
-        Our male “keeper” out of Disa’s second litter, sired by
-        {{ dogName("Dark Moon’s Bada Bing!", "Yoshi") -}}
-        , Bogart is an absolute sweetheart.
-      </p>
+        <p class="lead">
+          {{ dogName("Ture’s Stuff Dreams Are Made Of", undefined, "BIF FC", "BCAT TKN NTD-M") }}
+        </p>
+        <p>
+          Our male “keeper” out of Disa’s second litter, sired by
+          {{ dogName("Dark Moon’s Bada Bing!", "Yoshi") -}} , Bogart is an
+          absolute sweetheart.
+        </p>
       {% endcall %}
 
       {% call bioCard("Hedy", "hedy.jpg") %}
-      <p class="lead">
-        {{ dogName("Ture’s Sending Sirius Signals", undefined, "GCHB", "TKN") }}
-      </p>
-      <p>
-        Our female “keeper” out of Disa’s second litter, sired by
-        {{ dogName("Dark Moon’s Bada Bing!", "Yoshi") -}}
-        , Hedy is affectionately nicknamed “Hurricane Hedy”.
-      </p>
+        <p class="lead">
+          {{ dogName("Ture’s Sending Sirius Signals", undefined, "GCHB", "TKN") }}
+        </p>
+        <p>
+          Our female “keeper” out of Disa’s second litter, sired by
+          {{ dogName("Dark Moon’s Bada Bing!", "Yoshi") -}} , Hedy is
+          affectionately nicknamed “Hurricane Hedy”.
+        </p>
       {% endcall %}
     </div>
   </div>
-  <div class="mt-12 lg:mt-64 xx-bg-cyan-100 rounded-lg p-4 self-start mx-auto lg:mx-0 lg:max-w-[40ch]">
+  <div
+    class="mt-12 lg:mt-64 xx-bg-cyan-100 rounded-lg p-4 self-start mx-auto lg:mx-0 lg:max-w-[40ch]"
+  >
     <div class="prose prose-sm prose-zinc">
       <h4 id="alphabet-soup" class="text-lg mb-4">
         What is with all those letters around the dogs’ names?
@@ -150,7 +151,7 @@ titleList:
               <td class="whitespace-nowrap">{{ title }}</td>
               <td>
                 {{ titleInfo.name -}}
-                {%- if titleInfo.desc %} ({{ titleInfo.desc }}){% endif %}
+                {%- if titleInfo.desc %}({{ titleInfo.desc }}){% endif %}
               </td>
               <td>{{ titleInfo.event[1] }}</td>
             </tr>

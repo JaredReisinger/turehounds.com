@@ -4,6 +4,7 @@ layout: base
 eleventyExcludeFromCollections: true
 robots: noindex,nofollow
 ---
+
 <style type="text/css">
   body {
     padding: 2rem;
@@ -45,7 +46,9 @@ robots: noindex,nofollow
 <pre>{{ page | inspect }}</pre>
 
 <h2>Top-level values</h2>
-<pre>{{ collections.all[0].data | pick(['eleventy', 'pkg', 'settings', 'titles']) | inspect }}</pre>
+<pre>
+{{ collections.all[0].data | pick(['eleventy', 'pkg', 'settings', 'titles']) | inspect }}</pre
+>
 <h3>eleventyConfig...</h3>
 <pre>{{ debugConfig | inspect }}</pre>
 
@@ -62,7 +65,9 @@ robots: noindex,nofollow
 </div>
 
 <h2>Navigation</h2>
-<pre>{{ collections.all | rejectget("data.hidden") | eleventyNavigation | inspect }}</pre>
+<pre>
+{{ collections.all | rejectget("data.hidden") | eleventyNavigation | inspect }}</pre
+>
 
 <h2>Collections</h2>
 
@@ -95,14 +100,16 @@ robots: noindex,nofollow
     loop
     class="absolute rounded-lg w-full h-full object-cover overflow-clip"
   >
-    <source src="/static/media/cover.mp4" type="video/mp4">
+    <source src="/static/media/cover.mp4" type="video/mp4" />
   </video>
   <div
     class="absolute rounded-lg w-full h-full"
     style="background-image: linear-gradient(to right, #06b6d480, #14b8a680);"
   ></div>
 
-  <div class="p-8 text-5xl mx-auto font-serif font-bold relative z-10 text-white">
+  <div
+    class="p-8 text-5xl mx-auto font-serif font-bold relative z-10 text-white"
+  >
     [TEXT, ETC.]
   </div>
 </div>

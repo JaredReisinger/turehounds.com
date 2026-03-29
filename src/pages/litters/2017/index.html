@@ -7,8 +7,8 @@ layout: page-full
 
 galleryOptions:
   galleryGlob: "**/gallery/*.{jpg,JPG,jpeg,JPEG,png,PNG}"
-
 ---
+
 {% from "utilities.njk" import bioCard, dogName %}
 
 <div class="prose lg:prose-lg prose-zinc mx-auto">
@@ -32,64 +32,61 @@ galleryOptions:
 
   <div class="flex flex-col gap-y-8">
     {% call bioCard("Mr. Blue — Dresden", "src/pages/litters/2017/gallery/dresden-group1.jpg") %}
-    <p class="lead">
-      {{ dogName("Ture & Taji’s Sirius Piece Of Work", undefined, "CH") }}
-    </p>
-    <p>
-      First-born Dresden was the fantastic older-by-minutes-brother to the rest
-      of the litter. He stayed with us longer than any other puppy (except for
-      Gable) until he headed out east for conformation fame.
-    </p>
+      <p class="lead">
+        {{ dogName("Ture & Taji’s Sirius Piece Of Work", undefined, "CH") }}
+      </p>
+      <p>
+        First-born Dresden was the fantastic older-by-minutes-brother to the
+        rest of the litter. He stayed with us longer than any other puppy
+        (except for Gable) until he headed out east for conformation fame.
+      </p>
     {% endcall %}
 
     {% call bioCard("Mr. Red — Banjo", "src/pages/litters/2017/banjo-mr-red/gallery/Disa-x-Bravo-Puppies-2017-09-23-059.jpg") %}
-    <p class="lead">
-      {{ dogName("Taji And Ture’s Strings Of Fire") }}
-    </p>
-    <p>
-      Banjo, the second born, was the high-jumper of the litter. He was the
-      motivating factor in all four of our puppy-pen upgrades, needing
-      climb-proofing and jump-proofing well before any of his siblings.
-    </p>
+      <p class="lead">{{ dogName("Taji And Ture’s Strings Of Fire") }}</p>
+      <p>
+        Banjo, the second born, was the high-jumper of the litter. He was the
+        motivating factor in all four of our puppy-pen upgrades, needing
+        climb-proofing and jump-proofing well before any of his siblings.
+      </p>
     {% endcall %}
 
     {% call bioCard("Miss Yellow — Delilah", "src/pages/litters/2017/delilah-miss-yellow/gallery/Disa-x-Bravo-Puppies-2017-09-23-036.jpg") %}
-    <p class="lead">
-      {{ dogName("Ture And Taji Dance With Delilah") }}
-    </p>
-    <p>
-      The middle child, and only girl, Miss Delilah very clearly grew up with
-      four brothers, learning to give as good as she got.
-    </p>
+      <p class="lead">{{ dogName("Ture And Taji Dance With Delilah") }}</p>
+      <p>
+        The middle child, and only girl, Miss Delilah very clearly grew up with
+        four brothers, learning to give as good as she got.
+      </p>
     {% endcall %}
 
     {% call bioCard("Mr. White — Gable", "gable-and-barbara.jpg") %}
-    <p class="lead">
-      {{ dogName("Taji & Ture’s G.Wiz R U Sirius?", undefined, "CH", "SC CA BCAT TKI ITD-M") }}
-    </p>
-    <p>
-      Our initial “keeper” out of Disa’s first litter{# (sired by the famous
-      Sonbar’s Celestial Wizard, a.k.a. “Bravo”)#}, Gable is a spunky little
-      monkey. Having been raised from birth using the “Puppy Culture” protocol,
-      he believes that the world is a fun place, where new experiences can be
-      incredibly rewarding… which means he’s willing to try doing just about
-      anything! (If we could get a Basenji to swim voluntarily, it would most
-      likely be Gable.)
-    </p>
-    <p>
-      Gable is now the “brother from another mother” for the lovely Odette, and
-      aiming to become a Hollywood star.
-    </p>
+      <p class="lead">
+        {{ dogName("Taji & Ture’s G.Wiz R U Sirius?", undefined, "CH", "SC CA BCAT TKI ITD-M") }}
+      </p>
+      <p>
+        Our initial “keeper” out of Disa’s first
+        litter{# (sired by the famous Sonbar’s Celestial Wizard, a.k.a.
+        “Bravo”)#},
+        Gable is a spunky little monkey. Having been raised from birth using the
+        “Puppy Culture” protocol, he believes that the world is a fun place,
+        where new experiences can be incredibly rewarding… which means he’s
+        willing to try doing just about anything! (If we could get a Basenji to
+        swim voluntarily, it would most likely be Gable.)
+      </p>
+      <p>
+        Gable is now the “brother from another mother” for the lovely Odette,
+        and aiming to become a Hollywood star.
+      </p>
     {% endcall %}
 
     {% call bioCard("Mr. Green — Cowboy", "src/pages/litters/2017/cowboy-mr-green/gallery/Disa-x-Bravo-Puppies-2017-09-11-058.jpg") %}
-    <p class="lead">
-      {{ dogName("Taji’s Midnight Cowboy Rides With Ture") }}
-    </p>
-    <p>
-      Last but certainly not least, Cowboy loved to play with all of his
-      brothers and his sister.
-    </p>
+      <p class="lead">
+        {{ dogName("Taji’s Midnight Cowboy Rides With Ture") }}
+      </p>
+      <p>
+        Last but certainly not least, Cowboy loved to play with all of his
+        brothers and his sister.
+      </p>
     {% endcall %}
   </div>
 

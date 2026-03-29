@@ -1,6 +1,8 @@
 {% from "utilities.njk" import fontawesome %}
 
-<footer class="bg-zinc-700 p-8 shadow-lg flex flex-col md:flex-row justify-between items-center gap-y-4 md:gap-y-0 md:gap-x-8 text-sm text-center text-zinc-300">
+<footer
+  class="bg-zinc-700 p-8 shadow-lg flex flex-col md:flex-row justify-between items-center gap-y-4 md:gap-y-0 md:gap-x-8 text-sm text-center text-zinc-300"
+>
   <div class="flex gap-x-4">
     <a
       href="https://www.facebook.com/TureHounds"
@@ -44,6 +46,7 @@
   </div>
   <div>
     Copyright © {% year %}
-    {{ settings.name }}. All rights reserved.
+    {{ settings.name }}.
+    All rights reserved.
   </div>
 </footer>

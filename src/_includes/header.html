@@ -5,7 +5,9 @@
   class="relative z-10 lg:fixed w-full bg-white shadow-lg font-serif font-bold"
 >
   <div class="mx-auto max-w-7xl px-4 sm:px-6">
-    <div class="flex items-center justify-between justify-items-stretch border-b-2 border-zinc-100 py-6 gap-x-10">
+    <div
+      class="flex items-center justify-between justify-items-stretch border-b-2 border-zinc-100 py-6 gap-x-10"
+    >
       <div class="flex justify-start">
         <a href="/">
           <span class="sr-only">{{ settings.name }}</span>
@@ -13,7 +15,7 @@
             class="h-8 w-auto sm:h-10"
             src="{{ settings.logo }}"
             alt="{{ settings.name }}"
-          >
+          />
         </a>
       </div>
       <div class="-my-2 -mr-2 lg:hidden">
@@ -51,8 +53,12 @@
                 x-show="open"
                 class="absolute z-10 xx--ml-4 mt-3 xx-w-screen w-max max-w-md transform px-2 sm:px-0 lg:left-1/2 lg:ml-0 lg:-translate-x-1/2 font-sans font-normal text-sm"
               >
-                <div class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                  <div class="relative grid xx-gap-6 bg-white xx-px-5 xx-py-6 xx-sm:gap-8 xx-sm:p-8">
+                <div
+                  class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5"
+                >
+                  <div
+                    class="relative grid xx-gap-6 bg-white xx-px-5 xx-py-6 xx-sm:gap-8 xx-sm:p-8"
+                  >
                     {% set prevGroup = '' %}
                     {% for child in nav.children %}
                       {% if child.group != prevGroup and child.group != '' %}
@@ -65,9 +71,7 @@
                         href="{{ child.url }}"
                         class="xx--m-3 flex items-start rounded-lg p-3 hover:bg-zinc-100"
                       >
-                        <div class="xx-ml-4">
-                          {{- child.title -}}
-                        </div>
+                        <div class="xx-ml-4">{{- child.title -}}</div>
                       </a>
                     {% endfor %}
                   </div>
@@ -94,7 +98,7 @@
               name="q"
               x-model.debounce="query"
               x-effect="if (search) { $nextTick(() => {$el.focus();}); }"
-            >
+            />
             {# <input type="submit" value="Search"> #}
           </div>
           <div
@@ -119,7 +123,9 @@
     x-show="open"
     class="absolute z-10 inset-x-0 top-0 origin-top-right transform p-2 transition lg:hidden"
   >
-    <div class="divide-y-2 divide-zinc-50 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+    <div
+      class="divide-y-2 divide-zinc-50 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+    >
       <div class="px-5 pt-5 pb-6">
         <div class="flex items-center justify-between">
           <div>
@@ -127,7 +133,7 @@
               class="h-8 w-auto"
               src="{{ settings.logo }}"
               alt="{{ settings.name }}"
-            >
+            />
           </div>
           <div class="-mr-2">
             <button

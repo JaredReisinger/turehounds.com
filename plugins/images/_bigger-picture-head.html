@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="/static/css/bigger-picture.css">
+<link rel="stylesheet" href="/static/css/bigger-picture.css" />
 <style type="text/css">
   div.gallery-bp picture {
     cursor: pointer;
@@ -28,15 +28,15 @@
   }
 
   div.bp-caption-content .artist::before {
-    content: 'by ';
+    content: "by ";
   }
 
   div.bp-caption-content .copyright::before {
-    content: '© ';
+    content: "© ";
   }
 </style>
 <script type="module">
-  import BiggerPicture from '/static/js/bigger-picture.min.mjs';
+  import BiggerPicture from "/static/js/bigger-picture.min.mjs";
 
   const bp = new BiggerPicture({
     target: document.body,
@@ -52,12 +52,12 @@
     }
 
     for (const item of items) {
-      item.addEventListener('click', openGallery);
+      item.addEventListener("click", openGallery);
     }
   }
 
   window.createBpGallery = createBpGallery;
 
   // needed for async loading?
-  document.dispatchEvent(new CustomEvent('bp-loaded'));
+  document.dispatchEvent(new CustomEvent("bp-loaded"));
 </script>

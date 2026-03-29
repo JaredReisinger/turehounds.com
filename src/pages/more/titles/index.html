@@ -4,6 +4,7 @@ order: 10
 description: A list of many of the titles that a dog can earn, and a tool to help decipher them.
 layout: page-full
 ---
+
 <div class="lg:flex justify-center lg:gap-8">
   <div class="prose lg:prose-lg prose-zinc mx-auto lg:mx-0">
     <p>
@@ -47,7 +48,9 @@ layout: page-full
       <li><a href="#alphabetically">Titles alphabetically</a></li>
     </ul>
   </div>
-  <div class="mt-8 lg:mt-12 bg-zinc-100 p-4 rounded-lg self-start prose prose-sm prose-zinc mx-auto lg:mx-0 lg:max-w-[40ch]">
+  <div
+    class="mt-8 lg:mt-12 bg-zinc-100 p-4 rounded-lg self-start prose prose-sm prose-zinc mx-auto lg:mx-0 lg:max-w-[40ch]"
+  >
     <h2 id="decoder">Title decoder</h2>
     <p>
       Type (or paste) in a bunch of titles, or even an entire registered name,
@@ -82,7 +85,7 @@ layout: page-full
         getHash(window.location.hash);
       }
 
-      window.addEventListener('hashchange', (evt) => {
+      window.addEventListener("hashchange", (evt) => {
         const u = new URL(evt.newURL);
         getHash(u.hash);
       });
@@ -90,7 +93,7 @@ layout: page-full
       function decodeTitle(text) {
         setHash(text);
         if (!text) {
-          return '';
+          return "";
         }
 
         // first, evaluate each part and tag with likely kind...
@@ -100,17 +103,17 @@ layout: page-full
             const upperWord = word.toUpperCase();
             const title = window.titleMap[upperWord];
             if (title) {
-              return { kind: 'title', key: upperWord, value: title };
+              return { kind: "title", key: upperWord, value: title };
             }
 
             // non-titles are either qualifiers or name parts
-            return word.split('/').map((word) => {
+            return word.split("/").map((word) => {
               const upperWord = word.toUpperCase();
               const qual = window.titleQualifiers[upperWord];
               return qual
-                ? { kind: 'qualifier', key: upperWord, value: qual }
+                ? { kind: "qualifier", key: upperWord, value: qual }
                 : word
-                  ? { kind: 'name', key: word, value: word }
+                  ? { kind: "name", key: word, value: word }
                   : null;
             });
           })
@@ -121,11 +124,11 @@ layout: page-full
         // consolidate name terms
         const terms = words.reduce((memo, term) => {
           if (
-            term.kind === 'name' &&
+            term.kind === "name" &&
             memo.length > 0 &&
-            memo[memo.length - 1].kind === 'name'
+            memo[memo.length - 1].kind === "name"
           ) {
-            memo[memo.length - 1].value += ' ' + term.value;
+            memo[memo.length - 1].value += " " + term.value;
           } else {
             memo.push(term);
           }
@@ -136,16 +139,16 @@ layout: page-full
         const items = terms
           .map(({ kind, key, value }) => {
             switch (kind) {
-              case 'title':
+              case "title":
                 return `<i>${key}:</i> ${value}`;
-              case 'qualifier':
+              case "qualifier":
                 return `<i>${key}:</i> ${value} <i>(modifies next title)</i>`;
-              case 'name':
+              case "name":
                 return `<b>${value}</b> <i>(dog’s name)</i>`;
             }
           })
           .map((l) => `<li>${l}</li>`)
-          .join('\n');
+          .join("\n");
 
         return `<ul>${items}</ul>`;
       }
@@ -156,24 +159,23 @@ layout: page-full
           type="text"
           placeholder="CH Some Dog Name SC CAA"
           x-model="text"
-        >
+        />
       </form>
       <div x-html="decodeTitle(text)"></div>
     </div>
   </div>
 </div>
 
-<div class="mt-8 flex flex-col lg:flex-row gap-8 items-center lg:items-start lg:justify-center">
+<div
+  class="mt-8 flex flex-col lg:flex-row gap-8 items-center lg:items-start lg:justify-center"
+>
   <div class="prose lg:prose-lg prose-zinc">
     <h2 id="by-event">Titles by event</h2>
     <table class="table-default">
       <tbody>
         {% for evt in titleEvents %}
           <tr>
-            <td
-              colspan="2"
-              class="border-t border-zinc-300 bg-zinc-100 !pl-2"
-            >
+            <td colspan="2" class="border-t border-zinc-300 bg-zinc-100 !pl-2">
               <div class="font-semibold italic">{{ evt.name }}</div>
               {%- if evt.desc %}
                 <div class="italic">{{ evt.desc }}</div>

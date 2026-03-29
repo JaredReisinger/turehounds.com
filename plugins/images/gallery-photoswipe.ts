@@ -16,6 +16,7 @@ import { generateHtmlObject } from './html';
 import { HtmlObject } from './html';
 import { renderObjectHtml } from './html';
 import { getCaptionInfo } from './captions';
+import { EleventyScope } from '11ty.ts';
 
 const debug = debugFn('plugin:images:galleries:photoswipe');
 
@@ -63,6 +64,7 @@ const DEFAULT_OPTIONS: GalleryOptions = {
  * that if you only set classes, for example, you still get the default sizes.
  */
 export async function autoGallery(
+  this: EleventyScope,
   options: GalleryOptions | undefined = undefined
 ) {
   // merge options and defaults (note additional merging for imageOptions)
@@ -78,6 +80,9 @@ export async function autoGallery(
   // console.log('building auto-gallery for', page.url);
 
   // output dir will be same as the page
+  if (!page.outputPath) {
+    throw new Error(`permalink set to false for ${page.inputPath}`);
+  }
   const outputDir = path.dirname(page.outputPath);
   const inputDir = path.dirname(page.inputPath);
 
@@ -118,7 +123,7 @@ export async function autoGallery(
           */
           formats: ['webp', 'jpg'],
           outputDir,
-          urlPath: page.url,
+          urlPath: page.url || undefined,
         }),
       ]);
 
@@ -139,7 +144,7 @@ export async function autoGallery(
 
       const captionParts: HtmlObject[] = [];
 
-      ['title', 'subject', 'comment'].forEach((part) => {
+      (['title', 'subject', 'comment'] as const).forEach((part) => {
         if (caption[part]) {
           captionParts.push({
             $tag: 'div',
@@ -228,10 +233,13 @@ export async function autoGallery(
     ...opts.containerAttrs,
     $children: items.map<HtmlObject>(({ imageObj, captionDiv }) => {
       // hoist photoswipe attributes up to parent div!
-      const pswpData = {};
-      ['data-pswp-src', 'data-pswp-width', 'data-pswp-height'].forEach((k) => {
-        if (imageObj.picture?.[k]) {
-          pswpData[k] = imageObj.picture[k];
+      const pswpData: Record<PropertyKey, unknown> = {};
+      (['data-pswp-src', 'data-pswp-width', 'data-pswp-height'] as const).forEach((k) => {
+        // if (imageObj.picture?.[k]) {
+        //   pswpData[k] = imageObj.picture[k];
+        // }
+        if (k in imageObj) {
+          pswpData[k] = imageObj[k];
         }
       });
 
@@ -302,7 +310,7 @@ function getGalleryHead() {
   return galleryHead;
 }
 
-export async function galleryHeadTransform(content: string) {
+export async function galleryHeadTransform(this: EleventyScope, content: string) {
   // debug('transform', this);
 
   // if we don't see any 'data-pswp' on the page, immediately return the

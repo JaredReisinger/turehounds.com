@@ -199,7 +199,7 @@ function buildPreviews(infos: DocInfo[], previewLimit: number) {
   // The source I'm modelling this on builds based on the doc structure, but we
   // just use infos as a "more-canonical" reference.
 
-  const previews = {};
+  const previews: Record<string, {l: string, t: string, p: string}> = {};
 
   infos.forEach((info) => {
     let p = info.content.description || info.content.body;

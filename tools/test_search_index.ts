@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import lunr from 'lunr';
-import windowPolyfill from 'node-window-polyfill';
+// import windowPolyfill from 'node-window-polyfill';
+import 'node-window-polyfill/register';
 
 import type { Index, Previews } from './build_search_index';
 
@@ -17,7 +18,7 @@ main();
 
 function main() {
   console.log('testing search...');
-  windowPolyfill.register();
+  // windowPolyfill.register();
   const data = fs.readFileSync(SEARCH_INDEX).toString();
   eval(data); // approximate browser loading!
   // console.log('search index?', window.SEARCH_INDEX);

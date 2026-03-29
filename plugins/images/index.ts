@@ -1,6 +1,6 @@
 import debugFn from 'debug';
 import { basename } from 'node:path';
-import type UserConfig from '../../@types/@11ty/eleventy/src/UserConfig';
+import type { EleventyConfig } from '11ty.ts';
 
 import { backgroundImage, image, imageSync, imageUrl } from './images';
 // import {
@@ -23,8 +23,8 @@ const debug = debugFn('plugin:images');
 
 // TODO: we should define our expectation about configOptions and export it!
 export default function (
-  eleventyConfig: UserConfig
-  // configOptions: Record<PropertyKey, unknown>,
+  eleventyConfig: EleventyConfig,
+  _configOptions?: any,
 ) {
   debug('loading images plugin' /* , configOptions */);
 
@@ -59,7 +59,7 @@ export default function (
 }
 
 function passthroughMapper(srcs: string[], outDir: string) {
-  return srcs.reduce((memo, val) => {
+  return srcs.reduce<Record<string, string>>((memo, val) => {
     memo[val] = `static/${outDir}/${basename(val)}`;
     return memo;
   }, {});

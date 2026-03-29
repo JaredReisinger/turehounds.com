@@ -8,22 +8,22 @@
     "outDir": "./_js",
 
     // include our generated/hand-coded types.
-    // "typeRoots": ["@types", "node_modules/@types"],
+    "typeRoots": ["@types", "node_modules/@types"],
+    "types": [
+      "eleventy-navigation",
+    ],
 
-    "allowJs": true, // for now...
-    // "checkJs": true,
+    "allowJs": false,
     "checkJs": false,
 
     "removeComments": true,
     "declaration": false,
     "declarationMap": false,
-    // "sourceMap": true,
-    // "inlineSourceMap": true,
 
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
 
-    // "strict": true,
+    "strict": true,
 
     "skipLibCheck": true
   }

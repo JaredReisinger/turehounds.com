@@ -1,11 +1,6 @@
-// utility functions... it would be nice to leverage Typescript for these, but
-// I think we can get 90% of what I want with JSDoc comments...
-
 import util from 'util';
-
 import _ from 'lodash';
-
-import UserConfig from '@11ty/eleventy/src/UserConfig';
+// import type { EleventyConfig } from '11ty.ts';
 
 /**
  * Node `util.inspect(), but defaults to "all" depth.
@@ -21,27 +16,21 @@ function inspect(
 /**
  * Gets the keys of an object.
  */
-function keys(obj: Record<PropertyKey, unknown>) {
-  return Object.keys(obj).sort();
+function keys<O, K extends keyof O = keyof O>(obj: O) {
+  return Object.keys(obj as object).sort() as K[];
 }
 
 /**
  * Picks specific keys into a new object.
  */
-export function pick<
-  O extends object, // Record<PropertyKey, unknown>,
-  K extends keyof O = keyof O,
->(obj: O, keys: K[]) {
+export function pick<O, K extends keyof O = keyof O>(obj: O, keys: K[]) {
   return pickOmitImpl(obj, keys, true);
 }
 
 /**
  * Omits specific keys when cloning into a new object.
  */
-function omit<
-  O extends object, // Record<PropertyKey, unknown>,
-  K extends keyof O = keyof O,
->(obj: O, keys: K[]) {
+function omit<O, K extends keyof O = keyof O>(obj: O, keys: K[]) {
   return pickOmitImpl(obj, keys, false);
 }
 
@@ -49,15 +38,16 @@ function omit<
  * Underlying implementation for `pick` and `omit`.
  * @param {Object} obj Object to clone from.
  * @param {Array<string>} keys Keys to include/exclude.
- * @param {boolean} doPick `true` to include keys, `false` to exlclude them.
+ * @param {boolean} doPick `true` to include keys, `false` to exclude them.
  * @returns Object with/without given keys.
  */
-function pickOmitImpl<
-  O extends object, // Record<PropertyKey, unknown>,
-  K extends keyof O = keyof O,
->(obj: O, keys: K[], doPick: boolean): Partial<O> {
-  const objKeys = Object.keys(obj || {});
-  const o = {};
+function pickOmitImpl<O, K extends keyof O = keyof O>(
+  obj: O,
+  keys: K[],
+  doPick: boolean
+): Partial<O> {
+  const objKeys = Object.keys(obj || {}) as K[];
+  const o: Partial<O> = {};
   objKeys.forEach((k) => {
     if (keys.includes(k as K) !== !doPick) {
       o[k] = obj[k];
@@ -168,7 +158,10 @@ function typeOf(obj: any) {
  * lodash.get.
  */
 function rejectget(objs: Record<PropertyKey, unknown>[], propPath: string) {
-  return _.filter(objs, (o: Record<PropertyKey, unknown>) => !_.get(o, propPath));
+  return _.filter(
+    objs,
+    (o: Record<PropertyKey, unknown>) => !_.get(o, propPath)
+  );
 }
 
 /**
@@ -176,19 +169,21 @@ function rejectget(objs: Record<PropertyKey, unknown>[], propPath: string) {
  * lodash.get.
  */
 function selectget(objs: Record<PropertyKey, unknown>[], propPath: string) {
-  return _.filter(objs, (o: Record<PropertyKey, unknown>) => _.get(o, propPath));
-}
-
-/**
- */
-export function withConfig(
-  eleventyConfig: UserConfig
-  // configOptions: Record<PropertyKey, unknown>
-) {
-  eleventyConfig.addGlobalData('debugConfig', () =>
-    pick(eleventyConfig, ['collections', 'dir', 'pathPrefix'])
+  return _.filter(objs, (o: Record<PropertyKey, unknown>) =>
+    _.get(o, propPath)
   );
 }
+
+// /**
+//  */
+// export function withConfig(
+//   eleventyConfig: EleventyConfig,
+//   _configOptions?: any
+// ) {
+//   eleventyConfig.addGlobalData('debugConfig', () =>
+//     pick(eleventyConfig, ['collections', 'dir', 'pathPrefix'])
+//   );
+// }
 
 export const filters = {
   async: {},

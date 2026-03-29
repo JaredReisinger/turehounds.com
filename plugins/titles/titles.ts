@@ -56,12 +56,12 @@ type TitleMap = Record<string, TitleMapInfo | TitleMapInfo[]>;
 
 export interface TitleMapInfo {
   name: string;
-  desc: string;
+  desc?: string;
   info: TitleInfo;
   event: TitleEvent;
 }
 
-let titleMap: TitleMap = undefined;
+let titleMap: TitleMap | undefined = undefined;
 
 export function ensureTitleMap() {
   if (titleMap) {
@@ -96,7 +96,7 @@ export function ensureTitleMap() {
   return titleMap;
 }
 
-let titleData: TitleData = undefined;
+let titleData: TitleData | undefined = undefined;
 
 export function ensureTitleData() {
   if (titleData) {

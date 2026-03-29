@@ -95,8 +95,8 @@ async function findSidecarCaption(src: string) {
   // We want to avoid multiple loading attempts, and they can all come in
   // parallel.  Rather than caching the result, we actually cache the promise...
   // once it's resolved, awaiting it is instantaneous. But if it's still
-  // in-progress, 2-N attempts will just wait for the initial attempt.
-  if (sidecars[sidecar]) {
+  // in-progress, attempts 2-N will just wait for the initial attempt.
+  if (sidecar in sidecars) {
     debug('sidecar already found for', src);
   } else {
     sidecars[sidecar] = (async () => {
@@ -164,7 +164,7 @@ const datePatterns = [
  * @param src image file for which to extract a captions
  */
 function extractCaptionFromImage(src: string) {
-  if (captionsFromImage[src]) {
+  if (src in captionsFromImage) {
     return captionsFromImage[src];
   }
 
@@ -215,7 +215,7 @@ function extractCaptionFromImage(src: string) {
     if (!date) {
       for (const pat of datePatterns) {
         const m = src.match(pat);
-        if (m) {
+        if (m && m.groups) {
           // sanity-check the year... between 1970 and 2050 (should use current
           // year?)
           const year = Number.parseInt(m.groups.year, 10);

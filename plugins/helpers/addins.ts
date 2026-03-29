@@ -1,9 +1,7 @@
-// import UserConfig from '@11ty/eleventy/src/UserConfig';
-
 import * as dates from './dates';
 import * as filtersImpl from './filters';
 
-// note sure if the coded reduce of filters/shortcodes is better with types...
+// not sure if the coded reduce of filters/shortcodes is better with types...
 export const filters = {
   async: {
     ...dates.filters.async,

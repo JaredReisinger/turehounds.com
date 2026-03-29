@@ -1,5 +1,5 @@
 import debugFn from 'debug';
-import type UserConfig from '../../@types/@11ty/eleventy/src/UserConfig';
+import type { EleventyConfig } from '11ty.ts';
 
 import * as addins from './addins';
 import { pick } from './filters.js';
@@ -8,7 +8,7 @@ const debug = debugFn('plugin:helpers');
 
 // TODO: we should define our expectation about configOptions and export it!
 export default function (
-  eleventyConfig: UserConfig,
+  eleventyConfig: EleventyConfig,
   configOptions: Record<PropertyKey, unknown>
 ) {
   debug('loading helpers with config', configOptions);
@@ -21,6 +21,10 @@ export default function (
 
   Object.entries(addins.filters?.sync).forEach(([k, v]) => {
     debug(`adding sync filter ${k}...`);
+    //@ts-expect-error -- (2345) The types for addFilter think the filter
+    // function can only return string, but that's not accurate. A filter can
+    // return anything that another filter can take as input.  Therefore, we
+    // expect/ignore this error.
     eleventyConfig.addFilter(k, v);
   });
 
@@ -41,7 +45,7 @@ export default function (
   eleventyConfig.addGlobalData('debugConfig', () =>
     // somehow, we know that dir and pathPrefix are added by the time the
     // function is called... is this documented anywhere?
-    pick(eleventyConfig as UserConfig & { dir: unknown; pathPrefix: unknown }, [
+    pick(eleventyConfig as EleventyConfig & { dir: unknown; pathPrefix: unknown }, [
       'collections',
       'dir',
       'pathPrefix',

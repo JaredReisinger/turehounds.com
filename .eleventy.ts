@@ -1,20 +1,12 @@
 import htmlmin from 'html-minifier';
-import yaml from 'js-yaml';
+import YAML from 'yaml';
 // import debugFn from 'debug';
 import eleventyNavigationPlugin from '@11ty/eleventy-navigation';
 import helpersPlugin from './plugins/helpers';
 import imagesPlugin from './plugins/images';
 import titlesPlugin from './plugins/titles';
 
-// Setting compilerOptions.typeRoots to @types seems to cause issues... perhaps
-// the generated types aren't 100% correct as far as defining the
-// module/library? In any case, since we only need the type, we can reference
-// the type definition directly.
-
-// import UserConfig from '@11ty/eleventy/src/UserConfig';
-import type UserConfig from './@types/@11ty/eleventy/src/UserConfig';
-
-// import * as addins from './src/_plugins/helpers/addins';
+import eleventy from '11ty.ts';
 
 // const debug = debugFn('MY_CONFIG');
 
@@ -39,7 +31,7 @@ const configOptions = {
 
 // debug('helpers plugin', helpersPlugin);
 
-module.exports = function (eleventyConfig: UserConfig) {
+module.exports = eleventy(function (eleventyConfig) {
   eleventyConfig.setUseGitIgnore(false);
 
   eleventyConfig.addPlugin(eleventyNavigationPlugin, undefined);
@@ -49,7 +41,7 @@ module.exports = function (eleventyConfig: UserConfig) {
 
   // Allow YAML everywhere that JSON is supported.
   eleventyConfig.addDataExtension('yaml', (contents: string) =>
-    yaml.load(contents)
+    YAML.parse(contents)
   );
 
   // Add all filters/shortcodes from our helper addins...
@@ -97,4 +89,4 @@ module.exports = function (eleventyConfig: UserConfig) {
   );
 
   return configOptions;
-};
+});

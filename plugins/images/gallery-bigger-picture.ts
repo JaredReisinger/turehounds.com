@@ -9,11 +9,13 @@ import yaml from 'js-yaml';
 
 // const UserConfig = require('@11ty/eleventy/src/UserConfig');
 import Image from '@11ty/eleventy-img';
+import { EleventyScope } from '11ty.ts';
 
-import { ElementAttributes, ImageOptions } from './options';
-import { generateHtmlObject, type HtmlObject, renderObjectHtml } from './html';
-import { getCaptionInfo } from './captions';
-import type { Page, ShortcodeCallbackThis } from './eleventy-types';
+import { ElementAttributes, ImageOptions } from './options.js';
+import { generateHtmlObject, type HtmlObject, renderObjectHtml } from './html.js';
+import { getCaptionInfo } from './captions.js';
+import type { Page, ShortcodeCallbackThis } from './eleventy-types.js';
+import { exists } from './utils.js';
 
 const debug = debugFn('plugin:images:galleries:bigger-picture');
 
@@ -208,7 +210,7 @@ async function galleryImpl(
     $tag: 'div',
     class: `gallery-bp gallery-bp-${galleryId}${opts.containerAttrs.class ? ` ${opts.containerAttrs.class}` : ''}`,
     ...(opts.containerAttrs.style ? { style: opts.containerAttrs.style } : {}),
-    $children: items,
+    $children: items.filter(exists),
   };
 
   // debug(galleryObj.div.children[0]);
@@ -305,7 +307,7 @@ async function getImageFile(page: Page, src: string, opts: GalleryOptions) {
 
   const captionParts: HtmlObject[] = [];
 
-  ['title', 'subject', 'comment'].forEach((part) => {
+  (['title', 'subject', 'comment'] as const).forEach((part) => {
     if (caption[part]) {
       captionParts.push({
         $tag: 'div',
@@ -374,15 +376,15 @@ async function getImageFile(page: Page, src: string, opts: GalleryOptions) {
     });
   }
 
-  const captionDiv =
-    captionParts.length > 0
-      ? {
-          $tag: 'div',
-          class: 'bp-caption-content',
-          $children: captionParts,
-        }
-      : undefined;
+  if (captionParts.length === 0) {
+    return null;
+  }
 
+  const captionDiv = {
+    $tag: 'div',
+    class: 'bp-caption-content',
+    $children: captionParts,
+  };
   debug('caption', captionDiv);
   imageWrapperObj['data-caption'] = renderObjectHtml(captionDiv)
     .replaceAll('"', '&quot;')
@@ -479,7 +481,7 @@ function getGalleryHead() {
   return galleryHead;
 }
 
-export async function galleryHeadTransform(content: string) {
+export async function galleryHeadTransform(this: EleventyScope, content: string) {
   // debug('transform', this);
 
   // if we don't see any 'gallery-bp' on the page, immediately return the

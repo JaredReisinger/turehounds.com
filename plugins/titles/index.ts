@@ -1,5 +1,5 @@
 import debugFn from 'debug';
-import type UserConfig from '../../@types/@11ty/eleventy/src/UserConfig';
+import type { EleventyConfig } from '11ty.ts';
 
 import {
   ensureTitleMap,
@@ -12,8 +12,8 @@ const debug = debugFn('plugin:titles');
 
 // TODO: we should define our expectation about configOptions and export it!
 export default function (
-  eleventyConfig: UserConfig,
-  // configOptions: Record<PropertyKey, unknown>,
+  eleventyConfig: EleventyConfig,
+  _configOptions?: any,
 ) {
   debug('loading titles plugin' /* , configOptions */);
 

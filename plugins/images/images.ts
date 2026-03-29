@@ -2,6 +2,7 @@
 import Image from '@11ty/eleventy-img';
 import { generateHtml, generateHtmlObject } from './html.js';
 import { ImageGenOptions, ImageOptions } from './options.js';
+import { exists } from './utils.js';
 
 // We want the general-purpose `image` shortcode to be async, which allows the
 // image to be on-disk before the update is rendered and the browser refreshed.
@@ -137,12 +138,12 @@ export async function backgroundImage(
   // well... (and if they don't handle image-set, they might not handle webp,
   // either, so we just fall back to jpeg.)
   const bgImageKinds = [
-    `url(${metadata.jpeg[0].url})`,
+    ('jpeg' in metadata) ? `url(${metadata.jpeg![0].url})` : null,
     `-webkit-image-set(${imageSet})`,
     `image-set(${imageSet})`,
   ];
 
-  return bgImageKinds
+  return bgImageKinds.filter(exists)
     .map(
       (kind) =>
         `background-image: ${before ? `${before}, ` : ''}${kind}${

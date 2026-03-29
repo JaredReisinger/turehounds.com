@@ -1,6 +1,6 @@
 // Build the title map data file
 import * as fs from 'fs';
-import { ensureTitleMap } from '../plugins/titles/titles';
+import { ensureTitleMap } from '../plugins/titles/titles.js';
 
 const OUTPUT_FILE = 'titles.csv';
 // const OUTPUT_FILE_NEW = 'titles-new.csv';

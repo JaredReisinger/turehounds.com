@@ -6,7 +6,7 @@ import {
   getTitleEvents,
   getTitleLevels,
   titlify,
-} from './titles';
+} from './titles.js';
 
 const debug = debugFn('plugin:titles');
 

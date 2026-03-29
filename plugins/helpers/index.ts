@@ -1,7 +1,7 @@
 import debugFn from 'debug';
 import type { EleventyConfig } from '11ty.ts';
 
-import * as addins from './addins';
+import * as addins from './addins.js';
 import { pick } from './filters.js';
 
 const debug = debugFn('plugin:helpers');

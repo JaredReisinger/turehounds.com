@@ -2,7 +2,7 @@ import debugFn from 'debug';
 import { basename } from 'node:path';
 import type { EleventyConfig } from '11ty.ts';
 
-import { backgroundImage, image, imageSync, imageUrl } from './images';
+import { backgroundImage, image, imageSync, imageUrl } from './images.js';
 // import {
 //   autoGallery as autoGalleryPswp,
 //   galleryHeadTransform as galleryHeadTransformPswp,
@@ -13,7 +13,7 @@ import {
   fileGallery as fileGalleryBp,
   galleryHeadTransform as galleryHeadTransformBp,
   staticFiles as staticFilesBp,
-} from './gallery-bigger-picture';
+} from './gallery-bigger-picture.js';
 
 const debug = debugFn('plugin:images');
 

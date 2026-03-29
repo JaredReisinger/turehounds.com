@@ -1,6 +1,6 @@
 // Build the title map data file
 import * as fs from 'fs';
-import { ensureTitleMap, getTitleQualifiers, type TitleMapInfo } from '../plugins/titles/titles';
+import { ensureTitleMap, getTitleQualifiers, type TitleMapInfo } from '../plugins/titles/titles.js';
 
 const OUTPUT_FILE = '_site/static/js/titleMap.js';
 

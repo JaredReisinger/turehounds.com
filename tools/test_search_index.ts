@@ -1,9 +1,9 @@
 import * as fs from 'fs';
 import lunr from 'lunr';
 // import windowPolyfill from 'node-window-polyfill';
-import 'node-window-polyfill/register';
+// import 'node-window-polyfill/register';
 
-import type { Index, Previews } from './build_search_index';
+import type { Index, Previews } from './build_search_index.js';
 
 const SEARCH_INDEX = '_site/static/js/search_index.js';
 
@@ -18,6 +18,11 @@ main();
 
 function main() {
   console.log('testing search...');
+  // We used to use node-window-polyfill, but that's overkill for us... we
+  // *just* need a global `window` object to exist so that SEARCH_INDEX can be
+  // set on it.
+  global.window ??= {} as Window & typeof globalThis;
+
   // windowPolyfill.register();
   const data = fs.readFileSync(SEARCH_INDEX).toString();
   eval(data); // approximate browser loading!

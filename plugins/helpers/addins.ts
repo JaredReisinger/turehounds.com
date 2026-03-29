@@ -1,5 +1,5 @@
-import * as dates from './dates';
-import * as filtersImpl from './filters';
+import * as dates from './dates.js';
+import * as filtersImpl from './filters.js';
 
 // not sure if the coded reduce of filters/shortcodes is better with types...
 export const filters = {

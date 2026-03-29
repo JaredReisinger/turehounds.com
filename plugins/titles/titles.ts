@@ -103,7 +103,7 @@ export function ensureTitleData() {
     return titleData;
   }
 
-  const titleDataFile = path.resolve(__dirname, 'titles.yaml');
+  const titleDataFile = path.resolve(import.meta.dirname, 'titles.yaml');
   const titleDataYaml = fs.readFileSync(titleDataFile).toString();
   const rawTitleData = yaml.load(titleDataYaml, {
     filename: titleDataFile,

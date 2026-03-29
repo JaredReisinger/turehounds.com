@@ -2,11 +2,11 @@ import htmlmin from 'html-minifier';
 import YAML from 'yaml';
 // import debugFn from 'debug';
 import eleventyNavigationPlugin from '@11ty/eleventy-navigation';
-import helpersPlugin from './plugins/helpers';
-import imagesPlugin from './plugins/images';
-import titlesPlugin from './plugins/titles';
+import helpersPlugin from './plugins/helpers/index.js';
+import imagesPlugin from './plugins/images/index.js';
+import titlesPlugin from './plugins/titles/index.js';
 
-import eleventy from '11ty.ts';
+import { defineConfig } from '11ty.ts';
 
 // const debug = debugFn('MY_CONFIG');
 
@@ -31,7 +31,7 @@ const configOptions = {
 
 // debug('helpers plugin', helpersPlugin);
 
-module.exports = eleventy(function (eleventyConfig) {
+export default defineConfig(function (eleventyConfig) {
   eleventyConfig.setUseGitIgnore(false);
 
   eleventyConfig.addPlugin(eleventyNavigationPlugin, undefined);

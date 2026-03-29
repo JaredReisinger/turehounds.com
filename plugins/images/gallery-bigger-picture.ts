@@ -1,18 +1,20 @@
 import * as fs from 'fs/promises';
 import * as fsSync from 'fs';
 import * as path from 'path';
-// import { exit } from 'process';
 import * as glob from 'glob';
 import debugFn from 'debug';
 import { DateTime } from 'luxon';
 import yaml from 'js-yaml';
 
-// const UserConfig = require('@11ty/eleventy/src/UserConfig');
 import Image from '@11ty/eleventy-img';
 import { EleventyScope } from '11ty.ts';
 
 import { ElementAttributes, ImageOptions } from './options.js';
-import { generateHtmlObject, type HtmlObject, renderObjectHtml } from './html.js';
+import {
+  generateHtmlObject,
+  type HtmlObject,
+  renderObjectHtml,
+} from './html.js';
 import { getCaptionInfo } from './captions.js';
 import type { Page, ShortcodeCallbackThis } from './eleventy-types.js';
 import { exists } from './utils.js';
@@ -471,7 +473,7 @@ let galleryHead: string;
 function getGalleryHead() {
   if (!galleryHead) {
     galleryHead = fsSync.readFileSync(
-      path.join(__dirname, '_bigger-picture-head.html'),
+      path.join(import.meta.dirname, '_bigger-picture-head.html'),
       {
         encoding: 'utf8',
       }
@@ -481,7 +483,10 @@ function getGalleryHead() {
   return galleryHead;
 }
 
-export async function galleryHeadTransform(this: EleventyScope, content: string) {
+export async function galleryHeadTransform(
+  this: EleventyScope,
+  content: string
+) {
   // debug('transform', this);
 
   // if we don't see any 'gallery-bp' on the page, immediately return the

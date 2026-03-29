@@ -1,21 +1,14 @@
 import * as fs from 'fs';
 import * as path from 'path';
-// import { exit } from 'process';
 import * as glob from 'glob';
 import debugFn from 'debug';
 import { DateTime } from 'luxon';
 
-// const UserConfig = require('@11ty/eleventy/src/UserConfig');
 import Image from '@11ty/eleventy-img';
 
-import {
-  ElementAttributes,
-  ImageOptions
-} from './options';
-import { generateHtmlObject } from './html';
-import { HtmlObject } from './html';
-import { renderObjectHtml } from './html';
-import { getCaptionInfo } from './captions';
+import { ElementAttributes, ImageOptions } from './options.js';
+import { generateHtmlObject, HtmlObject, renderObjectHtml } from './html.js';
+import { getCaptionInfo } from './captions.js';
 import { EleventyScope } from '11ty.ts';
 
 const debug = debugFn('plugin:images:galleries:photoswipe');
@@ -140,7 +133,12 @@ export async function autoGallery(
         imageOptions.alt = title;
       }
 
-      const imageObj = generateHtmlObject(src, metadata, imageOptions, pictureAttrs);
+      const imageObj = generateHtmlObject(
+        src,
+        metadata,
+        imageOptions,
+        pictureAttrs
+      );
 
       const captionParts: HtmlObject[] = [];
 
@@ -234,7 +232,9 @@ export async function autoGallery(
     $children: items.map<HtmlObject>(({ imageObj, captionDiv }) => {
       // hoist photoswipe attributes up to parent div!
       const pswpData: Record<PropertyKey, unknown> = {};
-      (['data-pswp-src', 'data-pswp-width', 'data-pswp-height'] as const).forEach((k) => {
+      (
+        ['data-pswp-src', 'data-pswp-width', 'data-pswp-height'] as const
+      ).forEach((k) => {
         // if (imageObj.picture?.[k]) {
         //   pswpData[k] = imageObj.picture[k];
         // }
@@ -263,7 +263,7 @@ export async function autoGallery(
 }
 
 /** Additional picture element attributes */
-function pictureAttrs(meta:Image.MetadataEntry) {
+function pictureAttrs(meta: Image.MetadataEntry) {
   return {
     // 'data-pswp-type': 'image',
     'data-pswp-src': meta.url,
@@ -300,7 +300,7 @@ let galleryHead: string;
 function getGalleryHead() {
   if (!galleryHead) {
     galleryHead = fs.readFileSync(
-      path.join(__dirname, '_photoswipe-head.html'),
+      path.join(import.meta.dirname, '_photoswipe-head.html'),
       {
         encoding: 'utf8',
       }
@@ -310,7 +310,10 @@ function getGalleryHead() {
   return galleryHead;
 }
 
-export async function galleryHeadTransform(this: EleventyScope, content: string) {
+export async function galleryHeadTransform(
+  this: EleventyScope,
+  content: string
+) {
   // debug('transform', this);
 
   // if we don't see any 'data-pswp' on the page, immediately return the

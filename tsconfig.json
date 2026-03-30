@@ -15,8 +15,8 @@
     "checkJs": false,
 
     "removeComments": true,
-    "declaration": false,
-    "declarationMap": false,
+    "declaration": true,
+    "declarationMap": true,
 
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

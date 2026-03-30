@@ -28,7 +28,7 @@ titleList:
   - TKP
 ---
 
-{% from "utilities.njk" import bioCard, dogName %}
+{% from "utilities.njk" import bioCard, dogCard, dogName %}
 
 <div class="lg:flex justify-center lg:gap-8">
   <div class="prose lg:prose-lg prose-zinc mx-auto lg:mx-0">
@@ -37,12 +37,17 @@ titleList:
       lot about what we expect for any of our dogs, whether “show” or
       “companion”.
     </p>
+
+    <h3 class="mb-0">Household dogs</h3>
+
     <div class="flex flex-col gap-y-8">
-      {% call bioCard("Disa", "Disa_JP 2.jpg") %}
-        <p class="lead">
-          {{ dogName("Taji’s hAfrican Queen Disa", undefined, "DC", "SC CA BCAT CGCA CGCU TKA FDX RATM") -}}
-          <a href="#alphabet-soup" class="lg:hidden">*</a>
-        </p>
+      {%
+        call dogCard("Disa", "Disa_JP 2.jpg",
+        "Taji’s hAfrican Queen Disa",
+        "DC", "SC CA BCAT CGCA CGCU TKA FDX RATM",
+        birth="2013-01-08",
+        afterName='<a href="#alphabet-soup" class="lg:hidden">*</a>')
+      %}
         <p>
           A half-African out of a mother who was brought out of the Congo as a
           puppy ({{ dogName("Avongara Naziki") }}) and a domesticated father (
@@ -59,47 +64,11 @@ titleList:
         </p>
       {% endcall %}
 
-      {% call bioCard("Spyros", "spyros-manhole.jpg") %}
-        <p class="lead">
-          {{ dogName("Kibushi Gugu Diospyros", undefined, "CH", "RI JC CAA BCAT SWA RATO CGCA CGCU TKP") }}
-        </p>
-        <p>
-          Technically a half-African, but what we’d prefer to call “two-quarters
-          African” because of an additional generation of breeding, Spyros is
-          out of two half-African parents: mother
-          {{ dogName("Possum Creek’s Ngoma") }} and father
-          {{ dogName("Kibushi The Oracle", "Wags") }}. Spyros shows a
-          much-more-typical tri-color pattern but is distinguished by having
-          very little white, with no flashy white “collar” around his neck.
-        </p>
-        <p>
-          Spyros loves to run and chase, happily volunteering to test
-          lure-coursing layouts, run in the singles stakes, and in coursing
-          ability tests, all on the same day. As long as the “bunny” is moving,
-          he’s after it! He also truly loves “working” when there’s a chance for
-          treats at the end.
-        </p>
-      {% endcall %}
-
-      {# {% call bioCard("Gable", "gable-and-barbara.jpg") %}
-      <p class="lead">
-        {{ dogName("Taji & Ture’s G.Wiz R U Sirius?", undefined, "CH", "SC CA BCAT TKI ITD-M") }}
-      </p>
-      <p>
-        Our “keeper” out of Disa’s first litter (sired by the famous Sonbar’s
-        Celestial Wizard, a.k.a. “Bravo”), Gable is a spunky little monkey.
-        Having been raised from birth using the “Puppy Culture” protocol, he
-        believes that the world is a fun place, where new experiences can be
-        incredibly rewarding… which means he’s willing to try doing just about
-        anything! (If we could get a Basenji to swim voluntarily, it would most
-        likely be Gable.)
-      </p>
-      {% endcall %} #}
-
-      {% call bioCard("Bogart", "bogart.jpg") %}
-        <p class="lead">
-          {{ dogName("Ture’s Stuff Dreams Are Made Of", undefined, "BIF FC", "BCAT TKN NTD-M") }}
-        </p>
+      {%
+        call dogCard("Bogart", "bogart.jpg",
+        "Ture’s Stuff Dreams Are Made Of", "BIF FC", "BCAT TKN NTD-M",
+        birth="2021-01-13")
+      %}
         <p>
           Our male “keeper” out of Disa’s second litter, sired by
           {{ dogName("Dark Moon’s Bada Bing!", "Yoshi") -}} , Bogart is an
@@ -107,14 +76,73 @@ titleList:
         </p>
       {% endcall %}
 
-      {% call bioCard("Hedy", "hedy.jpg") %}
-        <p class="lead">
-          {{ dogName("Ture’s Sending Sirius Signals", undefined, "GCHB", "TKN") }}
+      {%
+        call dogCard("Taki", "taki.jpg",
+        "Kinetic & Saorsa Such A Snack! at Ture",
+        birth="2025-12-10")
+      %}
+        <p>
+          A wonderfully impish little tri girl that we affectionately call “baby
+          goat” for the way she likes to bounce around.
         </p>
+      {% endcall %}
+    </div>
+
+    <h3>Virtual household dogs</h3>
+    <div class="flex flex-col gap-y-8">
+      {%
+        call dogCard("Hedy", "hedy.jpg",
+        "Ture’s Sending Sirius Signals", "GCHB", "TKN",
+        birth="2021-01-13")
+      %}
         <p>
           Our female “keeper” out of Disa’s second litter, sired by
           {{ dogName("Dark Moon’s Bada Bing!", "Yoshi") -}} , Hedy is
           affectionately nicknamed “Hurricane Hedy”.
+        </p>
+      {% endcall %}
+
+      {#
+      {%
+        call dogCard("Gable", "gable-and-barbara.jpg",
+        "Taji & Ture’s G.Wiz R U Sirius?", "CH", "SC CA BCAT TKI ITD-M",
+        birth="2017-07-16")
+      %}
+        <p>
+          Our “keeper” out of Disa’s first litter (sired by the famous Sonbar’s
+          Celestial Wizard, a.k.a. “Bravo”), Gable is a spunky little monkey.
+          Having been raised from birth using the “Puppy Culture” protocol, he
+          believes that the world is a fun place, where new experiences can be
+          incredibly rewarding… which means he’s willing to try doing just about
+          anything! (If we could get a Basenji to swim voluntarily, it would
+          most likely be Gable.)
+        </p>
+      {% endcall %}
+      #}
+    </div>
+
+    <h3>Rainbow bridge</h3>
+    <div class="flex flex-col gap-y-8">
+      {%
+        call dogCard("Spyros", "spyros-manhole.jpg",
+        "Kibushi Gugu Diospyros", "CH", "RI JC CAA BCAT SWA RATO CGCA CGCU TKP",
+        birth="2013-12-13", death="2026-03-16")
+      %}
+        <p>
+          Technically a half-African, but what we’d prefer to call “two-quarters
+          African” because of an additional generation of breeding, Spyros was
+          out of two half-African parents: mother
+          {{ dogName("Possum Creek’s Ngoma") }} and father
+          {{ dogName("Kibushi The Oracle", "Wags") }}. Spyros showed a
+          much-more-typical tri-color pattern but was distinguished by having
+          very little white, with no flashy white “collar” around his neck.
+        </p>
+        <p>
+          Spyros loved to run and chase, happily volunteering to test
+          lure-coursing layouts, run in the singles stakes, and in coursing
+          ability tests, all on the same day. As long as the “bunny” was moving,
+          he was after it! He also truly loved “working” when there was a chance
+          for treats at the end.
         </p>
       {% endcall %}
     </div>

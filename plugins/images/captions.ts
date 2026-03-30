@@ -144,7 +144,7 @@ function luxonify(date: Date | string | undefined) {
   }
 
   const dt = DateTime.fromISO(date, {
-    zone: 'America/Los_Angeles',
+    zone: 'America/Phoenix',
     setZone: true,
   });
   if (dt.isValid) {

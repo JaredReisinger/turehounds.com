@@ -1,7 +1,9 @@
 import htmlmin from 'html-minifier';
 import YAML from 'yaml';
 // import debugFn from 'debug';
-import eleventyNavigationPlugin from '@11ty/eleventy-navigation';
+
+import navPlugin from '@11ty/eleventy-navigation';
+
 import helpersPlugin from './plugins/helpers/index.js';
 import imagesPlugin from './plugins/images/index.js';
 import titlesPlugin from './plugins/titles/index.js';
@@ -16,15 +18,13 @@ import { defineConfig } from '11ty.ts';
 
 const configOptions = {
   dir: {
-    input: '_js/src',
+    input: 'src',
     output: '_site',
     // relative to input...
     data: '_data',
     includes: '_includes',
     layouts: '_layouts',
   },
-  // markdownTemplateEngine: "webc",
-  // htmlTemplateEngine: "webc",
   markdownTemplateEngine: 'njk',
   htmlTemplateEngine: 'njk',
 };
@@ -34,7 +34,7 @@ const configOptions = {
 export default defineConfig(function (eleventyConfig) {
   eleventyConfig.setUseGitIgnore(false);
 
-  eleventyConfig.addPlugin(eleventyNavigationPlugin, undefined);
+  eleventyConfig.addPlugin(navPlugin);
 
   // Merge data instead of overriding
   eleventyConfig.setDataDeepMerge(true);
@@ -52,15 +52,16 @@ export default defineConfig(function (eleventyConfig) {
   // No Netlify CMS yet... may add this back in later?
 
   // copy media folder to /_site
-  eleventyConfig.addPassthroughCopy('_js/src/static/media');
+  eleventyConfig.addPassthroughCopy('src/static/media');
 
   // copy js folder to /_site
-  eleventyConfig.addPassthroughCopy('_js/src/static/js');
+  eleventyConfig.addPassthroughCopy('src/static/js');
 
   // copy dependency files to /_site
   eleventyConfig.addPassthroughCopy({
     'node_modules/alpinejs/dist/cdn.min.js': 'static/js/alpine.js',
     'node_modules/lunr/lunr.min.js': 'static/js/lunr.min.js',
+    'node_modules/luxon/build/global/luxon.min.js': 'static/js/luxon.min.js',
   });
 
   // copy favicon folder to /_site (and special copy for '/favicon.ico')
@@ -71,22 +72,16 @@ export default defineConfig(function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy('_js/src/static/favicon');
 
   // Minify HTML
-  eleventyConfig.addTransform(
-    'htmlmin',
-    function (content: string, outputPath: string) {
-      // Eleventy 1.0+: use this.inputPath and this.outputPath instead
-      if (outputPath.endsWith('.html')) {
-        let minified = htmlmin.minify(content, {
-          useShortDoctype: true,
-          removeComments: true,
-          collapseWhitespace: true,
-        });
-        return minified;
-      }
-
-      return content;
+  eleventyConfig.addTransform('htmlmin', function (content: string) {
+    if ((this.page.outputPath || '').endsWith('.html')) {
+      return htmlmin.minify(content, {
+        useShortDoctype: true,
+        removeComments: true,
+        collapseWhitespace: true,
+      });
     }
-  );
+    return content;
+  });
 
   return configOptions;
 });

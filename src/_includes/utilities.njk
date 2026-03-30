@@ -18,24 +18,49 @@
   {{- iconSvg | replace("<svg ", openTag) | safe -}}
 {%- endmacro -%}
 
-{%- macro bioCard(name, imgName = undefined) -%}
+{# bioCard for a nice biography card #}
+{%- macro bioCard(name, imgName, birth, death) -%}
   <div
     class="w-full bg-zinc-100 border border-zinc-200 rounded-lg p-8 sm:flex sm:self-stretch sm:items-stretch sm:gap-x-8 shadow-lg"
   >
     <div class=" max-w-[15rem] mx-auto sm:max-w-none sm:w-1/3 not-prose">
       {% if imgName -%}
-        {%- set hasSlash = r/\// -%}
-        {%- if hasSlash.test(imgName) -%}
-          {%- imageSync "" + imgName, { generate: { widths: [400, 240, 190] }, sizes: '15rem', image: { class: 'rounded-lg' } } -%}
-        {%- else -%}
-          {%- imageSync "src/static/media/" + imgName, { generate: { widths: [400, 240, 190] }, sizes: '15rem', image: { class: 'rounded-lg' } } -%}
-        {%- endif -%}
+        {# need to refactor params for imageSync call to reduce duplication #}
+        {%- set safeName = imgName if imgName.includes("/") else ("src/static/media/" + imgName) -%}
+        {%-
+          imageSync safeName, {
+            generate: { widths: [400, 240, 190] },
+            sizes: '15rem',
+            image: { class: 'rounded-lg' }
+          }
+        -%}
       {%- else %}
         <div
           class="max-w-[7rem] mx-auto sm:max-w-none text-sm italic text-center not-prose opacity-25"
         >
           {% imageSync "src/static/media/ture-logo.png" %} (picture to come!)
         </div>
+      {% endif %}
+      {% if birth %}
+        <p class="text-center text-sm italic">
+          {{- birth | dateify | readableDate -}}–
+          {%- if death -%}
+            {{- death | dateify | readableDate -}}
+          {%- endif -%}
+        </p>
+        {% if not death %}
+          <p
+            class="text-center text-sm italic"
+            x-data="{
+              birth: '{{ birth | dateify | toISO }}',
+            }"
+          >
+            age:
+            <span
+              x-text="window.luxon.DateTime.fromISO(birth).diffNow(['years', 'months', 'weeks', ], { conversionAccuracy: 'longterm' }).negate().set({weeks:0}).removeZeros().toHuman()"
+            ></span>
+          </p>
+        {% endif %}
       {% endif %}
     </div>
     <div class="mt-3 sm:mt-0 sm:w-2/3">
@@ -45,7 +70,21 @@
   </div>
 {%- endmacro -%}
 
-{%- macro dogName(regName, callName = undefined, prefix = undefined, suffix = undefined) -%}
+{# dogCard is a nice biography card for a dog #}
+{%- macro dogCard(callName, imgName, regName, prefix, suffix, birth, death, afterName) -%}
+  {# have to self-import to reference other macros safely #}
+  {%- import "utilities.njk" as self -%}
+  {% call self.bioCard(callName or regName, imgName, birth, death) %}
+    <p class="lead">
+      {{ self.dogName(regName, prefix=prefix, suffix=suffix) }}
+      {%- if afterName %}{{ afterName | safe }}{% endif %}
+    </p>
+    {{ caller() }}
+  {% endcall %}
+{%- endmacro -%}
+
+{# dogName for "slick" rendering of a dog name #}
+{%- macro dogName(regName, callName, prefix, suffix) -%}
   {%- if prefix -%}
     <small class="font-normal text-zinc-400"
       >{{- prefix | titlify | safe -}}</small

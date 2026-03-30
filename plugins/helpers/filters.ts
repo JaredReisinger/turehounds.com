@@ -14,6 +14,19 @@ function inspect(
 }
 
 /**
+ * console logging for debugging template rendering
+ * @param msg message to log
+ * @param obj object to log
+ */
+function log(
+  msg: string,
+  obj: any
+) {
+  console.log(msg, obj);
+  return '';
+}
+
+/**
  * Gets the keys of an object.
  */
 function keys<O, K extends keyof O = keyof O>(obj: O) {
@@ -189,6 +202,7 @@ export const filters = {
   async: {},
   sync: {
     inspect,
+    log,
     keys,
     pick,
     omit,

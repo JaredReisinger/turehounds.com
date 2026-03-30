@@ -1,11 +1,42 @@
-import { DateTime } from 'luxon';
+import { DateTime, Zone } from 'luxon';
 
-function readableDate(date: Date) {
-  return DateTime.fromJSDate(date, { zone: 'utc' }).toFormat('dd LLL yyyy');
+type Dateable = DateTime | Date | string;
+
+function luxonify(date: Dateable, zone?: string | Zone) {
+  // if (!date) {
+  //   return undefined;
+  // }
+
+  if (DateTime.isDateTime(date)) {
+    return date;
+  }
+
+  let dt: DateTime;
+  if (date instanceof Date) {
+    return DateTime.fromJSDate(date, { zone: zone || 'utc' });
+  }
+
+  dt = DateTime.fromISO(date, {
+    zone: zone || 'America/Phoenix',
+    setZone: true,
+  });
+  if (dt.isValid) {
+    return dt;
+  }
+
+  throw new Error(`could not parse ${date} as luxon.DateTime`);
 }
 
-function toISO(date: Date) {
-  return DateTime.fromJSDate(date, { zone: 'utc' }).toISO();
+function dateify(date: Dateable) {
+  return luxonify(date, 'utc');
+}
+
+function readableDate(date: Dateable) {
+  return luxonify(date).toFormat('dd LLL yyyy');
+}
+
+function toISO(date: Dateable) {
+  return luxonify(date).toISO();
 }
 
 function year() {
@@ -15,6 +46,8 @@ function year() {
 export const filters = {
   async: {},
   sync: {
+    luxonify,
+    dateify,
     readableDate,
     toISO,
   },

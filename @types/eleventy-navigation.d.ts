@@ -1,5 +1,6 @@
-// eleventy-navigation.d.ts
 declare module '@11ty/eleventy-navigation' {
+  import { EleventyConfig } from '11ty.ts';
+
   /**
    * Navigation item metadata for Eleventy Navigation plugin
    * https://www.11ty.dev/docs/plugins/navigation/
@@ -36,7 +37,7 @@ declare module '@11ty/eleventy-navigation' {
    * Eleventy Navigation plugin function
    */
   export default function eleventyNavigationPlugin(
-    eleventyConfig: unknown,
+    eleventyConfig: EleventyConfig,
     options?: EleventyNavigationPluginOptions
   ): void;
 }

@@ -137,7 +137,11 @@ function excluded(excludeList: string[], info: FileInfo) {
  * @returns Modified file info
  */
 function loadContent(info: FileInfo): DocInfo {
-  const text = fs.readFileSync(info.file).toString();
+  let text = fs.readFileSync(info.file).toString();
+  // HACK: inject spaces between tags to ensure that we get good word splits.
+  // Anecdotally, we got "takikinet" because "<h2>Taki</h2><p>Kinetic & ..." was
+  // together. I think replacing "><" with "> <" will do the trick.
+  text = text.replaceAll('><', '> <');
   const $ = cheerioLoad(text);
   const content = {
     title: $('title').text() || info.url,

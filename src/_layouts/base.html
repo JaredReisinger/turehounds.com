@@ -61,12 +61,9 @@
     />
     <link rel="manifest" href="/static/favicon/site.webmanifest" />
 
-    {% set coverImageUrl = '' %}
-    {% if coverImage %}
-      {% set coverImageUrl -%}
-        {%- imageUrl coverImage, 800 -%}
-      {%- endset %}
-    {% endif %}
+    {% set cardImageUrl -%}
+      {{- settings.url -}}{%- imageUrl (coverImage | default(settings.defaultCardImage, true), 800 -%}
+    {%- endset %}
 
     {# open graph tags... #}
     <meta property="og:locale" content="en_us" />
@@ -76,9 +73,7 @@
     {% endif %}
     <meta property="og:url" content="{{ settings.url }}{{ page.url }}" />
     <meta property="og:type" content="website" />
-    {% if coverImageUrl %}
-      <meta property="og:image" content="{{ coverImageUrl }}" />
-    {% endif %}
+    <meta property="og:image" content="{{ cardImageUrl }}" />
     {#
     <meta property="og:" content="">
     #}
@@ -90,9 +85,7 @@
       <meta property="twitter:description" content="{{ description }}" />
     {% endif %}
     <meta property="twitter:url" content="{{ settings.url }}{{ page.url }}" />
-    {% if coverImageUrl %}
-      <meta property="twitter:image" content="{{ coverImageUrl }}" />
-    {% endif %}
+    <meta property="twitter:image" content="{{ cardImageUrl }}" />
   </head>
   {% block body %}
     <body>
